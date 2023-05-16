@@ -14,7 +14,7 @@ public class Fee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "serial_number")
-	private int serialNumber;
+	private Integer serialNumber;
 	
 	@Column(name = "project")
 	private String project;
@@ -25,19 +25,19 @@ public class Fee {
 	@Column(name = "rate")
 	private double rate;
 	
-	@Column(name = "interval")
-	private int interval;
+	@Column(name = "threshold")
+	private int threshold;
 
 	public Fee() {
 		super();
 	}
 
-	public Fee(String project, int cc, double rate, int interval) {
+	public Fee(String project, int cc, double rate, int threshold) {
 		super();
 		this.project = project;
 		this.cc = cc;
 		this.rate = rate;
-		this.interval = interval;
+		this.threshold = threshold;
 	}
 
 	public String getProject() {
@@ -64,12 +64,12 @@ public class Fee {
 		this.rate = rate;
 	}
 
-	public int getInterval() {
-		return interval;
+	public int getThreshold() {
+		return threshold;
 	}
 
-	public void setInterval(int interval) {
-		this.interval = interval;
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
 	}
 
 }

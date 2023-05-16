@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   `project` VARCHAR(20) NOT NULL,
   `cc` INT NOT NULL DEFAULT 0,
   `rate` DOUBLE NULL DEFAULT 0,
-  `interval` INT NULL DEFAULT 0,
+  `threshold` INT NULL DEFAULT 0,
   PRIMARY KEY (`serial_number`));
   
   CREATE TABLE IF NOT EXISTS `easy_travel`.`maintenance` (

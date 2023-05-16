@@ -16,11 +16,12 @@ public interface FeeDao extends JpaRepository<Fee, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("insert into Fee (project, cc, rate, interval) select :project, :cc, :rate, :interval "
-			+ "where not exists (select 1 from Fee where project = :project and cc = :cc)")
+	@Query(value = "insert into fee (project, cc, rate, threshold) select :project, :cc, :rate, :threshold where not "
+			+ "exists (select 1 from fee where project = :project and cc = :cc and rate = :rate)", nativeQuery = true)
 	public int insertProject(@Param("project") String project, @Param("cc") int cc, @Param("rate") double rate,
-			@Param("interval") int interval);
+			@Param("threshold") int threshold);
 
+	//TODO
 	@Transactional
 	@Modifying
 	@Query("update Fee f set f.rate = :rate where f.project = :project and f.cc = :cc")
@@ -28,13 +29,13 @@ public interface FeeDao extends JpaRepository<Fee, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("update Fee f set f.interval = :interval where f.project = :project and f.cc = :cc")
-	public int updateTime(@Param("project") String project, @Param("cc") int cc, @Param("interval") int interval);
+	@Query("update Fee f set f.threshold = :threshold where f.project = :project and f.cc = :cc")
+	public int updateThreshold(@Param("project") String project, @Param("cc") int cc, @Param("threshold") int threshold);
 
 	@Transactional
 	@Modifying
 	@Query("delete Fee f where f.project = :project and f.cc = :cc and f.rate = :rate")
 	public int deleteProject(@Param("project") String project, @Param("cc") int cc, @Param("rate") double rate);
 
-	public List<Fee> findByProjectOrderByInterval(String project);
+	public List<Fee> findByProjectOrderByThresholdDesc(String project);
 }
