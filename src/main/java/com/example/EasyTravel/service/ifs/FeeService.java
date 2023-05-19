@@ -4,13 +4,15 @@ import com.example.EasyTravel.vo.FeeResponse;
 
 public interface FeeService {
 
-	public FeeResponse addProject(String project, int cc, double rate, int interval);
+	// 新增費率資料
+	public FeeResponse addProject(String project, int cc, double rate, int threshold);
 
-	public FeeResponse reviseProject(String project, int cc, double rate, int interval);
-
+	// 刪除費率資料
 	public FeeResponse deleteProject(String project, int cc, double rate);
 
-	public FeeResponse findProject(String project);
+	// 尋找交通工具費率
+	public FeeResponse findProjects(String project,int cc);
 
-	public FeeResponse calculate(String project, int interval);
+	// 計算費率
+	public FeeResponse calculate(String project, int cc, int period);
 }

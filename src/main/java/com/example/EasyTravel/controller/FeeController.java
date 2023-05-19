@@ -17,29 +17,23 @@ public class FeeController {
 	@Autowired
 	private FeeService feeService;
 
-	@PostMapping(value = "add_case")
+	@PostMapping(value = "add_project")
 	public FeeResponse addProject(@RequestBody FeeRequest request) {
 		return feeService.addProject(request.getProject(), request.getCc(), request.getRate(), request.getInterval());
 	}
 
-	@GetMapping(value = "revise_case")
-	public FeeResponse reviseProject(@RequestBody FeeRequest request) {
-		return feeService.reviseProject(request.getProject(), request.getCc(), request.getRate(),
-				request.getInterval());
-	}
-
-	@DeleteMapping(value = "delete_case")
+	@DeleteMapping(value = "delete_project")
 	public FeeResponse deleteProject(@RequestBody FeeRequest request) {
 		return feeService.deleteProject(request.getProject(), request.getCc(), request.getRate());
 	}
 
-	@GetMapping(value = "find_case")
-	public FeeResponse findProject(@RequestBody FeeRequest request) {
-		return feeService.findProject(request.getProject());
+	@GetMapping(value = "find_projects")
+	public FeeResponse findProjects(@RequestBody FeeRequest request) {
+		return feeService.findProjects(request.getProject(),request.getCc());
 	}
-
+	
 	@GetMapping(value = "calculate")
 	public FeeResponse calculate(@RequestBody FeeRequest request) {
-		return feeService.calculate(request.getProject(), request.getInterval());
+		return feeService.calculate(request.getProject(), request.getCc(), request.getInterval());
 	}
 }
