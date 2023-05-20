@@ -2,6 +2,8 @@ package com.example.EasyTravel.vo;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class FeeRequest {
 
 	private String project;
@@ -9,6 +11,7 @@ public class FeeRequest {
 	private double rate;
 	private int interval;
 	private int total;
+	@JsonProperty("total_time")
 	private LocalDateTime totalTime;
 	
 	public String getProject() {

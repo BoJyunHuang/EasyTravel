@@ -1,11 +1,16 @@
 package com.example.EasyTravel.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StopRequest {
 
 	private String city;
 	private String location;
+	@JsonProperty("bike_limit")
 	private int bikeLimit;
+	@JsonProperty("motorcycle_limit")
 	private int motorcycleLimit;
+	@JsonProperty("car_limit")
 	private int carLimit;
 
 	public String getCity() {

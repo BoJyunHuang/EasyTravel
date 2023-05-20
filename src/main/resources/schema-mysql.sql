@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   `title` VARCHAR(20) NOT NULL,
   `detail` VARCHAR(20) NOT NULL,
   `price` INT NULL,
-  `profit_or_loss` TINYINT NULL,
+  `build_date` DATE NULL,
   PRIMARY KEY (`serial_number`));
   
   CREATE TABLE IF NOT EXISTS `easy_travel`.`rent` (
