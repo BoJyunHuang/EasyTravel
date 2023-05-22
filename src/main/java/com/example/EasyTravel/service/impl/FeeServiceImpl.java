@@ -44,7 +44,7 @@ public class FeeServiceImpl implements FeeService {
 	public FeeResponse findProjects(String project, int cc) {
 		// 查找資料
 		List<Fee> resList = !StringUtils.hasText(project) ? null
-				: (cc < 0 ? feeDao.searchProjectsByCcUp(project) : feeDao.searchProjectsByThresholdDown(project, cc));
+				: (cc < 0 ? feeDao.searchProjectsByCcUp(project) : feeDao.searchProjectsByThresholdUp(project, cc));
 		return resList == null ? new FeeResponse(RtnCode.NOT_FOUND.getMessage())
 				: new FeeResponse(resList, RtnCode.SUCCESS.getMessage());
 	}
@@ -52,30 +52,36 @@ public class FeeServiceImpl implements FeeService {
 	@Override
 	public FeeResponse calculate(String project, int cc, int period) {
 		// 防止空輸入
-		if (period < 0) {
+		if (period <= 0) {
 			return new FeeResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 		// 尋找方案
-		List<Fee> resList = feeDao.searchProjectsByThresholdDown(StringUtils.hasText(project) ? project : "",
+		List<Fee> resList = feeDao.searchProjectsByThresholdUp(StringUtils.hasText(project) ? project : null,
 				cc < 0 ? 0 : cc);
 		if (CollectionUtils.isEmpty(resList)) {
 			return new FeeResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 		// 計算價錢
-		int total = 0;
-		for (Fee f : resList) {
-			int resdualTime = 0;
-			if (period < f.getThreshold()) {
-				continue;
-			} else if (period > f.getThreshold()) {
-				resdualTime = period - f.getThreshold();
-				total += f.getRate() * resdualTime;
-				// TODO
+		double total = 0;
+		double lastRate = 0;
+		int lastThreshold = 0;
+		for (int i = 0; i < resList.size(); i++) {
+			// 超出時間區域，計算區間費率
+			if (period >= resList.get(i).getThreshold()) {
+				total += (project.equals("bike"))
+						? resList.get(i).getRate() * (resList.get(i).getThreshold() - lastThreshold)
+						: 0;
+				lastRate = resList.get(i).getRate();
+				lastThreshold = resList.get(i).getThreshold();
+				// 在時間區域間，需用前次時間閾值進行計算
 			} else {
-				total += f.getRate() * f.getThreshold();
+				total += (project.equals("bike")) ? resList.get(i).getRate() * (period - lastThreshold)
+						: lastRate * period;
+				break;
 			}
 		}
-		return new FeeResponse(total, RtnCode.SUCCESS.getMessage());
+		// 回傳
+		return new FeeResponse((int) Math.round(total), RtnCode.SUCCESS.getMessage());
 	}
 
 }

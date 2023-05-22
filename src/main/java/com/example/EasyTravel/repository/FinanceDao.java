@@ -36,4 +36,10 @@ public interface FinanceDao extends JpaRepository<Finance, Integer> {
 	@Query(value = "select * from finance where month(build_date) = :month", nativeQuery = true)
 	public List<Finance> searchMonthData(@Param("month") int month);
 
+	// 刪除資料
+	@Transactional
+	@Modifying
+	@Query("delete Finance f where f.title = :title")
+	public int deleteReports(@Param("title") String title);
+	
 }

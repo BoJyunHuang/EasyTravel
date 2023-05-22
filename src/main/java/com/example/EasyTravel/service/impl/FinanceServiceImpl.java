@@ -22,7 +22,7 @@ public class FinanceServiceImpl implements FinanceService {
 
 	private List<String> titles = new ArrayList<>(Arrays.asList("vip", "vehicle_cost", "maintenance", "rent_income"));
 	private List<String> details = new ArrayList<>(
-			Arrays.asList("bike", "scooter", "motorcycle", "heavy_motorcycle", "sedan", "ven", "suv", "A", "B", "C"));
+			Arrays.asList("vip","bike", "scooter", "motorcycle", "heavy_motorcycle", "sedan", "ven", "suv", "A", "B", "C"));
 
 	@Autowired
 	private FinanceDao financeDao;
@@ -129,7 +129,7 @@ public class FinanceServiceImpl implements FinanceService {
 				}
 				break;
 			default:
-				vipIncome = (int) e.getValue();
+				vipIncome = (double) e.getValue();
 			}
 		}
 		totalIncome = totalIncome + vipIncome + riTotalIncome;
@@ -140,32 +140,32 @@ public class FinanceServiceImpl implements FinanceService {
 			case "vehicle_cost":
 				Map<String, Double> vehicleCostMap = new HashMap<>(((Map<String, Double>) e.getValue()));
 				for (Entry<String, Double> vce : vehicleCostMap.entrySet()) {
-					vehicleCostMap.put(vce.getKey(), Math.round((vce.getValue() / vcTotalExpense * 1000)) / 10.0);
+					vehicleCostMap.put(vce.getKey(), Math.round((vce.getValue() / vcTotalExpense * 1000.0)) / 10.0);
 				}
 				financeMap.put(e.getKey(), vehicleCostMap);
 				break;
 			case "maintenance":
 				Map<String, Double> maintenanceMap = new HashMap<>(((Map<String, Double>) e.getValue()));
 				for (Entry<String, Double> me : maintenanceMap.entrySet()) {
-					maintenanceMap.put(me.getKey(), Math.round((me.getValue() / mTotalExpense * 1000)) / 10.0);
+					maintenanceMap.put(me.getKey(), Math.round((me.getValue() / mTotalExpense * 1000.0)) / 10.0);
 				}
 				financeMap.put(e.getKey(), maintenanceMap);
 				break;
 			case "rent_income":
 				Map<String, Double> rentMap = new HashMap<>(((Map<String, Double>) e.getValue()));
 				for (Entry<String, Double> rie : rentMap.entrySet()) {
-					rentMap.put(rie.getKey(), Math.round((rie.getValue() / riTotalIncome * 1000)) / 10.0);
+					rentMap.put(rie.getKey(), Math.round((rie.getValue() / riTotalIncome * 1000.0)) / 10.0);
 				}
 				financeMap.put(e.getKey(), rentMap);
 				break;
 			default:
-				financeMap.put(e.getKey(), Math.round(((double) e.getValue() / totalIncome * 1000)) / 10.0);
+				financeMap.put(e.getKey(), Math.round(((double) e.getValue() / totalIncome * 1000.0)) / 10.0);
 			}
 		}
 		// 儲存百分比資訊
-		financeMap.put("vehicle_cost_ratio", Math.round((vcTotalExpense / totalExpense * 1000)) / 10.0);
-		financeMap.put("maintenance_ratio", Math.round((mTotalExpense / totalExpense * 1000)) / 10.0);
-		financeMap.put("rent_income_ratio", Math.round((riTotalIncome / totalIncome * 1000)) / 10.0);
+		financeMap.put("vehicle_cost_ratio", Math.round((vcTotalExpense / totalExpense * 1000.0)) / 10.0);
+		financeMap.put("maintenance_ratio", Math.round((mTotalExpense / totalExpense * 1000.0)) / 10.0);
+		financeMap.put("rent_income_ratio", Math.round((riTotalIncome / totalIncome * 1000.0)) / 10.0);
 		financeMap.put("total_income",totalIncome);
 		financeMap.put("total_expense",totalExpense);
 		return financeMap;
