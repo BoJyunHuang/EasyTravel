@@ -22,16 +22,24 @@ public class VehicleTest {
 	}
 	
 	@Test
-	public void updateCarInfo() {
+	public void updateCarInfoTest() {
 		VehicleRequest req1 = new VehicleRequest("AC-1234", false, -9.7);
 		VehicleResponse res1 = vehicleService.updateCarInfo(req1);
 		System.out.println(res1.getMessage());
 	}
 	
 	@Test
-	public void scrapCar() {
-		VehicleRequest req1 = new VehicleRequest("AA-1234");
+	public void scrapCarTest() {
+		VehicleRequest req1 = new VehicleRequest("AH-1234");
 		VehicleResponse res1 = vehicleService.scrapCar(req1);
+		System.out.println(res1.getMessage());
+	}
+	
+	@Test
+	public void findCarByCategoryTest() {
+		VehicleRequest req1 = new VehicleRequest();
+		req1.categoryVehicleRequest("bike");
+		VehicleResponse res1 = vehicleService.findCarByCategory(req1);
 		System.out.println(res1.getMessage());
 	}
 	

@@ -5,38 +5,37 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 
 public class VehicleRequest {
-	
+
 //	車牌
 	private String licensePlate;
-	
+
 //	分類
 	private String category;
-	
+
 //	cc
 	private int cc;
-	
+
 //	起始服役日
 	private LocalDate startServingDate;
-	
+
 //	最新檢查日
 	private LocalDate latestCheckDate;
-	
+
 //	可租借狀態
 	private boolean available;
-	
+
 //	所在城市
 	private String city;
-	
+
 //	所在站點
 	private String location;
-	
+
 //	總里程
 	private double odo;
-	
+
 //	價格
 	private int price;
 
-	
 //	建構方法 -------------------------
 	public VehicleRequest() {
 		super();
@@ -57,7 +56,7 @@ public class VehicleRequest {
 		this.odo = odo;
 		this.price = price;
 	}
-	
+
 //  addCar用
 	public VehicleRequest(String licensePlate, String category, int cc, int price) {
 		super();
@@ -66,22 +65,26 @@ public class VehicleRequest {
 		this.cc = cc;
 		this.price = price;
 	}
-	
-	
+
 //  updateCarInfo用
 	public VehicleRequest(String licensePlate, boolean available, double odo) {
-	super();
-	this.licensePlate = licensePlate;
-	this.available = available;
-	this.odo = odo;
-}
+		super();
+		this.licensePlate = licensePlate;
+		this.available = available;
+		this.odo = odo;
+	}
 
 //	scrapCar用
 	public VehicleRequest(String licensePlate) {
 		super();
 		this.licensePlate = licensePlate;
 	}
-	
+
+//	findCarByCategory用
+	public void categoryVehicleRequest(String category) {
+		this.category = category;
+	}
+
 //	get / set -------------------------
 	public String getLicensePlate() {
 		return licensePlate;

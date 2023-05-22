@@ -1,10 +1,14 @@
 package com.example.EasyTravel.vo;
 
+import java.util.List;
+
 import com.example.EasyTravel.entity.VehicleEntity;
 
 public class VehicleResponse {
 	
 	private VehicleEntity vehicleEntity;
+	
+	private List<VehicleEntity> vehicleList;
 	
 	private String message;
 
@@ -24,6 +28,12 @@ public class VehicleResponse {
 		this.message = message;
 	}
 
+	public VehicleResponse(List<VehicleEntity> vehicleList, String message) {
+		super();
+		this.vehicleList = vehicleList;
+		this.message = message;
+	}
+
 	public String getMessage() {
 		return message;
 	}
@@ -38,6 +48,14 @@ public class VehicleResponse {
 
 	public void setVehicleEntity(VehicleEntity vehicleEntity) {
 		this.vehicleEntity = vehicleEntity;
+	}
+
+	public List<VehicleEntity> getVehicleList() {
+		return vehicleList;
+	}
+
+	public void setVehicleList(List<VehicleEntity> vehicleList) {
+		this.vehicleList = vehicleList;
 	}
 
 	

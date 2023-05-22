@@ -19,4 +19,8 @@ public interface VehicleService {
 	
 //	報廢車輛
 	public VehicleResponse scrapCar(VehicleRequest vehicleRequest);
+	
+//	車種找車輛
+	public VehicleResponse findCarByCategory(VehicleRequest vehicleRequest);
+	
 }

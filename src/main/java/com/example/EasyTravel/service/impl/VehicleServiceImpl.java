@@ -1,6 +1,7 @@
 package com.example.EasyTravel.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +72,7 @@ public class VehicleServiceImpl implements VehicleService {
 			break;
 		// ven, SUV > 自定義(2000~6600)
 		case "ven":
-		case "SUV":
+		case "suv":
 			if (vehicleRequest.getCc() <= 2000 || vehicleRequest.getCc() >= 6600) {
 				return new VehicleResponse("error : cc數設定錯誤");
 			}
@@ -167,6 +168,7 @@ public class VehicleServiceImpl implements VehicleService {
 		switch(op.get().getCategory()) {
 		case "bike":
 			if(today.getYear() - startServingDate.getYear() >= 7) {
+//				可租用狀態改false
 				op.get().setAvailable(false);
 			}else {
 				return new VehicleResponse("此車輛尚無須報廢");
@@ -190,10 +192,28 @@ public class VehicleServiceImpl implements VehicleService {
 				return new VehicleResponse("此車輛尚無須報廢");
 			}
 			break;
+		default:
+			return new VehicleResponse("error : 請輸入有效車輛類別");
 		}
 		VehicleEntity scrapCar = op.get();
 		vehicleDao.save(scrapCar);
 		return new VehicleResponse(scrapCar, "已報廢此車輛");
+	}
+
+	
+	@Override
+	public VehicleResponse findCarByCategory(VehicleRequest vehicleRequest) {
+		if(!StringUtils.hasText(vehicleRequest.getCategory())) {
+			return new VehicleResponse("請輸入欲查詢車種");
+		}
+		List<VehicleEntity> carList = new ArrayList<VehicleEntity>();
+		List<String> category = Arrays.asList("bike", "scooter", "motorcycle", "heavy motorcycle",
+				"sedan", "ven", "suv");
+		if(!category.contains(vehicleRequest.getCategory())) {
+			return new VehicleResponse("無此車種");
+		}
+		carList.addAll(vehicleDao.findAllByCategoryOrderByAvailableDesc(vehicleRequest.getCategory()));
+		return new VehicleResponse(carList, "success");
 	}
 
 }
