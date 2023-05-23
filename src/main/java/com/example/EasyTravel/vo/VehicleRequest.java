@@ -6,37 +6,37 @@ import javax.persistence.Column;
 
 public class VehicleRequest {
 
-//	¨®µP
+//	è»Šç‰Œ
 	private String licensePlate;
 
-//	¤ÀÃş
+//	åˆ†é¡
 	private String category;
 
 //	cc
 	private int cc;
 
-//	°_©lªA§Ğ¤é
+//	èµ·å§‹æœå½¹æ—¥
 	private LocalDate startServingDate;
 
-//	³Ì·sÀË¬d¤é
+//	æœ€æ–°æª¢æŸ¥æ—¥
 	private LocalDate latestCheckDate;
 
-//	¥i¯²­Éª¬ºA
+//	å¯ç§Ÿå€Ÿç‹€æ…‹
 	private boolean available;
 
-//	©Ò¦b«°¥«
+//	æ‰€åœ¨åŸå¸‚
 	private String city;
 
-//	©Ò¦b¯¸ÂI
+//	æ‰€åœ¨ç«™é»
 	private String location;
 
-//	Á`¨½µ{
+//	ç¸½é‡Œç¨‹
 	private double odo;
 
-//	»ù®æ
+//	åƒ¹æ ¼
 	private int price;
 
-//	«Øºc¤èªk -------------------------
+//	å»ºæ§‹æ–¹æ³• -------------------------
 	public VehicleRequest() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -57,7 +57,7 @@ public class VehicleRequest {
 		this.price = price;
 	}
 
-//  addCar¥Î
+//  addCarç”¨
 	public VehicleRequest(String licensePlate, String category, int cc, int price) {
 		super();
 		this.licensePlate = licensePlate;
@@ -66,7 +66,7 @@ public class VehicleRequest {
 		this.price = price;
 	}
 
-//  updateCarInfo¥Î
+//  updateCarInfoç”¨
 	public VehicleRequest(String licensePlate, boolean available, double odo) {
 		super();
 		this.licensePlate = licensePlate;
@@ -74,13 +74,13 @@ public class VehicleRequest {
 		this.odo = odo;
 	}
 
-//	scrapCar¥Î
+//	scrapCarç”¨
 	public VehicleRequest(String licensePlate) {
 		super();
 		this.licensePlate = licensePlate;
 	}
 
-//	findCarByCategory¥Î
+//	findCarByCategoryç”¨
 	public void categoryVehicleRequest(String category) {
 		this.category = category;
 	}

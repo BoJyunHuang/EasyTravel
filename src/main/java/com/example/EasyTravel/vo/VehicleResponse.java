@@ -2,13 +2,13 @@ package com.example.EasyTravel.vo;
 
 import java.util.List;
 
-import com.example.EasyTravel.entity.VehicleEntity;
+import com.example.EasyTravel.entity.Vehicle;
 
 public class VehicleResponse {
 	
-	private VehicleEntity vehicleEntity;
+	private Vehicle vehicleEntity;
 	
-	private List<VehicleEntity> vehicleList;
+	private List<Vehicle> vehicleList;
 	
 	private String message;
 
@@ -22,13 +22,13 @@ public class VehicleResponse {
 		this.message = message;
 	}
 
-	public VehicleResponse(VehicleEntity vehicleEntity, String message) {
+	public VehicleResponse(Vehicle vehicleEntity, String message) {
 		super();
 		this.vehicleEntity = vehicleEntity;
 		this.message = message;
 	}
 
-	public VehicleResponse(List<VehicleEntity> vehicleList, String message) {
+	public VehicleResponse(List<Vehicle> vehicleList, String message) {
 		super();
 		this.vehicleList = vehicleList;
 		this.message = message;
@@ -42,19 +42,19 @@ public class VehicleResponse {
 		this.message = message;
 	}
 
-	public VehicleEntity getVehicleEntity() {
+	public Vehicle getVehicleEntity() {
 		return vehicleEntity;
 	}
 
-	public void setVehicleEntity(VehicleEntity vehicleEntity) {
+	public void setVehicleEntity(Vehicle vehicleEntity) {
 		this.vehicleEntity = vehicleEntity;
 	}
 
-	public List<VehicleEntity> getVehicleList() {
+	public List<Vehicle> getVehicleList() {
 		return vehicleList;
 	}
 
-	public void setVehicleList(List<VehicleEntity> vehicleList) {
+	public void setVehicleList(List<Vehicle> vehicleList) {
 		this.vehicleList = vehicleList;
 	}
 

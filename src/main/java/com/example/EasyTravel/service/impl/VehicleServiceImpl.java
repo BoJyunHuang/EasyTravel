@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.example.EasyTravel.entity.VehicleEntity;
+import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.repository.VehicleDao;
 import com.example.EasyTravel.service.ifs.VehicleService;
 import com.example.EasyTravel.vo.VehicleRequest;
@@ -24,154 +24,154 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public VehicleResponse addCar(VehicleRequest vehicleRequest) {
-//		§PÂ_ > ¨®µP¸¹½X
-//		¬O§_¿é¤J¨®µP¸¹½X
+//		åˆ¤æ–· > è»Šç‰Œè™Ÿç¢¼
+//		æ˜¯å¦è¼¸å…¥è»Šç‰Œè™Ÿç¢¼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : ½Ğ¿é¤J¨®µP¸¹½X");
+			return new VehicleResponse("error : è«‹è¼¸å…¥è»Šç‰Œè™Ÿç¢¼");
 		}
-//		¨®½ø¬O§_¦s¦b
-		Optional<VehicleEntity> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
+//		è»Šè¼›æ˜¯å¦å­˜åœ¨
+		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (op.isPresent()) {
-			return new VehicleResponse("error : ¦¹¨®½ø¤w¦s¦b");
+			return new VehicleResponse("error : æ­¤è»Šè¼›å·²å­˜åœ¨");
 		}
-//		§PÂ_ > ¨®½øÃş§O & cc¤ŞÀº¨T¬û¤j¤p
+//		åˆ¤æ–· > è»Šè¼›é¡åˆ¥ & ccå¼•æ“æ±½ç¼¸å¤§å°
 		if (!StringUtils.hasText(vehicleRequest.getCategory())) {
-			return new VehicleResponse("error : ½Ğ¿é¤J¨®½øÃş§O");
+			return new VehicleResponse("error : è«‹è¼¸å…¥è»Šè¼›é¡åˆ¥");
 		}
 		switch (vehicleRequest.getCategory()) {
 		// bike > 0
 		case "bike":
 			if (vehicleRequest.getCc() != 0) {
-				return new VehicleResponse("error : cc¼Æ³]©w¿ù»~");
+				return new VehicleResponse("error : ccæ•¸è¨­å®šéŒ¯èª¤");
 			}
-//			¦pªG¨S¦³break, §PÂ_false·|¤@ª½¶i¨ì¤U¤@­Ócase
+//			å¦‚æœæ²’æœ‰break, åˆ¤æ–·falseæœƒä¸€ç›´é€²åˆ°ä¸‹ä¸€å€‹case
 			break;
 		// scooter > 1~250
 		case "scooter":
 			if (vehicleRequest.getCc() < 1 || vehicleRequest.getCc() >= 250) {
-				return new VehicleResponse("error : cc¼Æ³]©w¿ù»~");
+				return new VehicleResponse("error : ccæ•¸è¨­å®šéŒ¯èª¤");
 			}
 			break;
 		// motorcycle > 251~550
 		case "motorcycle":
 			if (vehicleRequest.getCc() < 251 || vehicleRequest.getCc() >= 550) {
-				return new VehicleResponse("error : cc¼Æ³]©w¿ù»~");
+				return new VehicleResponse("error : ccæ•¸è¨­å®šéŒ¯èª¤");
 			}
 			break;
 		// heavy motorcycle > 550~
 		case "heavy motorcycle":
 			if (vehicleRequest.getCc() < 550) {
-				return new VehicleResponse("error : cc¼Æ³]©w¿ù»~");
+				return new VehicleResponse("error : ccæ•¸è¨­å®šéŒ¯èª¤");
 			}
 			break;
-		// sedan > ¦Û©w¸q(1200~4200)
+		// sedan > è‡ªå®šç¾©(1200~4200)
 		case "sedan":
 			if (vehicleRequest.getCc() <= 1200 || vehicleRequest.getCc() >= 4200) {
-				return new VehicleResponse("error : cc¼Æ³]©w¿ù»~");
+				return new VehicleResponse("error : ccæ•¸è¨­å®šéŒ¯èª¤");
 			}
 			break;
-		// ven, SUV > ¦Û©w¸q(2000~6600)
+		// ven, SUV > è‡ªå®šç¾©(2000~6600)
 		case "ven":
 		case "suv":
 			if (vehicleRequest.getCc() <= 2000 || vehicleRequest.getCc() >= 6600) {
-				return new VehicleResponse("error : cc¼Æ³]©w¿ù»~");
+				return new VehicleResponse("error : ccæ•¸è¨­å®šéŒ¯èª¤");
 			}
 			break;
-//			­Y¤£²Å¦X¥H¤Wcase, ªí¿é¤J¤§¨®½øÃş§O¿ù»~
+//			è‹¥ä¸ç¬¦åˆä»¥ä¸Šcase, è¡¨è¼¸å…¥ä¹‹è»Šè¼›é¡åˆ¥éŒ¯èª¤
 		default:
-			return new VehicleResponse("error : ½Ğ¿é¤J¦³®Ä¨®½øÃş§O");
+			return new VehicleResponse("error : è«‹è¼¸å…¥æœ‰æ•ˆè»Šè¼›é¡åˆ¥");
 		}
 
-//		°_©lªA§Ğ¤é
+//		èµ·å§‹æœå½¹æ—¥
 		vehicleRequest.setStartServingDate(LocalDate.now());
-//		³Ì·sÀË¬d¤é(=°_©lªA§Ğ¤é)
+//		æœ€æ–°æª¢æŸ¥æ—¥(=èµ·å§‹æœå½¹æ—¥)
 		vehicleRequest.setLatestCheckDate(LocalDate.now());
-//		¥i¯²­Éª¬ºA
+//		å¯ç§Ÿå€Ÿç‹€æ…‹
 		vehicleRequest.setAvailable(false);
-//		ªì©lÁ`¨½µ{=0
+//		åˆå§‹ç¸½é‡Œç¨‹=0
 		vehicleRequest.setOdo(0);
-//		»ù®æ
+//		åƒ¹æ ¼
 		if (vehicleRequest.getPrice() < 1) {
-			return new VehicleResponse("error : »ù®æ³]©w¿ù»~");
+			return new VehicleResponse("error : åƒ¹æ ¼è¨­å®šéŒ¯èª¤");
 		}
 
-		VehicleEntity saveVehicle = new VehicleEntity(vehicleRequest.getLicensePlate(), vehicleRequest.getCategory(),
+		Vehicle saveVehicle = new Vehicle(vehicleRequest.getLicensePlate(), vehicleRequest.getCategory(),
 				vehicleRequest.getCc(), vehicleRequest.getStartServingDate(), vehicleRequest.getLatestCheckDate(),
 				vehicleRequest.isAvailable(), vehicleRequest.getOdo(), vehicleRequest.getPrice());
 		vehicleDao.save(saveVehicle);
-		return new VehicleResponse(saveVehicle, "¦¨¥\ : ·s¼W¨®½ø¦¨¥\");
+		return new VehicleResponse(saveVehicle, "æˆåŠŸ : æ–°å¢è»Šè¼›æˆåŠŸ");
 	}
 
 	@Override
 	public VehicleResponse updateCarInfo(VehicleRequest vehicleRequest) {
-//		§PÂ_ > ¨®µP¸¹½X
-//		¬O§_¿é¤J¨®µP¸¹½X
+//		åˆ¤æ–· > è»Šç‰Œè™Ÿç¢¼
+//		æ˜¯å¦è¼¸å…¥è»Šç‰Œè™Ÿç¢¼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : ½Ğ¿é¤J¨®µP¸¹½X");
+			return new VehicleResponse("error : è«‹è¼¸å…¥è»Šç‰Œè™Ÿç¢¼");
 		}
-//		¨®½ø¬O§_¦s¦b
-		Optional<VehicleEntity> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
+//		è»Šè¼›æ˜¯å¦å­˜åœ¨
+		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (!op.isPresent()) {
-			return new VehicleResponse("error : ¦¹¨®½ø¤£¦s¦b");
+			return new VehicleResponse("error : æ­¤è»Šè¼›ä¸å­˜åœ¨");
 		}
 
-//		¥[Á`·sÁ`¨½µ{¼Æ
+//		åŠ ç¸½æ–°ç¸½é‡Œç¨‹æ•¸
 		if(vehicleRequest.getOdo() < 0) {
-			return new VehicleResponse("error : Á`¨½µ{¼Æ¿ù»~");
+			return new VehicleResponse("error : ç¸½é‡Œç¨‹æ•¸éŒ¯èª¤");
 		}
 		double oldOdo = op.get().getOdo();
 		double newOdo = 0.0;
 		newOdo = oldOdo + vehicleRequest.getOdo();
 		
-//		³]©w·svehicle±µop¤ºªºªF¦è > ·s¥i¨Ï¥Îª¬ºA&·sÁ`¨½µ{¼Æ»\¹LÂÂ¸ê®Æ > ¦s¶i¸ê®Æ®w
-		VehicleEntity updateVehicle = op.get();
+//		è¨­å®šæ–°vehicleæ¥opå…§çš„æ±è¥¿ > æ–°å¯ä½¿ç”¨ç‹€æ…‹&æ–°ç¸½é‡Œç¨‹æ•¸è“‹éèˆŠè³‡æ–™ > å­˜é€²è³‡æ–™åº«
+		Vehicle updateVehicle = op.get();
 		updateVehicle.updateVehicleEntity(vehicleRequest.isAvailable(), newOdo);
 		vehicleDao.save(updateVehicle);
-		return new VehicleResponse(updateVehicle, "­×§ï¸ê®Æ¦¨¥\");
+		return new VehicleResponse(updateVehicle, "ä¿®æ”¹è³‡æ–™æˆåŠŸ");
 	}
 
 	@Override
 	public VehicleResponse maintenanceCar(VehicleRequest vehicleRequest) {
-//		§PÂ_ > ¨®µP¸¹½X
-//		¬O§_¿é¤J¨®µP¸¹½X
+//		åˆ¤æ–· > è»Šç‰Œè™Ÿç¢¼
+//		æ˜¯å¦è¼¸å…¥è»Šç‰Œè™Ÿç¢¼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : ½Ğ¿é¤J¨®µP¸¹½X");
+			return new VehicleResponse("error : è«‹è¼¸å…¥è»Šç‰Œè™Ÿç¢¼");
 		}
-//		¨®½ø¬O§_¦s¦b
-		Optional<VehicleEntity> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
+//		è»Šè¼›æ˜¯å¦å­˜åœ¨
+		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (!op.isPresent()) {
-			return new VehicleResponse("error : ¦¹¨®½ø¤£¦s¦b");
+			return new VehicleResponse("error : æ­¤è»Šè¼›ä¸å­˜åœ¨");
 		}
 		
-//		±ıÀË­×¨®½ø¤§¥i¯²¥Îª¬ºA > ³]©w¬°false
+//		æ¬²æª¢ä¿®è»Šè¼›ä¹‹å¯ç§Ÿç”¨ç‹€æ…‹ > è¨­å®šç‚ºfalse
 		
 		return null;
 	}
 
-//	¸}½ñ¨®7¦~¡B¾÷¨®10¦~©Î12W¤½¨½¡B¨T¨®15¦~©Î60W¤½¨½
+//	è…³è¸è»Š7å¹´ã€æ©Ÿè»Š10å¹´æˆ–12Wå…¬é‡Œã€æ±½è»Š15å¹´æˆ–60Wå…¬é‡Œ
 	@Override
 	public VehicleResponse scrapCar(VehicleRequest vehicleRequest) {
-//		§PÂ_ > ¨®µP¸¹½X
-//		¬O§_¿é¤J¨®µP¸¹½X
+//		åˆ¤æ–· > è»Šç‰Œè™Ÿç¢¼
+//		æ˜¯å¦è¼¸å…¥è»Šç‰Œè™Ÿç¢¼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : ½Ğ¿é¤J¨®µP¸¹½X");
+			return new VehicleResponse("error : è«‹è¼¸å…¥è»Šç‰Œè™Ÿç¢¼");
 		}
-//		¨®½ø¬O§_¦s¦b
-		Optional<VehicleEntity> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
+//		è»Šè¼›æ˜¯å¦å­˜åœ¨
+		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (!op.isPresent()) {
-			return new VehicleResponse("error : ¦¹¨®½ø¤£¦s¦b");
+			return new VehicleResponse("error : æ­¤è»Šè¼›ä¸å­˜åœ¨");
 		}
 		
 		LocalDate today = LocalDate.now();
 		LocalDate startServingDate = op.get().getStartServingDate();
-//		§PÂ_¨®ºØ
+//		åˆ¤æ–·è»Šç¨®
 		switch(op.get().getCategory()) {
 		case "bike":
 			if(today.getYear() - startServingDate.getYear() >= 7) {
-//				¥i¯²¥Îª¬ºA§ïfalse
+//				å¯ç§Ÿç”¨ç‹€æ…‹æ”¹false
 				op.get().setAvailable(false);
 			}else {
-				return new VehicleResponse("¦¹¨®½ø©|µL¶·³ø¼o");
+				return new VehicleResponse("æ­¤è»Šè¼›å°šç„¡é ˆå ±å»¢");
 			}
 			break;
 		case "scooter":
@@ -180,7 +180,7 @@ public class VehicleServiceImpl implements VehicleService {
 			if(today.getYear() - startServingDate.getYear() >= 10 || op.get().getOdo() >= 120_000 ) {
 				op.get().setAvailable(false);
 			}else {
-				return new VehicleResponse("¦¹¨®½ø©|µL¶·³ø¼o");
+				return new VehicleResponse("æ­¤è»Šè¼›å°šç„¡é ˆå ±å»¢");
 			}
 			break;
 		case "sedan":
@@ -189,28 +189,28 @@ public class VehicleServiceImpl implements VehicleService {
 			if(today.getYear() - startServingDate.getYear() >= 15 || op.get().getOdo() >= 600_000 ) {
 				op.get().setAvailable(false);
 			}else {
-				return new VehicleResponse("¦¹¨®½ø©|µL¶·³ø¼o");
+				return new VehicleResponse("æ­¤è»Šè¼›å°šç„¡é ˆå ±å»¢");
 			}
 			break;
 		default:
-			return new VehicleResponse("error : ½Ğ¿é¤J¦³®Ä¨®½øÃş§O");
+			return new VehicleResponse("error : è«‹è¼¸å…¥æœ‰æ•ˆè»Šè¼›é¡åˆ¥");
 		}
-		VehicleEntity scrapCar = op.get();
+		Vehicle scrapCar = op.get();
 		vehicleDao.save(scrapCar);
-		return new VehicleResponse(scrapCar, "¤w³ø¼o¦¹¨®½ø");
+		return new VehicleResponse(scrapCar, "å·²å ±å»¢æ­¤è»Šè¼›");
 	}
 
 	
 	@Override
 	public VehicleResponse findCarByCategory(VehicleRequest vehicleRequest) {
 		if(!StringUtils.hasText(vehicleRequest.getCategory())) {
-			return new VehicleResponse("½Ğ¿é¤J±ı¬d¸ß¨®ºØ");
+			return new VehicleResponse("è«‹è¼¸å…¥æ¬²æŸ¥è©¢è»Šç¨®");
 		}
-		List<VehicleEntity> carList = new ArrayList<VehicleEntity>();
+		List<Vehicle> carList = new ArrayList<Vehicle>();
 		List<String> category = Arrays.asList("bike", "scooter", "motorcycle", "heavy motorcycle",
 				"sedan", "ven", "suv");
 		if(!category.contains(vehicleRequest.getCategory())) {
-			return new VehicleResponse("µL¦¹¨®ºØ");
+			return new VehicleResponse("ç„¡æ­¤è»Šç¨®");
 		}
 		carList.addAll(vehicleDao.findAllByCategoryOrderByAvailableDesc(vehicleRequest.getCategory()));
 		return new VehicleResponse(carList, "success");

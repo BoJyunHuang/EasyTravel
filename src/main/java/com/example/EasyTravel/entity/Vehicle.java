@@ -9,14 +9,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "vehicle")
-public class VehicleEntity {
+public class Vehicle {
 
-//	PK¨®µP¸¹½X
+//	PKè»Šç‰Œè™Ÿç¢¼
 	@Id
 	@Column(name = "license_plate")
 	private String licensePlate;
 	
-//	¤ÀÃş
+//	åˆ†é¡
 	@Column(name = "category")
 	private String category;
 	
@@ -24,42 +24,42 @@ public class VehicleEntity {
 	@Column(name = "cc")
 	private int cc;
 	
-//	°_©lªA§Ğ¤é
+//	èµ·å§‹æœå½¹æ—¥
 	@Column(name = "start_serving_date")
 	private LocalDate startServingDate;
 	
-//	³Ì·sÀË¬d¤é
+//	æœ€æ–°æª¢æŸ¥æ—¥
 	@Column(name = "latest_check_date")
 	private LocalDate latestCheckDate;
 	
-//	¥i¯²­Éª¬ºA
+//	å¯ç§Ÿå€Ÿç‹€æ…‹
 	@Column(name = "available")
 	private boolean available;
 	
-//	©Ò¦b«°¥«
+//	æ‰€åœ¨åŸå¸‚
 	@Column(name = "city")
 	private String city;
 	
-//	©Ò¦b¯¸ÂI
+//	æ‰€åœ¨ç«™é»
 	@Column(name = "location")
 	private String location;
 	
-//	Á`¨½µ{
+//	ç¸½é‡Œç¨‹
 	@Column(name = "odo")
 	private double odo;
 	
-//	»ù®æ
+//	åƒ¹æ ¼
 	@Column(name = "price")
 	private int price;
 
 	
-//	«Øºc¤èªk -------------------------
-	public VehicleEntity() {
+//	å»ºæ§‹æ–¹æ³• -------------------------
+	public Vehicle() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public VehicleEntity(String licensePlate, String category, int cc, LocalDate startServingDate,
+	public Vehicle(String licensePlate, String category, int cc, LocalDate startServingDate,
 			LocalDate latestCheckDate, boolean available, String city, String location, double odo, int price) {
 		super();
 		this.licensePlate = licensePlate;
@@ -74,7 +74,7 @@ public class VehicleEntity {
 		this.price = price;
 	}
 
-	public VehicleEntity(String licensePlate, String category, int cc, LocalDate startServingDate,
+	public Vehicle(String licensePlate, String category, int cc, LocalDate startServingDate,
 			LocalDate latestCheckDate, boolean available, double odo, int price) {
 		this.licensePlate = licensePlate;
 		this.category = category;

@@ -5,22 +5,22 @@ import com.example.EasyTravel.vo.VehicleResponse;
 
 public interface VehicleService {
 
-//	·s¼W¨®½ø
+//	æ–°å¢è»Šè¼›
 	public VehicleResponse addCar(VehicleRequest vehicleRequest);
 	
-//	­×§ï¸ê°T
+//	ä¿®æ”¹è³‡è¨Š
 	public VehicleResponse updateCarInfo(VehicleRequest vehicleRequest);
 	
-//	½Õ«×
+//	èª¿åº¦
 //	public VehicleResponse dispatchCar(VehicleRequest vehicleRequest);
 	
-//	ÀË­×«O¾i
+//	æª¢ä¿®ä¿é¤Š
 	public VehicleResponse maintenanceCar(VehicleRequest vehicleRequest);
 	
-//	³ø¼o¨®½ø
+//	å ±å»¢è»Šè¼›
 	public VehicleResponse scrapCar(VehicleRequest vehicleRequest);
 	
-//	¨®ºØ§ä¨®½ø
+//	è»Šç¨®æ‰¾è»Šè¼›
 	public VehicleResponse findCarByCategory(VehicleRequest vehicleRequest);
 	
 }

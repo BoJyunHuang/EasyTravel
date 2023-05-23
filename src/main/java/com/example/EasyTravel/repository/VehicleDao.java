@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.EasyTravel.entity.VehicleEntity;
+import com.example.EasyTravel.entity.Vehicle;
 
 @Repository
-public interface VehicleDao extends JpaRepository<VehicleEntity, String>{
+public interface VehicleDao extends JpaRepository<Vehicle, String>{
 
-	public List<VehicleEntity> findAllByCategoryOrderByAvailableDesc(String category);
+	public List<Vehicle> findAllByCategoryOrderByAvailableDesc(String category);
 }
