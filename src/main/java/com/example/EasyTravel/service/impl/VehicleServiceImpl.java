@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.repository.VehicleDao;
 import com.example.EasyTravel.service.ifs.VehicleService;
@@ -27,59 +28,59 @@ public class VehicleServiceImpl implements VehicleService {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : 請輸入車牌號碼");
+			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
 		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (op.isPresent()) {
-			return new VehicleResponse("error : 此車輛已存在");
+			return new VehicleResponse(RtnCode.ALREADY_EXISTED.getMessage());
 		}
 //		判斷 > 車輛類別 & cc引擎汽缸大小
 		if (!StringUtils.hasText(vehicleRequest.getCategory())) {
-			return new VehicleResponse("error : 請輸入車輛類別");
+			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 		switch (vehicleRequest.getCategory()) {
 		// bike > 0
 		case "bike":
 			if (vehicleRequest.getCc() != 0) {
-				return new VehicleResponse("error : cc數設定錯誤");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 //			如果沒有break, 判斷false會一直進到下一個case
 			break;
 		// scooter > 1~250
 		case "scooter":
 			if (vehicleRequest.getCc() < 1 || vehicleRequest.getCc() >= 250) {
-				return new VehicleResponse("error : cc數設定錯誤");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		// motorcycle > 251~550
 		case "motorcycle":
 			if (vehicleRequest.getCc() < 251 || vehicleRequest.getCc() >= 550) {
-				return new VehicleResponse("error : cc數設定錯誤");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		// heavy motorcycle > 550~
 		case "heavy motorcycle":
 			if (vehicleRequest.getCc() < 550) {
-				return new VehicleResponse("error : cc數設定錯誤");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		// sedan > 自定義(1200~4200)
 		case "sedan":
 			if (vehicleRequest.getCc() <= 1200 || vehicleRequest.getCc() >= 4200) {
-				return new VehicleResponse("error : cc數設定錯誤");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		// ven, SUV > 自定義(2000~6600)
 		case "ven":
 		case "suv":
 			if (vehicleRequest.getCc() <= 2000 || vehicleRequest.getCc() >= 6600) {
-				return new VehicleResponse("error : cc數設定錯誤");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 //			若不符合以上case, 表輸入之車輛類別錯誤
 		default:
-			return new VehicleResponse("error : 請輸入有效車輛類別");
+			return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 		}
 
 //		起始服役日
@@ -92,14 +93,14 @@ public class VehicleServiceImpl implements VehicleService {
 		vehicleRequest.setOdo(0);
 //		價格
 		if (vehicleRequest.getPrice() < 1) {
-			return new VehicleResponse("error : 價格設定錯誤");
+			return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 		}
 
 		Vehicle saveVehicle = new Vehicle(vehicleRequest.getLicensePlate(), vehicleRequest.getCategory(),
 				vehicleRequest.getCc(), vehicleRequest.getStartServingDate(), vehicleRequest.getLatestCheckDate(),
 				vehicleRequest.isAvailable(), vehicleRequest.getOdo(), vehicleRequest.getPrice());
 		vehicleDao.save(saveVehicle);
-		return new VehicleResponse(saveVehicle, "成功 : 新增車輛成功");
+		return new VehicleResponse(saveVehicle, RtnCode.SUCCESS.getMessage());
 	}
 
 	@Override
@@ -107,17 +108,17 @@ public class VehicleServiceImpl implements VehicleService {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : 請輸入車牌號碼");
+			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
 		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (!op.isPresent()) {
-			return new VehicleResponse("error : 此車輛不存在");
+			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 
 //		加總新總里程數
 		if(vehicleRequest.getOdo() < 0) {
-			return new VehicleResponse("error : 總里程數錯誤");
+			return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 		}
 		double oldOdo = op.get().getOdo();
 		double newOdo = 0.0;
@@ -127,7 +128,7 @@ public class VehicleServiceImpl implements VehicleService {
 		Vehicle updateVehicle = op.get();
 		updateVehicle.updateVehicleEntity(vehicleRequest.isAvailable(), newOdo);
 		vehicleDao.save(updateVehicle);
-		return new VehicleResponse(updateVehicle, "修改資料成功");
+		return new VehicleResponse(updateVehicle, RtnCode.SUCCESS.getMessage());
 	}
 
 	@Override
@@ -135,12 +136,12 @@ public class VehicleServiceImpl implements VehicleService {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : 請輸入車牌號碼");
+			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
 		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (!op.isPresent()) {
-			return new VehicleResponse("error : 此車輛不存在");
+			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 		
 //		欲檢修車輛之可租用狀態 > 設定為false
@@ -154,12 +155,12 @@ public class VehicleServiceImpl implements VehicleService {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse("error : 請輸入車牌號碼");
+			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
 		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
 		if (!op.isPresent()) {
-			return new VehicleResponse("error : 此車輛不存在");
+			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 		
 		LocalDate today = LocalDate.now();
@@ -171,7 +172,7 @@ public class VehicleServiceImpl implements VehicleService {
 //				可租用狀態改false
 				op.get().setAvailable(false);
 			}else {
-				return new VehicleResponse("此車輛尚無須報廢");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		case "scooter":
@@ -180,7 +181,7 @@ public class VehicleServiceImpl implements VehicleService {
 			if(today.getYear() - startServingDate.getYear() >= 10 || op.get().getOdo() >= 120_000 ) {
 				op.get().setAvailable(false);
 			}else {
-				return new VehicleResponse("此車輛尚無須報廢");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		case "sedan":
@@ -189,31 +190,31 @@ public class VehicleServiceImpl implements VehicleService {
 			if(today.getYear() - startServingDate.getYear() >= 15 || op.get().getOdo() >= 600_000 ) {
 				op.get().setAvailable(false);
 			}else {
-				return new VehicleResponse("此車輛尚無須報廢");
+				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		default:
-			return new VehicleResponse("error : 請輸入有效車輛類別");
+			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 		Vehicle scrapCar = op.get();
 		vehicleDao.save(scrapCar);
-		return new VehicleResponse(scrapCar, "已報廢此車輛");
+		return new VehicleResponse(scrapCar, RtnCode.SUCCESS.getMessage());
 	}
 
 	
 	@Override
 	public VehicleResponse findCarByCategory(VehicleRequest vehicleRequest) {
 		if(!StringUtils.hasText(vehicleRequest.getCategory())) {
-			return new VehicleResponse("請輸入欲查詢車種");
+			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 		List<Vehicle> carList = new ArrayList<Vehicle>();
 		List<String> category = Arrays.asList("bike", "scooter", "motorcycle", "heavy motorcycle",
 				"sedan", "ven", "suv");
 		if(!category.contains(vehicleRequest.getCategory())) {
-			return new VehicleResponse("無此車種");
+			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 		carList.addAll(vehicleDao.findAllByCategoryOrderByAvailableDesc(vehicleRequest.getCategory()));
-		return new VehicleResponse(carList, "success");
+		return new VehicleResponse(carList, RtnCode.SUCCESS.getMessage());
 	}
 
 }
