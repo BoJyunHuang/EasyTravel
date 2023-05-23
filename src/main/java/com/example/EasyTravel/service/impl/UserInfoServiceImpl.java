@@ -13,8 +13,7 @@ import com.example.EasyTravel.repository.UserInfoDao;
 import com.example.EasyTravel.service.ifs.UserInfoService;
 import com.example.EasyTravel.vo.UserInfoRequest;
 import com.example.EasyTravel.vo.UserInfoResponse;
-import com.example.java_demo_test.entity.Login;
-import com.example.java_demo_test.vo.LoginResponse;
+
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
