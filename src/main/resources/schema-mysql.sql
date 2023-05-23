@@ -26,11 +26,10 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   
   CREATE TABLE IF NOT EXISTS `easy_travel`.`fee` (
   `serial_number` INT NOT NULL AUTO_INCREMENT,
-  `case` VARCHAR(20) NOT NULL,
+  `project` VARCHAR(20) NOT NULL,
   `cc` INT NOT NULL DEFAULT 0,
-  `rate` INT NULL,
-  `start_time` DATETIME NULL,
-  `end_time` DATETIME NULL,
+  `rate` DOUBLE NULL DEFAULT 0,
+  `threshold` INT NULL DEFAULT 0,
   PRIMARY KEY (`serial_number`));
   
   CREATE TABLE IF NOT EXISTS `easy_travel`.`maintenance` (
@@ -47,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   `title` VARCHAR(20) NOT NULL,
   `detail` VARCHAR(20) NOT NULL,
   `price` INT NULL,
-  `profit_or_loss` TINYINT NULL,
+  `build_date` DATE NULL,
   PRIMARY KEY (`serial_number`));
   
   CREATE TABLE IF NOT EXISTS `easy_travel`.`rent` (
