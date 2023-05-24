@@ -2,8 +2,6 @@ package com.example.EasyTravel.vo;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-
 public class VehicleRequest {
 
 //	車牌

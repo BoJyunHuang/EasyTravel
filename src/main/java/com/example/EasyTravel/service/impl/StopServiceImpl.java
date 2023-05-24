@@ -56,4 +56,16 @@ public class StopServiceImpl implements StopService {
 				: new StopResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
+	@Override
+	public StopResponse RentOrReturn(boolean isRent, String city, String location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StopResponse dispatch(List<String> vehicleList, String city, String location) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
