@@ -8,7 +8,7 @@ import com.example.EasyTravel.service.ifs.RentService;
 import com.example.EasyTravel.vo.RentResponse;
 
 @Service
-public class RentServiceImpl implements RentService{
+public class RentServiceImpl implements RentService {
 
 	@Override
 	public RentResponse rent(String account, String licensePlate) {
@@ -17,7 +17,7 @@ public class RentServiceImpl implements RentService{
 	}
 
 	@Override
-	public RentResponse dropOff(String account, String licensePlate) {
+	public RentResponse dropOff(String account, String licensePlate, String city, String location) {
 		// TODO Auto-generated method stub
 		return null;
 	}

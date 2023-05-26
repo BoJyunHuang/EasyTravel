@@ -1,5 +1,7 @@
 package com.example.EasyTravel.vo;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StopRequest {
@@ -12,6 +14,8 @@ public class StopRequest {
 	private int motorcycleLimit;
 	@JsonProperty("car_limit")
 	private int carLimit;
+	private int type;
+	private List<String> vehicleList;
 
 	public String getCity() {
 		return city;
@@ -51,6 +55,22 @@ public class StopRequest {
 
 	public void setCarLimit(int carLimit) {
 		this.carLimit = carLimit;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public List<String> getVehicleList() {
+		return vehicleList;
+	}
+
+	public void setVehicleList(List<String> vehicleList) {
+		this.vehicleList = vehicleList;
 	}
 
 }

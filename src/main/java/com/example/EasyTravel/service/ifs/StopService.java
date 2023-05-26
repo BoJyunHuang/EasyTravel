@@ -12,11 +12,11 @@ public interface StopService {
 	// 尋找目標城市所有站點
 	public StopResponse findCityStops(String city);
 
-	// 更新站點車載限制
+	// 新增站點可借車輛
 	public StopResponse renewLimit(String city, String location, int bike_limit, int motorcycle_limit, int car_limit);
 
 	// 站點變更
-	public StopResponse RentOrReturn(boolean isRent, String city, String location);
+	public StopResponse rentOrReturn(int type, String city, String location);
 
 	// 車輛調度
 	public StopResponse dispatch(List<String> vehicleList, String city, String location);

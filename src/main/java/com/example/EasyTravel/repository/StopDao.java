@@ -29,25 +29,46 @@ public interface StopDao extends JpaRepository<Stop, StopId> {
 	@Query(value = "select * from stop where city = :city", nativeQuery = true)
 	public List<Stop> searchStops(@Param("city") String city);
 
-	// 更新站點車載限制-腳踏車
+	// 更新站點可借車輛-租-腳踏車
 	@Transactional
 	@Modifying
-	@Query("update Stop s set s.bikeLimit = :bikeLimit where s.city = :city and s.location = :location")
-	public int updateBikeLimit(@Param("city") String city, @Param("location") String location,
-			@Param("bikeLimit") int bikeLimit);
+	@Query("update Stop s set s.bikeLimit = s.bikeLimit - 1 "
+			+ "where s.city = :city and s.location = :location and s.bikeLimit > 0")
+	public int minusBike(@Param("city") String city, @Param("location") String location);
 
-	// 更新站點車載限制-機車
+	// 更新站點可借車輛-租-機車
 	@Transactional
 	@Modifying
-	@Query("update Stop s set s.motorcycleLimit = :motorcycleLimit where s.city = :city and s.location = :location")
-	public int updateMotorcycleLimit(@Param("city") String city, @Param("location") String location,
-			 @Param("motorcycleLimit") int motorcycleLimit);
+	@Query("update Stop s set s.motorcycleLimit = s.motorcycleLimit - 1 "
+			+ "where s.city = :city and s.location = :location and s.motorcycleLimit > 0")
+	public int minusMotorcycle(@Param("city") String city, @Param("location") String location);
 
-	// 更新站點車載限制-車
+	// 更新站點可借車輛-租-車
 	@Transactional
 	@Modifying
-	@Query("update Stop s set s.carLimit = :carLimit where s.city = :city and s.location = :location")
-	public int updateCarLimit(@Param("city") String city, @Param("location") String location,
-			@Param("carLimit") int carLimit);
+	@Query("update Stop s set s.carLimit = s.carLimit - 1 "
+			+ "where s.city = :city and s.location = :location and s.carLimit > 0")
+	public int minusCar(@Param("city") String city, @Param("location") String location);
+
+	// 更新站點可借車輛-還-腳踏車
+	@Transactional
+	@Modifying
+	@Query("update Stop s set s.bikeLimit = s.bikeLimit + 1 "
+			+ "where s.city = :city and s.location = :location")
+	public int plusBike(@Param("city") String city, @Param("location") String location);
+
+	// 更新站點可借車輛-還-機車
+	@Transactional
+	@Modifying
+	@Query("update Stop s set s.motorcycleLimit = s.motorcycleLimit + 1 "
+			+ "where s.city = :city and s.location = :location")
+	public int plusMotorcycle(@Param("city") String city, @Param("location") String location);
+
+	// 更新站點可借車輛-還-車
+	@Transactional
+	@Modifying
+	@Query("update Stop s set s.carLimit = s.carLimit + 1 "
+			+ "where s.city = :city and s.location = :location")
+	public int plusCar(@Param("city") String city, @Param("location") String location);
 
 }
