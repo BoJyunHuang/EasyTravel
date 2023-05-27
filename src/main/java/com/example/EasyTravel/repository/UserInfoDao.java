@@ -9,4 +9,5 @@ public interface UserInfoDao extends JpaRepository <UserInfo,String>{
 	
 	public UserInfo findByAccountAndPasswordAndActive(String account, String password,boolean active);
 
+	public UserInfo findByAccountAndVip(String account,boolean VIP);
 }

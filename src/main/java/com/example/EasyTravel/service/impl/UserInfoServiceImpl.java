@@ -2,6 +2,7 @@ package com.example.EasyTravel.service.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import com.example.EasyTravel.repository.UserInfoDao;
 import com.example.EasyTravel.service.ifs.UserInfoService;
 import com.example.EasyTravel.vo.UserInfoRequest;
 import com.example.EasyTravel.vo.UserInfoResponse;
-
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -67,30 +67,113 @@ public class UserInfoServiceImpl implements UserInfoService {
 			return new UserInfoResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 		// 自定義:從資料庫找到未激活的帳戶
-		UserInfo userInfo = userInfoDao.findByAccountAndPasswordAndActive(request.getAccount(), request.getPassword(),false);
+		UserInfo userInfo = userInfoDao.findByAccountAndPasswordAndActive(request.getAccount(), request.getPassword(),
+				false);
 		userInfo.setActive(true);
 		userInfoDao.save(userInfo);
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
-		
+
 	}
 
 	@Override
-	public UserInfoResponse userLogin(String account, String password) {
-		
+	public UserInfoResponse userLogin(UserInfoRequest request) {
+
+		// 防呆:不得為空或null
+		if (!StringUtils.hasText(request.getAccount()) || !StringUtils.hasText(request.getPassword())) {
+			return new UserInfoResponse(RtnCode.CANNOT_EMPTY.getMessage());
+		}
+		// 自定義方法:找到帳號密碼已生效
+		UserInfo userInfo = userInfoDao.findByAccountAndPasswordAndActive(request.getAccount(), request.getPassword(),
+				true);
+		// optional才有isPresent&Empty
+		if (userInfo == null) {
+			return new UserInfoResponse(RtnCode.CANNOT_EMPTY.getMessage());
+		}
+
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
-//	public LoginResponse login(String account, String password) {
-//		// 防呆:不得為空或null
-//		if (!StringUtils.hasText(account) || !StringUtils.hasText(password)) {
-//			return new LoginResponse("登入資訊錯誤");
-//		}
-//		// 自定義方法:找到帳號密碼已生效
-//		Login login = loginDao.findByAccountAndPasswordAndIsActive(account, password, true);
-//		// optional才有isPresent&Empty
-//		if (login == null) {
-//			return new LoginResponse("登入資訊不得為空");
-//		}
-//		return new LoginResponse(RtnCode.SUCCESSFUL.getMessage());
-//	}
+
+	@Override
+	public UserInfoResponse userInfoSearch(UserInfoRequest request) {
+
+		// 自定義方法:找到帳號密碼已生效
+		UserInfo userInfo = userInfoDao.findByAccountAndPasswordAndActive(request.getAccount(), request.getPassword(),
+				true);
+		// 資料庫沒有找到時
+		if (userInfo == null) {
+			return new UserInfoResponse(RtnCode.CANNOT_EMPTY.getMessage());
+		}
+
+		return new UserInfoResponse(userInfo, RtnCode.SUCCESSFUL.getMessage());
+	}
+
+	@Override
+	public UserInfoResponse userInfoUpdate(UserInfoRequest request) {
+
+		// 自定義方法:找到帳號密碼已生效
+		UserInfo userInfo = userInfoDao.findByAccountAndPasswordAndActive(request.getAccount(), request.getPassword(),
+				true);
+		// 資料庫沒有找到時
+		if (userInfo == null) {
+			return new UserInfoResponse(RtnCode.CANNOT_EMPTY.getMessage());
+		}
+
+		// 防呆: 未滿18歲新增駕照 利用生日換算年齡**
+		int oldYears = 0;
+		LocalDate birt = request.getBirthday() != null ? request.getBirthday() : userInfo.getBirthday();
+		oldYears = LocalDate.now().getYear() - birt.getYear();
+		if (LocalDateTime.now().getMonthValue() < birt.getMonthValue()) {
+			oldYears--;
+		}
+		if (LocalDateTime.now().getMonthValue() == birt.getMonthValue()) {
+			if (LocalDateTime.now().getDayOfMonth() < userInfo.getBirthday().getDayOfMonth()) {
+				oldYears--;
+			}
+		}
+
+		System.err.println(oldYears);
+		if ((oldYears < 18 && request.isDrivingLicense() == true) || (oldYears < 18 && request.isMotorcycleLicense())) {
+			return new UserInfoResponse(RtnCode.OUT_OF_AGE.getMessage());
+		}
+		// 新增修改生日&駕照資訊
+		userInfo.setBirthday(request.getBirthday() != null ? request.getBirthday() : userInfo.getBirthday());
+		userInfo.setDrivingLicense(request.isDrivingLicense());
+		userInfo.setMotorcycleLicense(request.isMotorcycleLicense());
+		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
+	}
+
+	@Override
+	public UserInfoResponse userInfoUpgradeVIP(UserInfoRequest request) {
+		
+//		確認是否一次繳200元,財務的表需要連結嗎
+
+//		確認為一般會員
+		Optional<UserInfo> userInfo = userInfoDao.findById(request.getAccount());
+		if (userInfo.isEmpty()) {
+			return new UserInfoResponse(RtnCode.NOT_FOUND.getMessage());
+		}
+		UserInfo vip = userInfo.get();
+//			VIP轉成TRUE
+		vip.setVip(true);
+//		紀錄時間
+		vip.setVipStartDate(LocalDate.now());
+
+		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
+	}
+
+	@Override
+	public UserInfoResponse userInfoQuitVIP(UserInfoRequest request) {
+//		確認為VIP會員
+		UserInfo userInfo = userInfoDao.findByAccountAndVip(request.getAccount(),true);
+//		找不到會員
+		if (userInfo == null) {
+			return new UserInfoResponse(RtnCode.NOT_FOUND.getMessage());
+		}
+//			VIP轉成TRUE
+		userInfo.setVip(false);
+		userInfo.setVipStartDate(null);
+		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
+	}
+
 
 }

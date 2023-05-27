@@ -19,7 +19,10 @@ public enum RtnCode {
 	ALREADY_EXISTED("409", "Has already existed!"), 
 	BEEN_SELECTED("409", "Has been selected!"),
 	PARK_FULL("409", "Park is full!"), 
-	PATTERNISNOTMATCH("422", "Pattern is not match!");
+	PATTERNISNOTMATCH("422", "Pattern is not match!"),
+	OUT_OF_TIME("422", "Out of Time!"),
+	OUT_OF_AGE("422","Under the age of 18");
+	
 
 	private String code;
 	private String message;
