@@ -1,5 +1,6 @@
 package com.example.EasyTravel.service.impl;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.entity.Fee;
+import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.repository.FeeDao;
 import com.example.EasyTravel.service.ifs.FeeService;
 import com.example.EasyTravel.vo.FeeResponse;
@@ -50,33 +52,41 @@ public class FeeServiceImpl implements FeeService {
 	}
 
 	@Override
-	public FeeResponse calculate(String project, int cc, int period) {
+	public FeeResponse calculate(Vehicle vehicle, boolean isVip, Duration period) {
 		// 防止空輸入
-		if (period <= 0) {
+		if (vehicle == null || period == null) {
 			return new FeeResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 		// 尋找方案
-		List<Fee> resList = feeDao.searchProjectsByThresholdUp(StringUtils.hasText(project) ? project : null,
-				cc < 0 ? 0 : cc);
+		List<Fee> resList = feeDao.searchProjectsByThresholdUp(
+				isVip ? vehicle.getCategory().concat("-vip") : vehicle.getCategory(), vehicle.getCc());
 		if (CollectionUtils.isEmpty(resList)) {
 			return new FeeResponse(RtnCode.NOT_FOUND.getMessage());
 		}
+		// 轉換時間區間
+		int interval = vehicle.getCategory().contains("bike") ? (int) period.toMinutes() : (int) period.toDays();
+		interval += vehicle.getCategory().contains("bike")
+				// 不满一天的部分向上取整
+				? (period.toNanos() % Duration.ofMinutes(1).toNanos() > 0 ? 1 : 0)
+				// 不满一分钟的部分向上取整
+				: (period.toNanos() % Duration.ofDays(1).toNanos() > 0 ? 1 : 0);
 		// 計算價錢
 		double total = 0;
 		double lastRate = 0;
 		int lastThreshold = 0;
 		for (int i = 0; i < resList.size(); i++) {
 			// 超出時間區域，計算區間費率
-			if (period >= resList.get(i).getThreshold()) {
-				total += (project.equals("bike"))
+			if (interval >= resList.get(i).getThreshold()) {
+				total += (vehicle.getCategory().contains("bike"))
 						? resList.get(i).getRate() * (resList.get(i).getThreshold() - lastThreshold)
 						: 0;
 				lastRate = resList.get(i).getRate();
 				lastThreshold = resList.get(i).getThreshold();
 				// 在時間區域間，需用前次時間閾值進行計算
 			} else {
-				total += (project.equals("bike")) ? resList.get(i).getRate() * (period - lastThreshold)
-						: lastRate * period;
+				total += (vehicle.getCategory().contains("bike"))
+						? resList.get(i).getRate() * (interval - lastThreshold)
+						: lastRate * interval;
 				break;
 			}
 		}

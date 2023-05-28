@@ -19,7 +19,7 @@ public class FeeController {
 
 	@PostMapping(value = "add_project")
 	public FeeResponse addProject(@RequestBody FeeRequest request) {
-		return feeService.addProject(request.getProject(), request.getCc(), request.getRate(), request.getInterval());
+		return feeService.addProject(request.getProject(), request.getCc(), request.getRate(), request.getThreshold());
 	}
 
 	@DeleteMapping(value = "delete_project")
@@ -29,11 +29,11 @@ public class FeeController {
 
 	@GetMapping(value = "find_projects")
 	public FeeResponse findProjects(@RequestBody FeeRequest request) {
-		return feeService.findProjects(request.getProject(),request.getCc());
+		return feeService.findProjects(request.getProject(), request.getCc());
 	}
-	
+
 	@GetMapping(value = "calculate")
 	public FeeResponse calculate(@RequestBody FeeRequest request) {
-		return feeService.calculate(request.getProject(), request.getCc(), request.getInterval());
+		return feeService.calculate(request.getVehicle(), request.isVip(), request.getPeriod());
 	}
 }

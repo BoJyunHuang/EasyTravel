@@ -76,12 +76,30 @@ public class StopServiceImpl implements StopService {
 			return flag ? new StopResponse(stopDao.save(stop), RtnCode.SUCCESS.getMessage())
 					: new StopResponse(RtnCode.INCORRECT.getMessage());
 		}).orElse(new StopResponse(RtnCode.NOT_FOUND.getMessage()));
-
 	}
 
 	@SuppressWarnings("serial")
 	@Override
-	public StopResponse rentOrReturn(int type, String city, String location) {
+	public StopResponse rentOrReturn(boolean isRent, String category, String city, String location) {
+		// 確認交通工具種類及是否租借
+		int type = 0;
+		switch (StringUtils.hasText(category) ? category : "") {
+		case "bike":
+			type = isRent ? 10 : 11;
+			break;
+		case "scooter":
+		case "motorcycle":
+		case "heavy motorcycle":
+			type = isRent ? 20 : 21;
+			break;
+		case "sedan":
+		case "ven":
+		case "suv":
+			type = isRent ? 30 : 31;
+			break;
+		default:
+			return new StopResponse(RtnCode.NOT_FOUND.getMessage());
+		}
 		// 建立租借映射表
 		Map<Integer, BiFunction<String, String, Integer>> operationMap = new HashMap<>() {
 			{
@@ -97,7 +115,6 @@ public class StopServiceImpl implements StopService {
 		return operationMap.getOrDefault(type, (inputC, inputL) -> 0).apply(city, location) == 0
 				? new StopResponse(RtnCode.INCORRECT.getMessage())
 				: new StopResponse(RtnCode.SUCCESSFUL.getMessage());
-
 	}
 
 	@Override
@@ -126,9 +143,12 @@ public class StopServiceImpl implements StopService {
 			motorcycleCount += s.getCategory().matches("scooter|motorcycle|heavy motorcycle") ? (int) s.getCount() : 0;
 			carCount += s.getCategory().matches("vedan|ven|suv") ? (int) s.getCount() : 0;
 		}
+		// 更新站點數量
 		renewLimit(city, location, bikeCount, motorcycleCount, carCount);
-		vehicleDao.dispatch(vehicleList, city, location);
-		return new StopResponse(RtnCode.SUCCESSFUL.getMessage());
+		// 更新車輛所在站點
+		return vehicleDao.dispatch(vehicleList, city, location) != vehicleList.size()
+				? new StopResponse(RtnCode.NOT_FOUND.getMessage())
+				: new StopResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
 }

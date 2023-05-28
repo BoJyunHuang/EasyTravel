@@ -26,18 +26,19 @@ public class StopController {
 	public StopResponse findCityStops(@RequestBody StopRequest request) {
 		return stopService.findCityStops(request.getCity());
 	}
-	
+
 	@GetMapping(value = "renew_limit")
 	public StopResponse renewLimit(@RequestBody StopRequest request) {
 		return stopService.renewLimit(request.getCity(), request.getLocation(), request.getBikeLimit(),
 				request.getMotorcycleLimit(), request.getCarLimit());
 	}
-	
+
 	@GetMapping(value = "rent_or_return")
 	public StopResponse rentOrReturn(@RequestBody StopRequest request) {
-		return stopService.rentOrReturn(request.getType(), request.getCity(), request.getLocation());
+		return stopService.rentOrReturn(request.isRent(), request.getCategory(), request.getCity(),
+				request.getLocation());
 	}
-	
+
 	@GetMapping(value = "dispatch")
 	public StopResponse dispatch(@RequestBody StopRequest request) {
 		return stopService.dispatch(request.getVehicleList(), request.getCity(), request.getLocation());

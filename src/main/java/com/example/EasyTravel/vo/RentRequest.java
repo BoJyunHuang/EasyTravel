@@ -1,13 +1,13 @@
 package com.example.EasyTravel.vo;
 
-import java.time.LocalDateTime;
-
 public class RentRequest {
 
 	private String account;
 	private String licensePlate;
-	private LocalDateTime nowTime;
-	private int price;
+	private String city;
+	private String location;
+	private double odo;
+	private int month;
 
 	public String getAccount() {
 		return account;
@@ -25,20 +25,36 @@ public class RentRequest {
 		this.licensePlate = licensePlate;
 	}
 
-	public LocalDateTime getNowTime() {
-		return nowTime;
+	public String getCity() {
+		return city;
 	}
 
-	public void setNowTime(LocalDateTime nowTime) {
-		this.nowTime = nowTime;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-	public double getPrice() {
-		return price;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public double getOdo() {
+		return odo;
+	}
+
+	public void setOdo(double odo) {
+		this.odo = odo;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
 	}
 	
 }

@@ -17,16 +17,25 @@ public class Rent {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "serial_number")
 	private Integer serialNumber;
-	
+
 	@Column(name = "account")
 	private String account;
-	
+
 	@Column(name = "license_plate")
 	private String licensePlate;
-	
+
+	@Column(name = "city")
+	private String city;
+
+	@Column(name = "location")
+	private String location;
+
 	@Column(name = "now_time")
 	private LocalDateTime nowTime = LocalDateTime.now();
-	
+
+	@Column(name = "rent")
+	private boolean isRent = true;
+
 	@Column(name = "price")
 	private int price;
 
@@ -34,10 +43,21 @@ public class Rent {
 		super();
 	}
 
-	public Rent(String account, String licensePlate, int price) {
+	public Rent(String account, String licensePlate, String city, String location) {
 		super();
 		this.account = account;
 		this.licensePlate = licensePlate;
+		this.city = city;
+		this.location = location;
+	}
+
+	public Rent(String account, String licensePlate, String city, String location, boolean isRent, int price) {
+		super();
+		this.account = account;
+		this.licensePlate = licensePlate;
+		this.city = city;
+		this.location = location;
+		this.isRent = isRent;
 		this.price = price;
 	}
 
@@ -57,12 +77,36 @@ public class Rent {
 		this.licensePlate = licensePlate;
 	}
 
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	public LocalDateTime getNowTime() {
 		return nowTime;
 	}
 
 	public void setNowTime(LocalDateTime nowTime) {
 		this.nowTime = nowTime;
+	}
+
+	public boolean isRent() {
+		return isRent;
+	}
+
+	public void setRent(boolean isRent) {
+		this.isRent = isRent;
 	}
 
 	public int getPrice() {
@@ -72,5 +116,5 @@ public class Rent {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-		
+
 }

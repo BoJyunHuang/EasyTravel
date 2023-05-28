@@ -2,8 +2,6 @@ package com.example.EasyTravel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +15,6 @@ import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.repository.VehicleDao;
 import com.example.EasyTravel.service.ifs.VehicleService;
-import com.example.EasyTravel.vo.VehicleCount;
 import com.example.EasyTravel.vo.VehicleRequest;
 import com.example.EasyTravel.vo.VehicleResponse;
 
@@ -105,6 +102,16 @@ public class VehicleTest {
 				vDao.dispatch(new ArrayList<>(Arrays.asList("AA-001", "AA-002", "MX-01", "MX-02", "CB0001", "CB0002")),
 						"city1", "first") == 6,
 				RtnCode.TEST2_ERROR.getMessage());
+	}
+
+	@Test
+	public void updateRentInfoTest() {
+		// 操作失敗
+		Assert.isTrue(vDao.updateRentInfo(null, false, null, null, 0) == 0, RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(vDao.updateRentInfo("", true, "city1", "first", 20) == 0, RtnCode.TEST2_ERROR.getMessage());
+		// 操作成功
+		Assert.isTrue(vDao.updateRentInfo("AA-001", false, null, null, 0) == 1, RtnCode.TEST3_ERROR.getMessage());
+		Assert.isTrue(vDao.updateRentInfo("AA-001", true, "c1", "first", 250) == 1, RtnCode.TEST4_ERROR.getMessage());
 	}
 
 }

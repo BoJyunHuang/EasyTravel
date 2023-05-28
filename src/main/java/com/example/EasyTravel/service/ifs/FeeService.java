@@ -1,5 +1,8 @@
 package com.example.EasyTravel.service.ifs;
 
+import java.time.Duration;
+
+import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.vo.FeeResponse;
 
 public interface FeeService {
@@ -14,5 +17,5 @@ public interface FeeService {
 	public FeeResponse findProjects(String project,int cc);
 
 	// 計算費率
-	public FeeResponse calculate(String project, int cc, int period);
+	public FeeResponse calculate(Vehicle vehicle, boolean isVip, Duration period);
 }

@@ -53,7 +53,10 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   `serial_number` INT NOT NULL AUTO_INCREMENT,
   `account` VARCHAR(20) NOT NULL,
   `license_plate` VARCHAR(20) NOT NULL,
+  `city` VARCHAR(20) NULL,
+  `location` VARCHAR(20) NULL,
   `now_time` DATETIME NULL,
+  `rent` TINYINT NULL DEFAULT 0,
   `price` INT NULL,
   PRIMARY KEY (`serial_number`));
   

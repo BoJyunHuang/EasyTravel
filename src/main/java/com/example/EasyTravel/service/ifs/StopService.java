@@ -16,7 +16,7 @@ public interface StopService {
 	public StopResponse renewLimit(String city, String location, int bike_limit, int motorcycle_limit, int car_limit);
 
 	// 站點變更
-	public StopResponse rentOrReturn(int type, String city, String location);
+	public StopResponse rentOrReturn(boolean isRent, String category, String city, String location);
 
 	// 車輛調度
 	public StopResponse dispatch(List<String> vehicleList, String city, String location);

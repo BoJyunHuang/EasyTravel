@@ -159,17 +159,19 @@ class StopTest {
 	@Test
 	void RentOrReturnTest() {
 		// 借車失敗
-		Assert.isTrue(sSer.rentOrReturn(0, null, null).getMessage().equals(RtnCode.INCORRECT.getMessage()),
+		Assert.isTrue(sSer.rentOrReturn(true, null, null, null).getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
 				RtnCode.TEST1_ERROR.getMessage());
-		Assert.isTrue(sSer.rentOrReturn(10, "city3", "First").getMessage().equals(RtnCode.INCORRECT.getMessage()),
+		Assert.isTrue(
+				sSer.rentOrReturn(true, "bike", "city3", "First").getMessage().equals(RtnCode.INCORRECT.getMessage()),
 				RtnCode.TEST2_ERROR.getMessage());
-		Assert.isTrue(sSer.rentOrReturn(20, "city2", "First").getMessage().equals(RtnCode.INCORRECT.getMessage()),
-				RtnCode.TEST3_ERROR.getMessage());
+		Assert.isTrue(sSer.rentOrReturn(true, "scooter", "city2", "First").getMessage()
+				.equals(RtnCode.INCORRECT.getMessage()), RtnCode.TEST3_ERROR.getMessage());
 		// 還車成功
-		Assert.isTrue(sSer.rentOrReturn(31, "city2", "Second").getMessage().equals(RtnCode.SUCCESSFUL.getMessage()),
-				RtnCode.TEST4_ERROR.getMessage());
+		Assert.isTrue(sSer.rentOrReturn(false, "sedan", "city2", "Second").getMessage()
+				.equals(RtnCode.SUCCESSFUL.getMessage()), RtnCode.TEST4_ERROR.getMessage());
 		// 租車成功
-		Assert.isTrue(sSer.rentOrReturn(11, "city2", "Second").getMessage().equals(RtnCode.SUCCESSFUL.getMessage()),
+		Assert.isTrue(
+				sSer.rentOrReturn(true, "bike", "city2", "Second").getMessage().equals(RtnCode.SUCCESSFUL.getMessage()),
 				RtnCode.TEST5_ERROR.getMessage());
 	}
 

@@ -79,6 +79,14 @@ public class UserInfo {
 		this.regTime = regTime;
 	}
 
+	public UserInfo(String account, boolean motorcycleLicense, boolean drivingLicense, boolean vip) {
+		super();
+		this.account = account;
+		this.motorcycleLicense = motorcycleLicense;
+		this.drivingLicense = drivingLicense;
+		this.vip = vip;
+	}
+
 	public String getAccount() {
 		return account;
 	}

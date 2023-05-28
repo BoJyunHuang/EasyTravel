@@ -1,65 +1,67 @@
 package com.example.EasyTravel.vo;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.EasyTravel.entity.Vehicle;
 
 public class FeeRequest {
 
 	private String project;
 	private int cc;
 	private double rate;
-	private int interval;
+	private int threshold;
 	private int total;
-	@JsonProperty("total_time")
-	private LocalDateTime totalTime;
+	private Vehicle vehicle;
+	private boolean isVip;
+	private Duration period;
 	
 	public String getProject() {
 		return project;
 	}
-
 	public void setProject(String project) {
 		this.project = project;
 	}
-
 	public int getCc() {
 		return cc;
 	}
-
 	public void setCc(int cc) {
 		this.cc = cc;
 	}
-
 	public double getRate() {
 		return rate;
 	}
-
 	public void setRate(double rate) {
 		this.rate = rate;
 	}
-
-	public int getInterval() {
-		return interval;
+	public int getThreshold() {
+		return threshold;
 	}
-
-	public void setInterval(int interval) {
-		this.interval = interval;
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
 	}
-
 	public int getTotal() {
 		return total;
 	}
-
 	public void setTotal(int total) {
 		this.total = total;
 	}
-
-	public LocalDateTime getTotalTime() {
-		return totalTime;
+	public Vehicle getVehicle() {
+		return vehicle;
 	}
-
-	public void setTotalTime(LocalDateTime totalTime) {
-		this.totalTime = totalTime;
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
-
+	public boolean isVip() {
+		return isVip;
+	}
+	public void setVip(boolean isVip) {
+		this.isVip = isVip;
+	}
+	public Duration getPeriod() {
+		return period;
+	}
+	public void setPeriod(Duration period) {
+		this.period = period;
+	}
+	
 }

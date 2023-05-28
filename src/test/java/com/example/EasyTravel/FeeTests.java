@@ -1,5 +1,6 @@
 package com.example.EasyTravel;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,6 +14,7 @@ import org.springframework.util.Assert;
 
 import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.entity.Fee;
+import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.repository.FeeDao;
 import com.example.EasyTravel.service.ifs.FeeService;
 
@@ -130,14 +132,22 @@ public class FeeTests {
 	@Test
 	public void calculateTest() {
 		// 輸入為空
-		Assert.isTrue(fSer.calculate("bike", 0, 0).getMessage().equals(RtnCode.CANNOT_EMPTY.getMessage()),
-				RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(fSer.calculate(new Vehicle("CB0001", "bike", 0, 50), false, null).getMessage()
+				.equals(RtnCode.CANNOT_EMPTY.getMessage()), RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(fSer.calculate(null, false, Duration.ofHours(2).plusMinutes(30).plusSeconds(45)).getMessage()
+				.equals(RtnCode.CANNOT_EMPTY.getMessage()), RtnCode.TEST2_ERROR.getMessage());
 		// 方案未存在
-		Assert.isTrue(fSer.calculate(null, 0, 20).getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
-				RtnCode.TEST2_ERROR.getMessage());
+		Assert.isTrue(fSer
+				.calculate(new Vehicle("CB0001", "boat", 0, 50), false,
+						Duration.ofHours(2).plusMinutes(30).plusSeconds(45))
+				.getMessage().equals(RtnCode.NOT_FOUND.getMessage()), RtnCode.TEST3_ERROR.getMessage());
 		// 成功計價
-		Assert.isTrue(fSer.calculate("bike", 0, 450).getTotal() == 208, RtnCode.TEST3_ERROR.getMessage());
-		Assert.isTrue(fSer.calculate("bike", 0, 1430).getTotal() == 1178, RtnCode.TEST4_ERROR.getMessage());
-		Assert.isTrue(fSer.calculate("sedan", 2000, 41).getTotal() == 131200, RtnCode.TEST5_ERROR.getMessage());
+		Assert.isTrue(
+				fSer.calculate(new Vehicle("CB0001", "bike", 0, 50), false, Duration.ofMinutes(450)).getTotal() == 208,
+				RtnCode.TEST4_ERROR.getMessage());
+		Assert.isTrue(fSer.calculate(new Vehicle("CB0001", "bike", 0, 50), false, Duration.ofMinutes(1430))
+				.getTotal() == 1178, RtnCode.TEST5_ERROR.getMessage());
+		Assert.isTrue(fSer.calculate(new Vehicle("AA-001", "sedan", 2000, 50000), false, Duration.ofDays(41))
+				.getTotal() == 131200, RtnCode.TEST6_ERROR.getMessage());
 	}
 }

@@ -22,7 +22,7 @@ public class FinanceServiceImpl implements FinanceService {
 
 	private List<String> titles = new ArrayList<>(Arrays.asList("vip", "vehicle_cost", "maintenance", "rent_income"));
 	private List<String> details = new ArrayList<>(
-			Arrays.asList("vip","bike", "scooter", "motorcycle", "heavy_motorcycle", "sedan", "ven", "suv", "A", "B", "C"));
+			Arrays.asList("vip","bike", "scooter", "motorcycle", "heavy motorcycle", "sedan", "ven", "suv", "A", "B", "C"));
 
 	@Autowired
 	private FinanceDao financeDao;

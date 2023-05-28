@@ -14,7 +14,8 @@ public class StopRequest {
 	private int motorcycleLimit;
 	@JsonProperty("car_limit")
 	private int carLimit;
-	private int type;
+	private boolean isRent;
+	private String category;
 	private List<String> vehicleList;
 
 	public String getCity() {
@@ -57,12 +58,20 @@ public class StopRequest {
 		this.carLimit = carLimit;
 	}
 
-	public int getType() {
-		return type;
+	public boolean isRent() {
+		return isRent;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setRent(boolean isRent) {
+		this.isRent = isRent;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	public List<String> getVehicleList() {
