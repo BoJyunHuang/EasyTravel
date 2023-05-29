@@ -29,7 +29,7 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
 	public int dispatch(@Param("vList") List<String> vehicleList, @Param("city") String city,
 			@Param("location") String location);
 
-	// 更改多車輛的位置
+	// 更改車輛租借狀態
 	@Transactional
 	@Modifying
 	@Query(value = "update vehicle set available = :available, city = :city, location = :location, odo = odo + :odo "
