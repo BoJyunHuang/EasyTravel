@@ -11,23 +11,33 @@ import javax.persistence.Table;
 @Table(name = "fee")
 public class Fee {
 	
+	// 流水號
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "serial_number")
 	private Integer serialNumber;
 	
+	// 方案名稱
 	@Column(name = "project")
 	private String project;
 	
+	// 排氣量
 	@Column(name = "cc")
 	private int cc;
 	
+	// 費率
 	@Column(name = "rate")
 	private double rate;
 	
+	// 時間閾值
 	@Column(name = "threshold")
 	private int threshold;
 
+	/*
+	 * 建構方法
+	 * 1.()
+	 * 2.(project, cc, rate, threshold)
+	 */
 	public Fee() {
 		super();
 	}
@@ -40,6 +50,7 @@ public class Fee {
 		this.threshold = threshold;
 	}
 
+	// getters & setters
 	public String getProject() {
 		return project;
 	}

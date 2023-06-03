@@ -7,10 +7,18 @@ import com.example.EasyTravel.entity.Finance;
 
 public class FinanceResponse {
 
+	// 屬性
 	private String message;
 	private List<Finance> financeList;
 	private Map<String, Object> financeMap;
 
+	/*
+	 * 建構方法
+	 * 1.()
+	 * 2.(message)
+	 * 3.(financeList, message)
+	 * 4.(financeMap, message)
+	 */
 	public FinanceResponse() {
 		super();
 	}
@@ -32,6 +40,7 @@ public class FinanceResponse {
 		this.message = message;
 	}
 
+	// getters & setters
 	public String getMessage() {
 		return message;
 	}

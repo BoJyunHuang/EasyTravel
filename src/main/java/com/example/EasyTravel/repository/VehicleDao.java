@@ -36,4 +36,9 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
 			+ "where license_plate = :licensePlate", nativeQuery = true)
 	public int updateRentInfo(@Param("licensePlate") String licensePlate, @Param("available") boolean available,
 			@Param("city") String city, @Param("location") String location, @Param("odo") double odo);
+	
+	// 取得車牌及車種
+	@Query("select new Vehicle(v.licensePlate, v.category) from Vehicle v where v.licensePlate in :vList")
+	public List<Vehicle> searchCategory(@Param("vList") List<String> vList);
+	
 }

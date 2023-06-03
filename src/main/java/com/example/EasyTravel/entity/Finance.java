@@ -13,23 +13,33 @@ import javax.persistence.Table;
 @Table(name = "finance")
 public class Finance {
 
+	// 流水號
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "serial_number")
 	private Integer serialNumber;
 
+	// 主項目
 	@Column(name = "title")
 	private String title;
 
+	// 次項目
 	@Column(name = "detail")
 	private String detail;
 
+	// 金額
 	@Column(name = "price")
 	private int price;
 
+	// 建立日期
 	@Column(name = "build_date")
-	private LocalDate buildDate;
+	private LocalDate buildDate = LocalDate.now();
 
+	/*
+	 * 建構方法
+	 * 1.()
+	 * 2.(title, detail, price, buildDate)
+	 */
 	public Finance() {
 		super();
 	}
@@ -42,6 +52,7 @@ public class Finance {
 		this.buildDate = buildDate;
 	}
 
+	// getters & setters
 	public String getTitle() {
 		return title;
 	}

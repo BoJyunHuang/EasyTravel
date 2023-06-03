@@ -6,62 +6,70 @@ import com.example.EasyTravel.entity.Vehicle;
 
 public class FeeRequest {
 
+	// 屬性
 	private String project;
-	private int cc;
-	private double rate;
-	private int threshold;
-	private int total;
+	private Integer cc;
+	private Double rate;
+	private Integer threshold;
 	private Vehicle vehicle;
 	private boolean isVip;
 	private Duration period;
-	
+
+	// getters & setters
 	public String getProject() {
 		return project;
 	}
+
 	public void setProject(String project) {
 		this.project = project;
 	}
-	public int getCc() {
+
+	public Integer getCc() {
 		return cc;
 	}
-	public void setCc(int cc) {
+
+	public void setCc(Integer cc) {
 		this.cc = cc;
 	}
-	public double getRate() {
+
+	public Double getRate() {
 		return rate;
 	}
-	public void setRate(double rate) {
+
+	public void setRate(Double rate) {
 		this.rate = rate;
 	}
-	public int getThreshold() {
+
+	public Integer getThreshold() {
 		return threshold;
 	}
-	public void setThreshold(int threshold) {
+
+	public void setThreshold(Integer threshold) {
 		this.threshold = threshold;
 	}
-	public int getTotal() {
-		return total;
-	}
-	public void setTotal(int total) {
-		this.total = total;
-	}
+
 	public Vehicle getVehicle() {
 		return vehicle;
 	}
+
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
+
 	public boolean isVip() {
 		return isVip;
 	}
+
 	public void setVip(boolean isVip) {
 		this.isVip = isVip;
 	}
+
 	public Duration getPeriod() {
 		return period;
 	}
+
 	public void setPeriod(Duration period) {
 		this.period = period;
 	}
-	
+
 }

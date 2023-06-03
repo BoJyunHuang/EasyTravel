@@ -1,7 +1,6 @@
 package com.example.EasyTravel.service.impl;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +102,7 @@ public class RentServiceImpl implements RentService {
 		// 建立還車明細-還
 		rentDao.save(new Rent(account, licensePlate, city, location, false, calRes.getTotal()));
 		// 建立財務收入
-		financeService.addReport("rent_income", vehicle.get().getCategory(), calRes.getTotal(), LocalDate.now());
+		financeService.addReport("rent_income", vehicle.get().getCategory(), calRes.getTotal());
 		return new RentResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
@@ -126,9 +125,9 @@ public class RentServiceImpl implements RentService {
 		Map<String, Integer> statics = new HashMap<>();
 		// 記數，並至vehicle表中統計
 		res.forEach(r -> statics.put(r.getLicensePlate(), statics.getOrDefault(r.getLicensePlate(), 0) + 1));
-		// 寫出Dao  要輸出車牌 種類 才能計算次數
-		List<VehicleCount> vehicleCategories = vehicleDao.sortCategory(new ArrayList<>(statics.keySet()));
-		
+		// 找出車牌的對應車種
+		List<Vehicle> vehicleCategories = vehicleDao.searchCategory(new ArrayList<>(statics.keySet()));
+//TODO
 		return null;
 	}
 

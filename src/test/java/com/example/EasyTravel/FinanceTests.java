@@ -88,19 +88,17 @@ public class FinanceTests {
 	@Test
 	void addReportTest() {
 		// 輸入為空
-		Assert.isTrue(fSer.addReport(null, "d", 10, LocalDate.of(2023, 5, 20)).getMessage()
+		Assert.isTrue(fSer.addReport(null, "d", 10).getMessage()
 				.equals(RtnCode.INCORRECT.getMessage()), RtnCode.TEST1_ERROR.getMessage());
-		Assert.isTrue(fSer.addReport("test1", "", 10, LocalDate.of(2023, 5, 20)).getMessage()
+		Assert.isTrue(fSer.addReport("test1", "", 10).getMessage()
 				.equals(RtnCode.INCORRECT.getMessage()), RtnCode.TEST2_ERROR.getMessage());
-		Assert.isTrue(fSer.addReport("test1", "d", -10, LocalDate.of(2023, 5, 20)).getMessage()
+		Assert.isTrue(fSer.addReport("test1", "d", -10).getMessage()
 				.equals(RtnCode.INCORRECT.getMessage()), RtnCode.TEST3_ERROR.getMessage());
-		Assert.isTrue(fSer.addReport("test1", "d", 10, null).getMessage().equals(RtnCode.INCORRECT.getMessage()),
-				RtnCode.TEST4_ERROR.getMessage());
 		// 新增成功
-		Assert.isTrue(fSer.addReport("vip", "vip", 980, LocalDate.of(2023, 8, 20)).getMessage()
+		Assert.isTrue(fSer.addReport("vip", "vip", 980).getMessage()
 				.equals(RtnCode.SUCCESSFUL.getMessage()), RtnCode.TEST5_ERROR.getMessage());
 		// 資料已存在
-		Assert.isTrue(fSer.addReport("vip", "vip", 980, LocalDate.of(2023, 8, 20)).getMessage()
+		Assert.isTrue(fSer.addReport("vip", "vip", 980).getMessage()
 				.equals(RtnCode.ALREADY_EXISTED.getMessage()), RtnCode.TEST6_ERROR.getMessage());
 		fDao.deleteReports("vip");
 	}

@@ -2,6 +2,7 @@ package com.example.EasyTravel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,6 +113,17 @@ public class VehicleTest {
 		// 操作成功
 		Assert.isTrue(vDao.updateRentInfo("AA-001", false, null, null, 0) == 1, RtnCode.TEST3_ERROR.getMessage());
 		Assert.isTrue(vDao.updateRentInfo("AA-001", true, "c1", "first", 250) == 1, RtnCode.TEST4_ERROR.getMessage());
+	}
+
+	@Test
+	public void searchCategoryTest() {
+		// 尋找失敗
+		Assert.isTrue(vDao.searchCategory(new ArrayList<>(Arrays.asList(null, ""))).size() == 0,
+				RtnCode.TEST1_ERROR.getMessage());
+		// 尋找成功
+		 List<Vehicle> res = vDao.searchCategory(new ArrayList<>(Arrays.asList("AA-001", "AA-002","MX-02")));
+		Assert.isTrue(res.size() == 3,
+				RtnCode.TEST2_ERROR.getMessage());
 	}
 
 }

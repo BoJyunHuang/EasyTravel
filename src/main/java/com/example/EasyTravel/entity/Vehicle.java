@@ -88,10 +88,16 @@ public class Vehicle {
 		this.odo = odo;
 	}
 	
-	
+	public Vehicle(String licensePlate, String category) {
+		super();
+		this.licensePlate = licensePlate;
+		this.category = category;
+	}
 	
 //	get / set -------------------------
 	
+	
+
 	public String getLicensePlate() {
 		return licensePlate;
 	}

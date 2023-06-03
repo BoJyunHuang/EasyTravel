@@ -6,23 +6,24 @@ import com.example.EasyTravel.entity.Fee;
 
 public class FeeResponse {
 
+	// 屬性
 	private String message;
-	private Fee fee;
 	private List<Fee> feeList;
 	private int total;
 
+	/*
+	 * 建構方法
+	 * 1.()
+	 * 2.(message)
+	 * 3.(feeList, message)
+	 * 4.(total, message)
+	 */
 	public FeeResponse() {
 		super();
 	}
 
 	public FeeResponse(String message) {
 		super();
-		this.message = message;
-	}
-
-	public FeeResponse(Fee fee, String message) {
-		super();
-		this.fee = fee;
 		this.message = message;
 	}
 
@@ -38,20 +39,13 @@ public class FeeResponse {
 		this.message = message;
 	}
 
+	// getters & setters
 	public String getMessage() {
 		return message;
 	}
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	public Fee getFee() {
-		return fee;
-	}
-
-	public void setFee(Fee fee) {
-		this.fee = fee;
 	}
 
 	public List<Fee> getFeeList() {

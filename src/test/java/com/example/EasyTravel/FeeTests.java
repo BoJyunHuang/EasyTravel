@@ -103,15 +103,15 @@ public class FeeTests {
 	@Test
 	public void deleteProjectTest() {
 		// 參數空白
-		Assert.isTrue(fSer.deleteProject(null, 10, 10).getMessage().equals(RtnCode.INCORRECT.getMessage()),
+		Assert.isTrue(fSer.deleteProject(null, 10, 10.0).getMessage().equals(RtnCode.INCORRECT.getMessage()),
 				RtnCode.TEST1_ERROR.getMessage());
-		Assert.isTrue(fSer.deleteProject(null, 10, -1).getMessage().equals(RtnCode.INCORRECT.getMessage()),
+		Assert.isTrue(fSer.deleteProject(null, 10, -1.0).getMessage().equals(RtnCode.INCORRECT.getMessage()),
 				RtnCode.TEST2_ERROR.getMessage());
-		Assert.isTrue(fSer.deleteProject(null, -1, -1).getMessage().equals(RtnCode.INCORRECT.getMessage()),
+		Assert.isTrue(fSer.deleteProject(null, -1, -1.0).getMessage().equals(RtnCode.INCORRECT.getMessage()),
 				RtnCode.TEST3_ERROR.getMessage());
 		// 成功刪除
 		fDao.save(new Fee("suv", 0, 0.0, 30));
-		Assert.isTrue(fSer.deleteProject("suv", -1, -1).getMessage().equals(RtnCode.SUCCESSFUL.getMessage()),
+		Assert.isTrue(fSer.deleteProject("suv", -1, -1.0).getMessage().equals(RtnCode.SUCCESSFUL.getMessage()),
 				RtnCode.TEST4_ERROR.getMessage());
 	}
 
