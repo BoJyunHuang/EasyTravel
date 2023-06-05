@@ -16,30 +16,25 @@ public class VehicleTest {
 	
 	@Test
 	public void addCarTest() {
-		VehicleRequest req1 = new VehicleRequest("AZ-1234", "", 0, 200);
-		VehicleResponse res1 = vehicleService.addCar(req1);
+		VehicleResponse res1 = vehicleService.addCar("AZ-1234", "", 0, 200);
 		System.out.println(res1.getMessage());
 	}
 	
 	@Test
 	public void updateCarInfoTest() {
-		VehicleRequest req1 = new VehicleRequest("AC-1234", false, -9.7);
-		VehicleResponse res1 = vehicleService.updateCarInfo(req1);
+		VehicleResponse res1 = vehicleService.updateCarInfo("AC-1234", -9.7, false);
 		System.out.println(res1.getMessage());
 	}
 	
 	@Test
 	public void scrapCarTest() {
-		VehicleRequest req1 = new VehicleRequest("AH-1234");
-		VehicleResponse res1 = vehicleService.scrapCar(req1);
+		VehicleResponse res1 = vehicleService.scrapCar("AH-1234");
 		System.out.println(res1.getMessage());
 	}
 	
 	@Test
 	public void findCarByCategoryTest() {
-		VehicleRequest req1 = new VehicleRequest();
-		req1.categoryVehicleRequest("bike");
-		VehicleResponse res1 = vehicleService.findCarByCategory(req1);
+		VehicleResponse res1 = vehicleService.findCarByCategory("bike");
 		System.out.println(res1.getMessage());
 	}
 	
