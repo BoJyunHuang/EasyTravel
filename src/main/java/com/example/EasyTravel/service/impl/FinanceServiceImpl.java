@@ -1,6 +1,6 @@
 package com.example.EasyTravel.service.impl;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +45,11 @@ public class FinanceServiceImpl implements FinanceService {
 			return new FinanceResponse(RtnCode.INCORRECT.getMessage());
 		}
 		/*
-		 * 呼叫新增方法 "insertReport(title, detail, price, buildDate)"
+		 * 呼叫新增方法 "insertReport(title, detail, price, buildTime)"
 		 * 	新增一不存在於資料庫的新資料
 		 * ->若已存在則回傳"已存在" ->成功則回傳"成功"
 		 */
-		return financeDao.insertReport(title, detail, price, LocalDate.now()) == 0
+		return financeDao.insertReport(title, detail, price, LocalDateTime.now()) == 0
 				? new FinanceResponse(RtnCode.ALREADY_EXISTED.getMessage())
 				: new FinanceResponse(RtnCode.SUCCESSFUL.getMessage());
 	}

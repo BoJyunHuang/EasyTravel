@@ -1,6 +1,6 @@
 package com.example.EasyTravel.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,24 +32,24 @@ public class Finance {
 	private int price;
 
 	// 建立日期
-	@Column(name = "build_date")
-	private LocalDate buildDate = LocalDate.now();
+	@Column(name = "build_time")
+	private LocalDateTime buildTime = LocalDateTime.now();
 
 	/*
 	 * 建構方法
 	 * 1.()
-	 * 2.(title, detail, price, buildDate)
+	 * 2.(title, detail, price, buildTime)
 	 */
 	public Finance() {
 		super();
 	}
 
-	public Finance(String title, String detail, int price, LocalDate buildDate) {
+	public Finance(String title, String detail, int price, LocalDateTime buildTime) {
 		super();
 		this.title = title;
 		this.detail = detail;
 		this.price = price;
-		this.buildDate = buildDate;
+		this.buildTime = buildTime;
 	}
 
 	// getters & setters
@@ -77,12 +77,12 @@ public class Finance {
 		this.price = price;
 	}
 
-	public LocalDate getBuildDate() {
-		return buildDate;
+	public LocalDateTime getBuildTime() {
+		return buildTime;
 	}
 
-	public void setBuildDate(LocalDate buildDate) {
-		this.buildDate = buildDate;
+	public void setBuildTime(LocalDateTime buildTime) {
+		this.buildTime = buildTime;
 	}
 
 }

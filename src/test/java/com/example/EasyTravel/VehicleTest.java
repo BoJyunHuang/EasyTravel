@@ -1,8 +1,8 @@
 package com.example.EasyTravel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,16 +33,22 @@ public class VehicleTest {
 	private void BeforeEach() {
 		// 建立假資料
 		// 汽車
-		vDao.saveAll(new ArrayList<>(
-				Arrays.asList(new Vehicle("AA-001", "sedan", 2000, 50000), new Vehicle("AA-002", "sedan", 2000, 50000),
-						new Vehicle("AA-003", "suv", 2000, 50000), new Vehicle("AA-004", "ven", 2000, 50000))));
+		vDao.saveAll(new ArrayList<>(Arrays.asList(
+				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "c1", "l1", 0, 50000),
+				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "c1", "l2", 0, 50000),
+				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), true, "c1", "l2", 0, 50000),
+				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), true, "c2", "l1", 0, 50000))));
 		// 機車
-		vDao.saveAll(new ArrayList<>(Arrays.asList(new Vehicle("MX-01", "scooter", 50, 100),
-				new Vehicle("MX-02", "motorcycle", 150, 300), new Vehicle("MX-03", "scooter", 100, 200),
-				new Vehicle("MX-04", "heavy motorcycle", 550, 2000))));
+		vDao.saveAll(new ArrayList<>(Arrays.asList(
+				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), true, "c1", "l1", 0, 100),
+				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), true, "c2", "l1", 0, 300),
+				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), true, "c2", "l2", 0, 200),
+				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), true, "c3", "l1", 0,
+						2000))));
 		// 腳踏車
-		vDao.saveAll(new ArrayList<>(
-				Arrays.asList(new Vehicle("CB0001", "bike", 0, 50), new Vehicle("CB0002", "bike", 0, 50))));
+		vDao.saveAll(new ArrayList<>(Arrays.asList(
+				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), true, "c3", "l1", 0, 50),
+				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), true, "c3", "l1", 0, 50))));
 	}
 
 	@AfterAll
@@ -116,14 +122,28 @@ public class VehicleTest {
 	}
 
 	@Test
-	public void searchCategoryTest() {
+	public void searchVehiclesByCityLocationTest() {
 		// 尋找失敗
-		Assert.isTrue(vDao.searchCategory(new ArrayList<>(Arrays.asList(null, ""))).size() == 0,
-				RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(vDao.searchVehiclesByCityLocation(null, null).size() == 0, RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(vDao.searchVehiclesByCityLocation("", "").size() == 0, RtnCode.TEST2_ERROR.getMessage());
 		// 尋找成功
-		 List<Vehicle> res = vDao.searchCategory(new ArrayList<>(Arrays.asList("AA-001", "AA-002","MX-02")));
-		Assert.isTrue(res.size() == 3,
+		Assert.isTrue(vDao.searchVehiclesByCityLocation("c1", "l1").size() == 2, RtnCode.TEST3_ERROR.getMessage());
+		Assert.isTrue(vDao.searchVehiclesByCityLocation("c2", "l2").size() == 1, RtnCode.TEST4_ERROR.getMessage());
+	}
+
+	@Test
+	public void searchVehicleCategoryTest() {
+		// 搜尋失敗
+		Assert.isTrue(vDao.searchVehicleCategory(null).size() == 0, RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(vDao.searchVehicleCategory(new ArrayList<>(Arrays.asList(null, ""))).size() == 0,
 				RtnCode.TEST2_ERROR.getMessage());
+		Assert.isTrue(vDao.searchVehicleCategory(new ArrayList<>(Arrays.asList("XX", "AA"))).size() == 0,
+				RtnCode.TEST3_ERROR.getMessage());
+		// 搜尋成功
+		Assert.isTrue(vDao.searchVehicleCategory(new ArrayList<>(Arrays.asList("AA-001", "AA-002"))).size() == 2,
+				RtnCode.TEST4_ERROR.getMessage());
+		Assert.isTrue(vDao.searchVehicleCategory(new ArrayList<>(Arrays.asList("MX-04", "MX-05"))).size() == 1,
+				RtnCode.TEST4_ERROR.getMessage());
 	}
 
 }

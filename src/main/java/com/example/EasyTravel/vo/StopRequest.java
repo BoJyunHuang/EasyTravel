@@ -6,18 +6,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StopRequest {
 
+	// 屬性
 	private String city;
 	private String location;
-	@JsonProperty("bike_limit")
-	private int bikeLimit;
-	@JsonProperty("motorcycle_limit")
-	private int motorcycleLimit;
-	@JsonProperty("car_limit")
-	private int carLimit;
+	@JsonProperty("bike_amount")
+	private int bikeAmount;
+	@JsonProperty("motorcycle_amount")
+	private int motorcycleAmount;
+	@JsonProperty("car_amount")
+	private int carAmount;
 	private boolean isRent;
 	private String category;
+	@JsonProperty("vehicle_list")
 	private List<String> vehicleList;
 
+	// getters & setters
 	public String getCity() {
 		return city;
 	}
@@ -34,28 +37,28 @@ public class StopRequest {
 		this.location = location;
 	}
 
-	public int getBikeLimit() {
-		return bikeLimit;
+	public int getBikeAmount() {
+		return bikeAmount;
 	}
 
-	public void setBikeLimit(int bikeLimit) {
-		this.bikeLimit = bikeLimit;
+	public void setBikeAmount(int bikeAmount) {
+		this.bikeAmount = bikeAmount;
 	}
 
-	public int getMotorcycleLimit() {
-		return motorcycleLimit;
+	public int getMotorcycleAmount() {
+		return motorcycleAmount;
 	}
 
-	public void setMotorcycleLimit(int motorcycleLimit) {
-		this.motorcycleLimit = motorcycleLimit;
+	public void setMotorcycleAmount(int motorcycleAmount) {
+		this.motorcycleAmount = motorcycleAmount;
 	}
 
-	public int getCarLimit() {
-		return carLimit;
+	public int getCarAmount() {
+		return carAmount;
 	}
 
-	public void setCarLimit(int carLimit) {
-		this.carLimit = carLimit;
+	public void setCarAmount(int carAmount) {
+		this.carAmount = carAmount;
 	}
 
 	public boolean isRent() {

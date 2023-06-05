@@ -13,32 +13,46 @@ import javax.persistence.Table;
 @Table(name = "rent")
 public class Rent {
 
+	// 流水號
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "serial_number")
 	private Integer serialNumber;
 
+	// 帳號
 	@Column(name = "account")
 	private String account;
 
+	// 車牌
 	@Column(name = "license_plate")
 	private String licensePlate;
 
+	// 城市
 	@Column(name = "city")
 	private String city;
 
+	// 站點
 	@Column(name = "location")
 	private String location;
 
+	// 當下時間
 	@Column(name = "now_time")
 	private LocalDateTime nowTime = LocalDateTime.now();
 
+	// 是否租借或還車
 	@Column(name = "rent")
 	private boolean isRent = true;
 
+	// 租金價錢
 	@Column(name = "price")
 	private int price;
 
+	/*
+	 * 建構方法"
+	 * 1.()
+	 * 2.(account, licensePlate, city, location)
+	 * 3.(account, licensePlate, city, location, isRent, price)
+	 */
 	public Rent() {
 		super();
 	}
@@ -61,6 +75,7 @@ public class Rent {
 		this.price = price;
 	}
 
+	// getters & setters
 	public String getAccount() {
 		return account;
 	}

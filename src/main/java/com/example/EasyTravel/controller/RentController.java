@@ -1,6 +1,7 @@
 package com.example.EasyTravel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import com.example.EasyTravel.service.ifs.RentService;
 import com.example.EasyTravel.vo.RentRequest;
 import com.example.EasyTravel.vo.RentResponse;
 
+@CrossOrigin
 @RestController
 public class RentController {
 

@@ -1,5 +1,6 @@
 package com.example.EasyTravel;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -21,7 +22,7 @@ import com.example.EasyTravel.service.ifs.StopService;
 
 @SpringBootTest(classes = EasyTravelApplication.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class StopTest {
+public class StopTest {
 
 	@Autowired
 	private StopDao sDao;
@@ -35,29 +36,39 @@ class StopTest {
 	@BeforeEach
 	private void BeforeEach() {
 		// 建立假資料
-		sDao.saveAll(new ArrayList<>(
-				Arrays.asList(new Stop("city1", "first", 10, 0, 0), new Stop("city1", "Second", 10, 0, 0),
-						new Stop("city2", "first", 0, 0, 0), new Stop("city2", "Second", 10, 10, 10))));
+		sDao.saveAll(new ArrayList<>(Arrays.asList(
+				new Stop("city1", "first", 10, 0, 0), 
+				new Stop("city1", "Second", 10, 0, 0),
+				new Stop("city2", "first", 0, 0, 0), 
+				new Stop("city2", "Second", 10, 10, 10))));
 		// 汽車
-		vDao.saveAll(new ArrayList<>(
-				Arrays.asList(new Vehicle("AA-001", "sedan", 2000, 50000), new Vehicle("AA-002", "sedan", 2000, 50000),
-						new Vehicle("AA-003", "suv", 2000, 50000), new Vehicle("AA-004", "ven", 2000, 50000))));
+		vDao.saveAll(new ArrayList<>(Arrays.asList(
+				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000), 
+				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000),
+				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000), 
+				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000))));
 		// 機車
-		vDao.saveAll(new ArrayList<>(Arrays.asList(new Vehicle("MX-01", "scooter", 50, 100),
-				new Vehicle("MX-02", "motorcycle", 150, 300), new Vehicle("MX-03", "scooter", 100, 200),
-				new Vehicle("MX-04", "heavy motorcycle", 550, 2000))));
+		vDao.saveAll(new ArrayList<>(Arrays.asList(
+				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 100),
+				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 300), 
+				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 200),
+				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 2000))));
 		// 腳踏車
-		vDao.saveAll(new ArrayList<>(
-				Arrays.asList(new Vehicle("CB0001", "bike", 0, 50), new Vehicle("CB0002", "bike", 0, 50))));
+		vDao.saveAll(new ArrayList<>(Arrays.asList(
+				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), true, "city1", "first", 0, 50), 
+				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), true, "city1", "first", 0, 50))));
 	}
 
 	@AfterAll
 	private void AfterAll() {
 		// 刪除假資料
-		sDao.deleteAllById(new ArrayList<>(Arrays.asList(new StopId("city1", "first"), new StopId("city1", "Second"),
-				new StopId("city2", "first"), new StopId("city2", "Second"))));
-		vDao.deleteAllById(new ArrayList<>(Arrays.asList("AA-001", "AA-002", "AA-003", "AA-004", "MX-01", "MX-02",
-				"MX-03", "MX-04", "CB0001", "CB0002")));
+		sDao.deleteAllById(new ArrayList<>(Arrays.asList(
+				new StopId("city1", "first"), 
+				new StopId("city1", "Second"),
+				new StopId("city2", "first"), 
+				new StopId("city2", "Second"))));
+		vDao.deleteAllById(new ArrayList<>(Arrays.asList(
+				"AA-001", "AA-002", "AA-003", "AA-004", "MX-01", "MX-02", "MX-03", "MX-04", "CB0001", "CB0002")));
 	}
 
 	@Test
@@ -127,6 +138,12 @@ class StopTest {
 				RtnCode.TEST5_ERROR.getMessage());
 		sDao.deleteById(new StopId("city1", "Third"));
 	}
+	
+	@Test
+	void showAllStopsTest() {
+		// 找尋成功
+		Assert.isTrue(sSer.showAllStops().getStopList().size() == 4, RtnCode.TEST1_ERROR.getMessage());
+	}
 
 	@Test
 	void findCityStopsTest() {
@@ -140,6 +157,16 @@ class StopTest {
 		// 尋找成功
 		Assert.isTrue(sSer.findCityStops("city2").getMessage().equals(RtnCode.SUCCESS.getMessage()),
 				RtnCode.TEST4_ERROR.getMessage());
+	}
+	
+	@Test
+	void findStopsVehiclesTest() {
+		// 尋找失敗
+		Assert.isTrue(sSer.findStopsVehicles(null, "").getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
+				RtnCode.TEST1_ERROR.getMessage());
+		// 尋找成功
+		Assert.isTrue(sSer.findStopsVehicles("city2", "Second").getMessage().equals(RtnCode.SUCCESS.getMessage()),
+				RtnCode.TEST2_ERROR.getMessage());
 	}
 
 	@Test

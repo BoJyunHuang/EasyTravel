@@ -7,10 +7,18 @@ import com.example.EasyTravel.entity.Rent;
 
 public class RentResponse {
 
+	// 屬性
 	private String message;
 	private List<Rent> rentList;
 	private Map<String, Integer> statics;
 
+	/*
+	 * 建構方法:
+	 * 1.()
+	 * 2.(message)
+	 * 3.(rentList, message)
+	 * 4.(statics, message)
+	 */
 	public RentResponse() {
 		super();
 	}
@@ -32,6 +40,7 @@ public class RentResponse {
 		this.message = message;
 	}
 
+	// getters & setters
 	public String getMessage() {
 		return message;
 	}

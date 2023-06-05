@@ -2,6 +2,7 @@ package com.example.EasyTravel.vo;
 
 public class RentRequest {
 
+	// 屬性
 	private String account;
 	private String licensePlate;
 	private String city;
@@ -9,6 +10,7 @@ public class RentRequest {
 	private double odo;
 	private int month;
 
+	// getters & setters
 	public String getAccount() {
 		return account;
 	}

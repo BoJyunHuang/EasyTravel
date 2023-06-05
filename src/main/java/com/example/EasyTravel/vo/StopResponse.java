@@ -3,13 +3,24 @@ package com.example.EasyTravel.vo;
 import java.util.List;
 
 import com.example.EasyTravel.entity.Stop;
+import com.example.EasyTravel.entity.Vehicle;
 
 public class StopResponse {
 
+	// 屬性
 	private String message;
 	private Stop stop;
 	private List<Stop> stopList;
+	private List<Vehicle> vehicleList;
 
+	/*
+	 * 建構方法
+	 * 1.()
+	 * 2.(message)
+	 * 3.(stop, message)
+	 * 4.(stopList, message)
+	 * 5.(stop, vehicleList, message)
+	 */
 	public StopResponse() {
 		super();
 	}
@@ -30,7 +41,15 @@ public class StopResponse {
 		this.stopList = stopList;
 		this.message = message;
 	}
+	
+	public StopResponse(Stop stop, List<Vehicle> vehicleList, String message) {
+		super();
+		this.stop = stop;
+		this.vehicleList = vehicleList;
+		this.message = message;
+	}
 
+	// getters & setters
 	public String getMessage() {
 		return message;
 	}
@@ -53,6 +72,14 @@ public class StopResponse {
 
 	public void setStopList(List<Stop> stopList) {
 		this.stopList = stopList;
+	}
+
+	public List<Vehicle> getVehicleList() {
+		return vehicleList;
+	}
+
+	public void setVehicleList(List<Vehicle> vehicleList) {
+		this.vehicleList = vehicleList;
 	}
 
 }
