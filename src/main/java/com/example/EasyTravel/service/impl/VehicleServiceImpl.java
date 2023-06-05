@@ -23,43 +23,44 @@ public class VehicleServiceImpl implements VehicleService {
 	@Autowired
 	private VehicleDao vehicleDao;
 
+//	新增車輛方法
 	@Override
-	public VehicleResponse addCar(VehicleRequest vehicleRequest) {
+	public VehicleResponse addCar(String licensePlate, String category, int cc, int price) {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 //		判斷 > 車輛類別 & cc引擎汽缸大小
-		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())
-				|| !StringUtils.hasText(vehicleRequest.getCategory())) {
+		if (!StringUtils.hasText(licensePlate)
+				|| !StringUtils.hasText(category)) {
 			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
-		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
+		Optional<Vehicle> op = vehicleDao.findById(licensePlate);
 		if (op.isPresent()) {
 			return new VehicleResponse(RtnCode.ALREADY_EXISTED.getMessage());
 		}
-		switch (vehicleRequest.getCategory()) {
+		switch (category) {
 		// bike > 0
 		case "bike":
-			if (vehicleRequest.getCc() != 0) {
+			if (cc != 0) {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 //			如果沒有break, 判斷false會一直進到下一個case
 			break;
 		// scooter > 1~250
 		case "scooter":
-			if (vehicleRequest.getCc() < 1 || vehicleRequest.getCc() >= 250) {
+			if (cc < 1 || cc >= 250) {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		// motorcycle > 251~550
 		case "motorcycle":
-			if (vehicleRequest.getCc() < 251 || vehicleRequest.getCc() >= 550) {
+			if (cc < 251 || cc >= 550) {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
 		// heavy motorcycle > 550~
 		case "heavy motorcycle":
-			if (vehicleRequest.getCc() < 550) {
+			if (cc < 550) {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
@@ -68,7 +69,7 @@ public class VehicleServiceImpl implements VehicleService {
 		case "sedan":
 		case "ven":
 		case "suv":
-			if (vehicleRequest.getCc() <= 1200 || vehicleRequest.getCc() >= 6600) {
+			if (cc <= 1200 || cc >= 6600) {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
 			break;
@@ -77,82 +78,60 @@ public class VehicleServiceImpl implements VehicleService {
 			return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 		}
 
-//		起始服役日
-		vehicleRequest.setStartServingDate(LocalDate.now());
-//		最新檢查日(=起始服役日)
-		vehicleRequest.setLatestCheckDate(LocalDate.now());
-
 //		價格
-		if (vehicleRequest.getPrice() < 1) {
+		if (price < 1) {
 			return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 		}
 
-		Vehicle saveVehicle = new Vehicle(vehicleRequest.getLicensePlate(), vehicleRequest.getCategory(),
-				vehicleRequest.getCc(),vehicleRequest.getPrice());
-		vehicleDao.save(saveVehicle);
-		return new VehicleResponse(saveVehicle, RtnCode.SUCCESS.getMessage());
+		Vehicle saveVehicle = new Vehicle(licensePlate, category, cc, price);
+		return new VehicleResponse(vehicleDao.save(saveVehicle), RtnCode.SUCCESS.getMessage());
 	}
 
+//	修改資訊方法
 	@Override
-	public VehicleResponse updateCarInfo(VehicleRequest vehicleRequest) {
+	public VehicleResponse updateCarInfo(String licensePlate, double odo, boolean available) {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
-		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
+		if (!StringUtils.hasText(licensePlate)) {
 			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
-		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
+		Optional<Vehicle> op = vehicleDao.findById(licensePlate);
 		if (!op.isPresent()) {
 			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 
 //		加總新總里程數
-		if (vehicleRequest.getOdo() < 0) {
+		if (odo < 0) {
 			return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 		}
 		double oldOdo = op.get().getOdo();
 		double newOdo = 0.0;
-		newOdo = oldOdo + vehicleRequest.getOdo();
+		newOdo = oldOdo + odo;
 
 //		設定新vehicle接op內的東西 > 新可使用狀態&新總里程數蓋過舊資料 > 存進資料庫
 		Vehicle updateVehicle = op.get();
-		updateVehicle.updateVehicleEntity(vehicleRequest.isAvailable(), newOdo);
+		updateVehicle.updateVehicleEntity(available, newOdo);
 		vehicleDao.save(updateVehicle);
 		return new VehicleResponse(updateVehicle, RtnCode.SUCCESS.getMessage());
 	}
 
-	@Override
-	public VehicleResponse maintenanceCar(VehicleRequest vehicleRequest) {
-//		判斷 > 車牌號碼
-//		是否輸入車牌號碼
-		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
-			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
-		}
-//		車輛是否存在
-		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
-		if (!op.isPresent()) {
-			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
-		}
-
-//		欲檢修車輛之可租用狀態 > 設定為false
-
-		return null;
-	}
-
+//	報廢車輛
 //	腳踏車7年、機車10年或12W公里、汽車15年或60W公里
 	@Override
-	public VehicleResponse scrapCar(VehicleRequest vehicleRequest) {
+	public VehicleResponse scrapCar(String licensePlate) {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
-		if (!StringUtils.hasText(vehicleRequest.getLicensePlate())) {
+		if (!StringUtils.hasText(licensePlate)) {
 			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
-		Optional<Vehicle> op = vehicleDao.findById(vehicleRequest.getLicensePlate());
+		Optional<Vehicle> op = vehicleDao.findById(licensePlate);
 		if (!op.isPresent()) {
 			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 
+//		與檢查日相比
 		LocalDate today = LocalDate.now();
 		LocalDate startServingDate = op.get().getStartServingDate();
 //		判斷車種
@@ -191,19 +170,20 @@ public class VehicleServiceImpl implements VehicleService {
 		return new VehicleResponse(scrapCar, RtnCode.SUCCESS.getMessage());
 	}
 
+//	用車種找車
 	@Override
-	public VehicleResponse findCarByCategory(VehicleRequest vehicleRequest) {
+	public VehicleResponse findCarByCategory(String category) {
 //		檢查有無輸入車種
-		if (!StringUtils.hasText(vehicleRequest.getCategory())) {
+		if (!StringUtils.hasText(category)) {
 			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 		List<Vehicle> carList = new ArrayList<Vehicle>();
-		List<String> category = Arrays.asList("bike", "scooter", "motorcycle", "heavy motorcycle", "sedan", "ven",
+		List<String> categoryList = Arrays.asList("bike", "scooter", "motorcycle", "heavy motorcycle", "sedan", "ven",
 				"suv");
-		if (!category.contains(vehicleRequest.getCategory())) {
+		if (!categoryList.contains(category)) {
 			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
-		carList.addAll(vehicleDao.findAllByCategoryOrderByAvailableDesc(vehicleRequest.getCategory()));
+		carList.addAll(vehicleDao.findAllByCategoryOrderByAvailableDesc(category));
 		return new VehicleResponse(carList, RtnCode.SUCCESS.getMessage());
 	}
 

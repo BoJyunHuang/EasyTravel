@@ -27,6 +27,5 @@ public class UserInfoController {
 	public UserInfoResponse userActive(@RequestBody UserInfoRequest request) {
 		// 連結內部
 		return userInfoService.userActive(request);
-
 	}
 }

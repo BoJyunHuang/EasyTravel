@@ -24,15 +24,15 @@ public class Vehicle {
 	@Column(name = "cc")
 	private int cc;
 	
-//	起始服役日
+//	起始服役, 初始為建立當日
 	@Column(name = "start_serving_date")
 	private LocalDate startServingDate = LocalDate.now();
 	
-//	最新檢查日
+//	最新檢查日, 初始為建立當日
 	@Column(name = "latest_check_date")
 	private LocalDate latestCheckDate = LocalDate.now();
 	
-//	可租借狀態
+//	可租借狀態, 初始為false
 	@Column(name = "available")
 	private boolean available = false;
 	
@@ -44,7 +44,7 @@ public class Vehicle {
 	@Column(name = "location")
 	private String location;
 	
-//	總里程
+//	總里程, 初始為0
 	@Column(name = "odo")
 	private double odo = 0;
 	
