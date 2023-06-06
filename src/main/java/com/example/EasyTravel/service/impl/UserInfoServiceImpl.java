@@ -54,9 +54,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 			return new UserInfoResponse(RtnCode.INCORRECT.getMessage());
 		}
 
-		UserInfo userInfo = new UserInfo(request.getAccount(), request.getPassword(), request.getName(),
-				request.getBirthday(), false, LocalDateTime.now());
-		userInfoDao.save(userInfo);
+//		UserInfo userInfo = new UserInfo();
+		userInfoDao.addBySql(request.getAccount(), request.getPassword(), request.getName(),
+				request.getBirthday(),  LocalDateTime.now());
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 

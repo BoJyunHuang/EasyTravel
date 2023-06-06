@@ -1,15 +1,25 @@
 package com.example.EasyTravel;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 //import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
+import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.controller.UserInfoController;
+import com.example.EasyTravel.entity.Finance;
+import com.example.EasyTravel.entity.UserInfo;
+import com.example.EasyTravel.repository.UserInfoDao;
 import com.example.EasyTravel.service.ifs.UserInfoService;
 import com.example.EasyTravel.vo.UserInfoRequest;
 import com.example.EasyTravel.vo.UserInfoResponse;
@@ -20,7 +30,28 @@ import com.example.EasyTravel.vo.UserInfoResponse;
 public class UserInfoTest {
 
 	@Autowired
+	public UserInfoDao UDao;
+
+	@Autowired
 	public UserInfoService userInfoService;
+
+//	@BeforeAll
+//	private void BeforeAll() {
+//		// 建立假資料
+//		UDao.saveAll(new ArrayList<>(Arrays.asList(new Finance("test1", "d", 10, LocalDate.of(2023, 5, 20)),
+//				new Finance("test1", "c", 10, LocalDate.of(2023, 5, 20)),
+//				new Finance("test2", "d", 10, LocalDate.of(2023, 5, 20)),
+//				new Finance("test2", "d", 10, LocalDate.of(2023, 6, 20)),
+//				new Finance("test3", "a", 10, LocalDate.of(2023, 6, 20)))));
+//	}
+
+//	@AfterAll
+//	private void AfterAll() {
+//		// 自定義方法直接使用
+//		UDao.deleteReports("test1");
+//		UDao.deleteReports("test2");
+//		UDao.deleteReports("test3");
+//	}
 
 	@Test
 	public void userRegistrationTest1() {
@@ -185,6 +216,7 @@ public class UserInfoTest {
 		UserInfoResponse res = userInfoService.userInfoUpdate(request);
 		System.out.println(res.getMessage());
 	}
+
 	@Test
 	public void userInfoUpgradeVIPTest() {
 		UserInfoRequest request = new UserInfoRequest();
@@ -193,6 +225,7 @@ public class UserInfoTest {
 		UserInfoResponse res = userInfoService.userInfoUpgradeVIP(request);
 		System.out.println(res.getMessage());
 	}
+
 	@Test
 	public void userInfoQuitVIPTest() {
 		UserInfoRequest request = new UserInfoRequest();
@@ -202,4 +235,12 @@ public class UserInfoTest {
 		System.out.println(res.getMessage());
 	}
 
+//----------------------------------------
+	@Test
+	public void addBySql() {
+		// 防呆:帳號、密碼、名稱、生日不得為空
+		int sqlAdd = UDao.addBySql("a1234", "app", "name",LocalDate.now(), LocalDateTime.now());
+//		System.out.println(sqlAdd);
+		Assert.isTrue(sqlAdd == 1, RtnCode.TEST1_ERROR.getMessage());
+	}
 }
