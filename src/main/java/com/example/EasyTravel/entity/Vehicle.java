@@ -88,10 +88,10 @@ public class Vehicle {
 		this.odo = odo;
 	}
 	
-	
-	
+
 //	get / set -------------------------
 	
+
 	public String getLicensePlate() {
 		return licensePlate;
 	}

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   `category` VARCHAR(20) NOT NULL,
   `cc` INT NOT NULL DEFAULT 0,
   `start_serving_date` DATE NOT NULL,
-  `latest_check_date` DATE NOT NULL,
+  `latest_check_date` DATE NULL,
   `available` TINYINT NOT NULL DEFAULT 0,
   `city` VARCHAR(20) NULL,
   `location` VARCHAR(20) NULL,
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   CREATE TABLE IF NOT EXISTS `easy_travel`.`maintenance` (
   `serial_number` INT NOT NULL AUTO_INCREMENT,
   `license_plate` VARCHAR(20) NOT NULL,
-  `price` INT NULL,
+  `price` INT NULL DEFAULT 0,
   `start_time` DATETIME NULL,
   `end_time` DATETIME NULL,
   `note` VARCHAR(45) NULL,
