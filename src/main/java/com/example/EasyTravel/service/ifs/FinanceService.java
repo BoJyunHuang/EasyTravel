@@ -1,13 +1,11 @@
 package com.example.EasyTravel.service.ifs;
 
-import java.time.LocalDate;
-
 import com.example.EasyTravel.vo.FinanceResponse;
 
 public interface FinanceService {
 
 	// 建立明細
-	public FinanceResponse addReport(String title, String detail, int price, LocalDate buildDate);
+	public FinanceResponse addReport(String title, String detail, int price);
 	
 	// 查詢同title的資訊
 	public FinanceResponse findTitle(String title, int month);

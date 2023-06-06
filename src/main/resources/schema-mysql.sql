@@ -46,22 +46,25 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   `title` VARCHAR(20) NOT NULL,
   `detail` VARCHAR(20) NOT NULL,
   `price` INT NULL,
-  `build_date` DATE NULL,
+  `build_time` DATETIME NULL,
   PRIMARY KEY (`serial_number`));
   
   CREATE TABLE IF NOT EXISTS `easy_travel`.`rent` (
   `serial_number` INT NOT NULL AUTO_INCREMENT,
   `account` VARCHAR(20) NOT NULL,
   `license_plate` VARCHAR(20) NOT NULL,
+  `city` VARCHAR(20) NULL,
+  `location` VARCHAR(20) NULL,
   `now_time` DATETIME NULL,
-  `miles` DOUBLE NULL,
+  `rent` TINYINT NULL DEFAULT 0,
+  `price` INT NULL,
   PRIMARY KEY (`serial_number`));
   
   CREATE TABLE IF NOT EXISTS `easy_travel`.`stop` (
   `city` VARCHAR(20) NOT NULL,
   `location` VARCHAR(20) NOT NULL,
-  `bike_limit` INT NULL,
-  `motorcycle_limit` INT NULL,
-  `car_limit` INT NULL,
+  `bike_amount` INT NULL,
+  `motorcycle_amount` INT NULL,
+  `car_amount` INT NULL,
   PRIMARY KEY (`city`, `location`));
 

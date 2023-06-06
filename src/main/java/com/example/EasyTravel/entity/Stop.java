@@ -11,36 +11,47 @@ import javax.persistence.Table;
 @IdClass(value = StopId.class)
 public class Stop {
 	
+	// 城市
 	@Id
 	@Column(name = "city")
 	private String city;
 	
+	// 站點
 	@Id
 	@Column(name = "location")
 	private String location;
 	
-	@Column(name = "bike_limit")
-	private int bikeLimit;
+	// 腳踏車存量
+	@Column(name = "bike_amount")
+	private int bikeAmount;
 	
-	@Column(name = "motorcycle_limit")
-	private int motorcycleLimit;
+	// 機車存量
+	@Column(name = "motorcycle_amount")
+	private int motorcycleAmount;
 	
-	@Column(name = "car_limit")
-	private int carLimit;
+	// 汽車存量
+	@Column(name = "car_amount")
+	private int carAmount;
 
+	/*
+	 * 建構方法
+	 * 1.()
+	 * 2.(city, location, bikeAmount, motorcycleAmount, carAmount)
+	 */
 	public Stop() {
 		super();
 	}
 
-	public Stop(String city, String location, int bikeLimit, int motorcycleLimit, int carLimit) {
+	public Stop(String city, String location, int bikeAmount, int motorcycleAmount, int carAmount) {
 		super();
 		this.city = city;
 		this.location = location;
-		this.bikeLimit = bikeLimit;
-		this.motorcycleLimit = motorcycleLimit;
-		this.carLimit = carLimit;
+		this.bikeAmount = bikeAmount;
+		this.motorcycleAmount = motorcycleAmount;
+		this.carAmount = carAmount;
 	}
 
+	// getters & setters
 	public String getCity() {
 		return city;
 	}
@@ -57,28 +68,28 @@ public class Stop {
 		this.location = location;
 	}
 
-	public int getBikeLimit() {
-		return bikeLimit;
+	public int getBikeAmount() {
+		return bikeAmount;
 	}
 
-	public void setBikeLimit(int bikeLimit) {
-		this.bikeLimit = bikeLimit;
+	public void setBikeAmount(int bikeAmount) {
+		this.bikeAmount = bikeAmount;
 	}
 
-	public int getMotorcycleLimit() {
-		return motorcycleLimit;
+	public int getMotorcycleAmount() {
+		return motorcycleAmount;
 	}
 
-	public void setMotorcycleLimit(int motorcycleLimit) {
-		this.motorcycleLimit = motorcycleLimit;
+	public void setMotorcycleAmount(int motorcycleAmount) {
+		this.motorcycleAmount = motorcycleAmount;
 	}
 
-	public int getCarLimit() {
-		return carLimit;
+	public int getCarAmount() {
+		return carAmount;
 	}
 
-	public void setCarLimit(int carLimit) {
-		this.carLimit = carLimit;
+	public void setCarAmount(int carAmount) {
+		this.carAmount = carAmount;
 	}
 
 }

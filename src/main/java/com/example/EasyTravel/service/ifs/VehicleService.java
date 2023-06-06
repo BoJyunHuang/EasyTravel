@@ -1,6 +1,5 @@
 package com.example.EasyTravel.service.ifs;
 
-import com.example.EasyTravel.vo.VehicleRequest;
 import com.example.EasyTravel.vo.VehicleResponse;
 
 public interface VehicleService {

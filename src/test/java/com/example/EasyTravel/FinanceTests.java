@@ -1,6 +1,6 @@
 package com.example.EasyTravel;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -30,11 +30,12 @@ public class FinanceTests {
 	@BeforeAll
 	private void BeforeAll() {
 		// 建立假資料
-		fDao.saveAll(new ArrayList<>(Arrays.asList(new Finance("test1", "d", 10, LocalDate.of(2023, 5, 20)),
-				new Finance("test1", "c", 10, LocalDate.of(2023, 5, 20)),
-				new Finance("test2", "d", 10, LocalDate.of(2023, 5, 20)),
-				new Finance("test2", "d", 10, LocalDate.of(2023, 6, 20)),
-				new Finance("test3", "a", 10, LocalDate.of(2023, 6, 20)))));
+		fDao.saveAll(
+				new ArrayList<>(Arrays.asList(new Finance("test1", "d", 10, LocalDateTime.of(2023, 5, 20, 0, 0, 0)),
+						new Finance("test1", "c", 10, LocalDateTime.of(2023, 5, 20, 0, 0, 0)),
+						new Finance("test2", "d", 10, LocalDateTime.of(2023, 5, 20, 0, 0, 0)),
+						new Finance("test2", "d", 10, LocalDateTime.of(2023, 6, 20, 0, 0, 0)),
+						new Finance("test3", "a", 10, LocalDateTime.of(2023, 6, 20, 0, 0, 0)))));
 	}
 
 	@AfterAll
@@ -48,10 +49,10 @@ public class FinanceTests {
 	@Test
 	void insertReportTest() {
 		// 新增失敗
-		Assert.isTrue(fDao.insertReport("test1", "d", 10, LocalDate.of(2023, 5, 20)) == 0,
+		Assert.isTrue(fDao.insertReport("test1", "d", 10, LocalDateTime.of(2023, 5, 20, 0, 0, 0)) == 0,
 				RtnCode.TEST1_ERROR.getMessage());
 		// 新稱成功
-		Assert.isTrue(fDao.insertReport("test1", "x", 10, LocalDate.of(2023, 8, 20)) == 1,
+		Assert.isTrue(fDao.insertReport("test1", "x", 10, LocalDateTime.of(2023, 8, 20, 0, 0, 0)) == 1,
 				RtnCode.TEST2_ERROR.getMessage());
 	}
 
@@ -88,20 +89,18 @@ public class FinanceTests {
 	@Test
 	void addReportTest() {
 		// 輸入為空
-		Assert.isTrue(fSer.addReport(null, "d", 10, LocalDate.of(2023, 5, 20)).getMessage()
-				.equals(RtnCode.INCORRECT.getMessage()), RtnCode.TEST1_ERROR.getMessage());
-		Assert.isTrue(fSer.addReport("test1", "", 10, LocalDate.of(2023, 5, 20)).getMessage()
-				.equals(RtnCode.INCORRECT.getMessage()), RtnCode.TEST2_ERROR.getMessage());
-		Assert.isTrue(fSer.addReport("test1", "d", -10, LocalDate.of(2023, 5, 20)).getMessage()
-				.equals(RtnCode.INCORRECT.getMessage()), RtnCode.TEST3_ERROR.getMessage());
-		Assert.isTrue(fSer.addReport("test1", "d", 10, null).getMessage().equals(RtnCode.INCORRECT.getMessage()),
-				RtnCode.TEST4_ERROR.getMessage());
+		Assert.isTrue(fSer.addReport(null, "d", 10).getMessage().equals(RtnCode.INCORRECT.getMessage()),
+				RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(fSer.addReport("test1", "", 10).getMessage().equals(RtnCode.INCORRECT.getMessage()),
+				RtnCode.TEST2_ERROR.getMessage());
+		Assert.isTrue(fSer.addReport("test1", "d", -10).getMessage().equals(RtnCode.INCORRECT.getMessage()),
+				RtnCode.TEST3_ERROR.getMessage());
 		// 新增成功
-		Assert.isTrue(fSer.addReport("vip", "vip", 980, LocalDate.of(2023, 8, 20)).getMessage()
-				.equals(RtnCode.SUCCESSFUL.getMessage()), RtnCode.TEST5_ERROR.getMessage());
+		Assert.isTrue(fSer.addReport("vip", "vip", 980).getMessage().equals(RtnCode.SUCCESSFUL.getMessage()),
+				RtnCode.TEST5_ERROR.getMessage());
 		// 資料已存在
-		Assert.isTrue(fSer.addReport("vip", "vip", 980, LocalDate.of(2023, 8, 20)).getMessage()
-				.equals(RtnCode.ALREADY_EXISTED.getMessage()), RtnCode.TEST6_ERROR.getMessage());
+		Assert.isTrue(fSer.addReport("vip", "vip", 980).getMessage().equals(RtnCode.ALREADY_EXISTED.getMessage()),
+				RtnCode.TEST6_ERROR.getMessage());
 		fDao.deleteReports("vip");
 	}
 

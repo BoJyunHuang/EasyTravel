@@ -1,6 +1,6 @@
 package com.example.EasyTravel.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,35 +13,46 @@ import javax.persistence.Table;
 @Table(name = "finance")
 public class Finance {
 
+	// 流水號
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "serial_number")
 	private Integer serialNumber;
 
+	// 主項目
 	@Column(name = "title")
 	private String title;
 
+	// 次項目
 	@Column(name = "detail")
 	private String detail;
 
+	// 金額
 	@Column(name = "price")
 	private int price;
 
-	@Column(name = "build_date")
-	private LocalDate buildDate;
+	// 建立日期
+	@Column(name = "build_time")
+	private LocalDateTime buildTime = LocalDateTime.now();
 
+	/*
+	 * 建構方法
+	 * 1.()
+	 * 2.(title, detail, price, buildTime)
+	 */
 	public Finance() {
 		super();
 	}
 
-	public Finance(String title, String detail, int price, LocalDate buildDate) {
+	public Finance(String title, String detail, int price, LocalDateTime buildTime) {
 		super();
 		this.title = title;
 		this.detail = detail;
 		this.price = price;
-		this.buildDate = buildDate;
+		this.buildTime = buildTime;
 	}
 
+	// getters & setters
 	public String getTitle() {
 		return title;
 	}
@@ -66,12 +77,12 @@ public class Finance {
 		this.price = price;
 	}
 
-	public LocalDate getBuildDate() {
-		return buildDate;
+	public LocalDateTime getBuildTime() {
+		return buildTime;
 	}
 
-	public void setBuildDate(LocalDate buildDate) {
-		this.buildDate = buildDate;
+	public void setBuildTime(LocalDateTime buildTime) {
+		this.buildTime = buildTime;
 	}
 
 }

@@ -1,19 +1,21 @@
 package com.example.EasyTravel.vo;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.EasyTravel.entity.Vehicle;
 
 public class FeeRequest {
 
+	// 屬性
 	private String project;
-	private int cc;
-	private double rate;
-	private int interval;
-	private int total;
-	@JsonProperty("total_time")
-	private LocalDateTime totalTime;
-	
+	private Integer cc;
+	private Double rate;
+	private Integer threshold;
+	private Vehicle vehicle;
+	private boolean isVip;
+	private Duration period;
+
+	// getters & setters
 	public String getProject() {
 		return project;
 	}
@@ -22,44 +24,52 @@ public class FeeRequest {
 		this.project = project;
 	}
 
-	public int getCc() {
+	public Integer getCc() {
 		return cc;
 	}
 
-	public void setCc(int cc) {
+	public void setCc(Integer cc) {
 		this.cc = cc;
 	}
 
-	public double getRate() {
+	public Double getRate() {
 		return rate;
 	}
 
-	public void setRate(double rate) {
+	public void setRate(Double rate) {
 		this.rate = rate;
 	}
 
-	public int getInterval() {
-		return interval;
+	public Integer getThreshold() {
+		return threshold;
 	}
 
-	public void setInterval(int interval) {
-		this.interval = interval;
+	public void setThreshold(Integer threshold) {
+		this.threshold = threshold;
 	}
 
-	public int getTotal() {
-		return total;
+	public Vehicle getVehicle() {
+		return vehicle;
 	}
 
-	public void setTotal(int total) {
-		this.total = total;
+	public void setVehicle(Vehicle vehicle) {
+		this.vehicle = vehicle;
 	}
 
-	public LocalDateTime getTotalTime() {
-		return totalTime;
+	public boolean isVip() {
+		return isVip;
 	}
 
-	public void setTotalTime(LocalDateTime totalTime) {
-		this.totalTime = totalTime;
+	public void setVip(boolean isVip) {
+		this.isVip = isVip;
+	}
+
+	public Duration getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Duration period) {
+		this.period = period;
 	}
 
 }

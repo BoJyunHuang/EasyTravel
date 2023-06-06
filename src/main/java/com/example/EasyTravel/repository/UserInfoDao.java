@@ -19,7 +19,6 @@ public interface UserInfoDao extends JpaRepository<UserInfo, String> {
 
 	public UserInfo findByAccountAndVip(String account, boolean VIP);
 
-//	------------------------------------
 	// 新增資料
 	@Transactional
 	@Modifying
@@ -27,5 +26,11 @@ public interface UserInfoDao extends JpaRepository<UserInfo, String> {
 	public int addBySql(@Param("account") String account, @Param("password") String password,
 			@Param("name") String name, @Param("birthday") LocalDate birthday, @Param("regTime") LocalDateTime regtime);
 
-
+	/*
+	 * 取得帳號、駕照及vip資訊
+	 */
+	@Query("select new UserInfo(u.account, u.motorcycleLicense, u.drivingLicense, u.vip) from UserInfo u "
+			+ "where u.account = :account and u.active = true")
+	public UserInfo checkAccount(
+			@Param("account") String account);
 }

@@ -1,6 +1,7 @@
 package com.example.EasyTravel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import com.example.EasyTravel.service.ifs.FinanceService;
 import com.example.EasyTravel.vo.FinanceRequest;
 import com.example.EasyTravel.vo.FinanceResponse;
 
+@CrossOrigin
 @RestController
 public class FinanceController {
 
@@ -18,8 +20,7 @@ public class FinanceController {
 
 	@PostMapping(value = "add_report")
 	public FinanceResponse addReport(@RequestBody FinanceRequest request) {
-		return financeService.addReport(request.getTitle(), request.getDetail(), request.getPrice(),
-				request.getBuildDate());
+		return financeService.addReport(request.getTitle(), request.getDetail(), request.getPrice());
 	}
 
 	@GetMapping(value = "find_title")

@@ -1,5 +1,8 @@
 package com.example.EasyTravel.service.ifs;
 
+import java.time.Duration;
+
+import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.vo.FeeResponse;
 
 public interface FeeService {
@@ -8,11 +11,11 @@ public interface FeeService {
 	public FeeResponse addProject(String project, int cc, double rate, int threshold);
 
 	// 刪除費率資料
-	public FeeResponse deleteProject(String project, int cc, double rate);
+	public FeeResponse deleteProject(String project, Integer cc, Double rate);
 
 	// 尋找交通工具費率
-	public FeeResponse findProjects(String project,int cc);
+	public FeeResponse findProjects(String project,Integer cc);
 
 	// 計算費率
-	public FeeResponse calculate(String project, int cc, int period);
+	public FeeResponse calculate(Vehicle vehicle, boolean isVip, Duration period);
 }

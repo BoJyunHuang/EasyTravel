@@ -2,8 +2,6 @@ package com.example.EasyTravel.service.ifs;
 
 import java.time.LocalDateTime;
 
-
-
 import com.example.EasyTravel.vo.MaintenanceResponse;
 
 public interface MaintenanceService {

@@ -14,7 +14,6 @@ import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.repository.VehicleDao;
 import com.example.EasyTravel.service.ifs.VehicleService;
-import com.example.EasyTravel.vo.VehicleRequest;
 import com.example.EasyTravel.vo.VehicleResponse;
 
 @Service

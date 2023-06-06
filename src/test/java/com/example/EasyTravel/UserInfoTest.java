@@ -7,51 +7,49 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 //import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 import com.example.EasyTravel.constants.RtnCode;
-import com.example.EasyTravel.controller.UserInfoController;
-import com.example.EasyTravel.entity.Finance;
 import com.example.EasyTravel.entity.UserInfo;
 import com.example.EasyTravel.repository.UserInfoDao;
 import com.example.EasyTravel.service.ifs.UserInfoService;
 import com.example.EasyTravel.vo.UserInfoRequest;
 import com.example.EasyTravel.vo.UserInfoResponse;
 
-//@SpringBootTest(classes = EasyTravelApplication.class)
-//@SpringBootTest(classes = EasyTravelApplicationTests.class)
 @SpringBootTest(classes = EasyTravelApplication.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserInfoTest {
 
 	@Autowired
-	public UserInfoDao UDao;
+	public UserInfoDao uDao;
 
 	@Autowired
 	public UserInfoService userInfoService;
 
-//	@BeforeAll
-//	private void BeforeAll() {
-//		// 建立假資料
-//		UDao.saveAll(new ArrayList<>(Arrays.asList(new Finance("test1", "d", 10, LocalDate.of(2023, 5, 20)),
-//				new Finance("test1", "c", 10, LocalDate.of(2023, 5, 20)),
-//				new Finance("test2", "d", 10, LocalDate.of(2023, 5, 20)),
-//				new Finance("test2", "d", 10, LocalDate.of(2023, 6, 20)),
-//				new Finance("test3", "a", 10, LocalDate.of(2023, 6, 20)))));
-//	}
+	@BeforeEach
+	private void BeforeEach() {
+		// 建立假資料
+		uDao.saveAll(new ArrayList<>(Arrays.asList(
+				new UserInfo("account1", "pwd1", "name1", LocalDate.of(2023, 6, 1), false, LocalDateTime.now(), false,
+						false, false, null),
+				new UserInfo("account2", "pwd2", "name2", LocalDate.of(2023, 6, 1), true, LocalDateTime.now(), false,
+						false, false, null),
+				new UserInfo("account3", "pwd3", "name3", LocalDate.of(2023, 6, 1), true, LocalDateTime.now(), true,
+						true, false, null))));
+	}
 
-//	@AfterAll
-//	private void AfterAll() {
-//		// 自定義方法直接使用
-//		UDao.deleteReports("test1");
-//		UDao.deleteReports("test2");
-//		UDao.deleteReports("test3");
-//	}
+	@AfterAll
+	private void AfterAll() {
+		// 刪除假資料
+		uDao.deleteAllById(new ArrayList<>(Arrays.asList("account1", "account2", "account3")));
+	}
 
 	@Test
 	public void userRegistrationTest1() {
@@ -163,7 +161,6 @@ public class UserInfoTest {
 
 		UserInfoResponse res = userInfoService.userActive(request);
 		System.out.println(res.getMessage());
-
 	}
 
 	@Test
@@ -172,12 +169,22 @@ public class UserInfoTest {
 		// 防呆:帳密不得為空或null
 		request.setAccount("");
 		request.setPassword("123456789");
-
+		
 		UserInfoResponse res = userInfoService.userLogin(request);
 		System.out.println(res.getMessage());
-
 	}
 
+	@Test
+	public void checkAccountTest() {
+		// 查詢失敗
+		Assert.isTrue(uDao.checkAccount(null) == null, RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(uDao.checkAccount("") == null, RtnCode.TEST2_ERROR.getMessage());
+		Assert.isTrue(uDao.checkAccount("account1") == null, RtnCode.TEST3_ERROR.getMessage());
+		// 查詢成功
+		Assert.isTrue(!uDao.checkAccount("account2").isDrivingLicense(), RtnCode.TEST4_ERROR.getMessage());
+		Assert.isTrue(uDao.checkAccount("account3").isMotorcycleLicense(), RtnCode.TEST5_ERROR.getMessage());
+	}
+		
 	@Test
 	public void userLoginTest2() {
 		UserInfoRequest request = new UserInfoRequest();
@@ -239,7 +246,7 @@ public class UserInfoTest {
 	@Test
 	public void addBySql() {
 		// 防呆:帳號、密碼、名稱、生日不得為空
-		int sqlAdd = UDao.addBySql("a1234", "app", "name",LocalDate.now(), LocalDateTime.now());
+		int sqlAdd = uDao.addBySql("a1234", "app", "name",LocalDate.now(), LocalDateTime.now());
 //		System.out.println(sqlAdd);
 		Assert.isTrue(sqlAdd == 1, RtnCode.TEST1_ERROR.getMessage());
 	}
