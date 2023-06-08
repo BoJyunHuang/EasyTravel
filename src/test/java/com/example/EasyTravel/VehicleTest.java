@@ -155,5 +155,6 @@ public class VehicleTest {
 		Assert.isTrue(vDao.searchVehicleCategory(new ArrayList<>(Arrays.asList("MX-04", "MX-05"))).size() == 1,
 				RtnCode.TEST4_ERROR.getMessage());
 	}
+	
 
 }
