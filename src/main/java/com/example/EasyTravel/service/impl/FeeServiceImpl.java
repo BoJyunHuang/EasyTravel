@@ -209,4 +209,17 @@ public class FeeServiceImpl implements FeeService {
 		return new FeeResponse((int) Math.round(total), RtnCode.SUCCESS.getMessage());
 	}
 
+	/*
+	 * 顯示所有費率方案
+	 * 輸入參數: 無
+	 */
+	@Override
+	public FeeResponse showAllFees() {
+		/*
+		 * 回傳資料
+		 * ->回傳"成功"並執行findAll()回傳所有資料
+		 */
+		return new FeeResponse(feeDao.findAll(), RtnCode.SUCCESS.getMessage());
+	}
+
 }

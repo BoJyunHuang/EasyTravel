@@ -19,4 +19,7 @@ public interface FinanceService {
 	// 月支出收入比例
 	public FinanceResponse monthlyRatio(int month);
 	
+	// 顯示全部明細
+	public FinanceResponse showAllReport();
+	
 }

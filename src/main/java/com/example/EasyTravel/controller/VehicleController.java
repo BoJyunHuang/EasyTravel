@@ -20,29 +20,39 @@ public class VehicleController {
 
 	@PostMapping(value = "add_car")
 	public VehicleResponse addCar(@RequestBody VehicleRequest vehicleReq) {
-		return vehicleService.addCar(vehicleReq.getLicensePlate(), vehicleReq.getCategory(), 
-				vehicleReq.getCc(), vehicleReq.getPrice());
+		return vehicleService.addCar(vehicleReq.getLicensePlate(), vehicleReq.getCategory(), vehicleReq.getCc(),
+				vehicleReq.getPrice());
 	}
-	
+
 	@PostMapping(value = "update_car_info")
 	public VehicleResponse updateCarInfo(@RequestBody VehicleRequest vehicleReq) {
-		return vehicleService.updateCarInfo(vehicleReq.getLicensePlate(), vehicleReq.getOdo(), 
+		return vehicleService.updateCarInfo(vehicleReq.getLicensePlate(), vehicleReq.getOdo(),
 				vehicleReq.isAvailable());
 	}
-	
+
 	@PostMapping(value = "scrap_car")
 	public VehicleResponse scrapCar(@RequestBody VehicleRequest vehicleReq) {
 		return vehicleService.scrapCar(vehicleReq.getLicensePlate());
 	}
-	
+
 	@PostMapping(value = "find_car_by_category")
 	public VehicleResponse findCarByCategory(@RequestBody VehicleRequest vehicleReq) {
 		return vehicleService.findCarByCategory(vehicleReq.getCategory());
 	}
-	
+
 	@GetMapping(value = "find_all_car")
 	public VehicleResponse findAllCar() {
 		return vehicleService.findAllCar();
+	}
+
+	@GetMapping(value = "find_car_near_scrap")
+	public VehicleResponse findCarNearScrap() {
+		return vehicleService.findCarNearScrap();
+	}
+
+	@GetMapping(value = "find_car_need_check")
+	public VehicleResponse findCarNeedCheck() {
+		return vehicleService.findCarNeedCheck();
 	}
 
 }

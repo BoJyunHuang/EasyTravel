@@ -18,5 +18,11 @@ public interface VehicleService {
 	
 //	找所有資訊
 	public VehicleResponse findAllCar();
+
+	//接近報廢車輛搜尋
+	public VehicleResponse findCarNearScrap();
+	
+	//年度未檢修車輛搜尋
+	public VehicleResponse findCarNeedCheck();
 	
 }

@@ -28,8 +28,7 @@ public class VehicleServiceImpl implements VehicleService {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 //		判斷 > 車輛類別 & cc引擎汽缸大小
-		if (!StringUtils.hasText(licensePlate)
-				|| !StringUtils.hasText(category)) {
+		if (!StringUtils.hasText(licensePlate) || !StringUtils.hasText(category)) {
 			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
 //		車輛是否存在
@@ -190,6 +189,16 @@ public class VehicleServiceImpl implements VehicleService {
 	public VehicleResponse findAllCar() {
 		List<Vehicle> carInfo = new ArrayList<Vehicle>(vehicleDao.findAll());
 		return new VehicleResponse(carInfo, RtnCode.SUCCESS.getMessage());
+	}
+
+	@Override
+	public VehicleResponse findCarNearScrap() {
+		return new VehicleResponse(vehicleDao.searchVehicleNearScrap(), RtnCode.SUCCESS.getMessage());
+	}
+
+	@Override
+	public VehicleResponse findCarNeedCheck() {
+		return new VehicleResponse(vehicleDao.searchVehicleNeedCheck(), RtnCode.SUCCESS.getMessage());
 	}
 
 }

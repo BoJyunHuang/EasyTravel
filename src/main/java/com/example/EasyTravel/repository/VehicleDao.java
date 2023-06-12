@@ -75,4 +75,23 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
 	public List<Vehicle> searchVehicleCategory(
 			@Param("vList") List<String> vehicleList);
 	
+	/*
+	 * 取得接近報廢年限的車輛
+	 */
+	@Query(value="select * from vehicle where "
+			+ "(category = 'bike' and start_serving_date <= DATE_SUB(CURRENT_DATE, INTERVAL 6 YEAR)) or "
+			+ "(category regexp 'scooter|motorcycle|heavy motorcycle' and "
+			+ "(start_serving_date <= DATE_SUB(CURRENT_DATE, INTERVAL 9 YEAR) or odo >= 119800)) or "
+			+ "(category regexp 'sedan|ven|suv' and "
+			+ "(start_serving_date <= DATE_SUB(CURRENT_DATE, INTERVAL 14 YEAR) OR odo >= 599000))", nativeQuery = true)
+	public List<Vehicle> searchVehicleNearScrap();
+	
+	/*
+	 * 取得年度未檢修的車輛
+	 */
+	@Query(value="select * from vehicle "
+			+ "where latest_check_date <= DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR))", nativeQuery = true)
+	public List<Vehicle> searchVehicleNeedCheck();
+	
+	
 }

@@ -18,4 +18,7 @@ public interface FeeService {
 
 	// 計算費率
 	public FeeResponse calculate(Vehicle vehicle, boolean isVip, Duration period);
+	
+	// 顯示全部
+	public FeeResponse showAllFees();
 }

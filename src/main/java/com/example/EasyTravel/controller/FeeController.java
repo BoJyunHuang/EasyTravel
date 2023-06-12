@@ -3,6 +3,7 @@ package com.example.EasyTravel.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,5 +37,10 @@ public class FeeController {
 	@PostMapping(value = "calculate")
 	public FeeResponse calculate(@RequestBody FeeRequest request) {
 		return feeService.calculate(request.getVehicle(), request.isVip(), request.getPeriod());
+	}
+	
+	@GetMapping(value = "show_all_fees")
+	public FeeResponse showAllFees() {
+		return feeService.showAllFees();
 	}
 }

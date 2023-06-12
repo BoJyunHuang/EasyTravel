@@ -23,25 +23,35 @@ public class StopController {
 		return stopService.addStop(request.getCity(), request.getLocation(), request.getBikeAmount(),
 				request.getMotorcycleAmount(), request.getCarAmount());
 	}
+	
+	@GetMapping(value = "show_all_stops")
+	public StopResponse showAllStops() {
+		return stopService.showAllStops();
+	}
 
-	@GetMapping(value = "find_city_stops")
+	@PostMapping(value = "find_city_stops")
 	public StopResponse findCityStops(@RequestBody StopRequest request) {
 		return stopService.findCityStops(request.getCity());
 	}
+	
+	@PostMapping(value = "find_stops_vehicles")
+	public StopResponse findStopsVehicles(@RequestBody StopRequest request) {
+		return stopService.findStopsVehicles(request.getCity(), request.getLocation());
+	}
 
-	@GetMapping(value = "renew_limit")
+	@PostMapping(value = "renew_limit")
 	public StopResponse renewLimit(@RequestBody StopRequest request) {
 		return stopService.renewLimit(request.getCity(), request.getLocation(), request.getBikeAmount(),
 				request.getMotorcycleAmount(), request.getCarAmount());
 	}
 
-	@GetMapping(value = "rent_or_return")
+	@PostMapping(value = "rent_or_return")
 	public StopResponse rentOrReturn(@RequestBody StopRequest request) {
 		return stopService.rentOrReturn(request.isRent(), request.getCategory(), request.getCity(),
 				request.getLocation());
 	}
 
-	@GetMapping(value = "dispatch")
+	@PostMapping(value = "dispatch")
 	public StopResponse dispatch(@RequestBody StopRequest request) {
 		return stopService.dispatch(request.getVehicleList(), request.getCity(), request.getLocation());
 	}
