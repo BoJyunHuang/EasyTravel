@@ -20,6 +20,12 @@ public interface MaintenanceService {
 
 	// 藉由保養開始日到結束日查詢期間所有單號
 	public MaintenanceResponse searchByStartTimeAndEndTime(LocalDateTime startTime, LocalDateTime endTime);
+	
+	//尋找未完成表單的前10筆	
+	public MaintenanceResponse findLatestTenUnfinishedAbnormal();
+	
+	//尋找全部已完成表單
+	public MaintenanceResponse findAllFinishedAbnormal();
 
 	
 

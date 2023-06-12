@@ -47,7 +47,7 @@ class MaintenanceTest {
 	@Test
 	// Dao方法新增測試
 	void insertInfoTest() {
-		int res = mDao.insertInfo("115", LocalDateTime.of(2022, 12, 8, 12, 1), Abnormal.E.getMessage());
+		int res = mDao.insertInfo("AZ-12345", LocalDateTime.of(2022, 12, 8, 12, 1), Abnormal.E.getMessage());
 		Assert.isTrue(res == 1, RtnCode.TEST1_ERROR.getMessage());
 
 	}
@@ -55,7 +55,7 @@ class MaintenanceTest {
 	@Test
 	// Dao方法更新測試
 	void updateInfoTest() {
-		int res = mDao.updateInfo("115", 1000, LocalDateTime.of(2022, 12, 10, 13, 6), Abnormal.A01.getMessage());
+		int res = mDao.updateInfo("AZ-12345", 1000, LocalDateTime.of(2022, 12, 10, 13, 6), Abnormal.A01.getMessage());
 		Assert.isTrue(res == 1, RtnCode.TEST1_ERROR.getMessage());
 	}
 
@@ -77,7 +77,7 @@ class MaintenanceTest {
 		Assert.isTrue(result.size() == 6, RtnCode.TEST1_ERROR.getMessage());
 
 	}
-	
+
 	@Test
 	// Dao方法用車牌查詢該車輛近5次維修紀錄測試
 	void findRecentMaintenanceByLicensePlateTEST() {
@@ -89,9 +89,27 @@ class MaintenanceTest {
 	}
 
 	@Test
+	// Dao方法直接找出前10筆未完成的單號
+	void FindLatestTenByNoteTest() {
+		List<Maintenance> result = mDao.findLatestTenByNote();
+
+		Assert.isTrue(result.size() == 1, RtnCode.TEST1_ERROR.getMessage());
+
+	}
+
+	@Test
+	// Dao方法直接找出所有已完成的單號
+	void findAllFinishedCasesByPrice() {
+		List<Maintenance> result = mDao.findAllFinishedCasesByPrice();
+
+		Assert.isTrue(result.size() == 2, RtnCode.TEST1_ERROR.getMessage());
+
+	}
+
+	@Test
 	// service完成新增單號方法測試
 	void addAbnormalTest() {
-		MaintenanceResponse response = mSer.AddAbnormal("555AZ-1");
+		MaintenanceResponse response = mSer.AddAbnormal("AZ-1234");
 		Assert.isTrue(response.getMessage().equals(RtnCode.SUCCESS.getMessage()),
 				"AddAbnormal test failed: " + response.getMessage());
 	}
@@ -99,7 +117,7 @@ class MaintenanceTest {
 	@Test
 	// service完成維修單號方法測試
 	void finishAbnormalTest() {
-		MaintenanceResponse response = mSer.finishAbnormal("555AZ-1", 70000, Abnormal.A01.getCode());
+		MaintenanceResponse response = mSer.finishAbnormal("AZ-1234", 70000, Abnormal.A01.getCode());
 		Assert.isTrue(response.getMessage().equals(RtnCode.SUCCESS.getMessage()),
 				"finishAbnormal test failed: " + response.getMessage());
 	}
@@ -129,6 +147,22 @@ class MaintenanceTest {
 		MaintenanceResponse response = mSer.searchByStartTimeAndEndTime(startTime, endTime);
 		Assert.isTrue(response.getMessage().equals(RtnCode.SUCCESS.getMessage()),
 				"searchByStartTimeAndEndTime test failed: " + response.getMessage());
+	}
+
+	@Test
+	// service以查詢最新10筆未完成單號方法測試
+	void findLatestTenUnfinishedAbnormalTest() {
+		MaintenanceResponse response = mSer.findLatestTenUnfinishedAbnormal();
+		Assert.isTrue(response.getMessage().equals(RtnCode.SUCCESS.getMessage()),
+				"searchByStartTimeAndEndTime test failed: " + response.getMessage());
+	}
+
+	@Test
+	// service以查詢所有已完成單號方法測試
+	void findAllFinishedAbnormalTest() {
+		MaintenanceResponse response = mSer.findAllFinishedAbnormal();
+		Assert.isTrue(response.getMessage().equals(RtnCode.SUCCESS.getMessage()),
+				"searchByPrice test failed: " + response.getMessage());
 	}
 
 }
