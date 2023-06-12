@@ -65,7 +65,7 @@ public class VehicleTest {
 
 	@Test
 	public void addCarTest() {
-		VehicleResponse res1 = vehicleService.addCar("AZ-1234", "", 0, 200);
+		VehicleResponse res1 = vehicleService.addCar("AZ-12345", "bike", 0, 200);
 		System.out.println(res1.getMessage());
 	}
 

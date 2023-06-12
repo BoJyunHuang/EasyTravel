@@ -1,6 +1,8 @@
 package com.example.EasyTravel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +11,7 @@ import com.example.EasyTravel.service.ifs.MaintenanceService;
 import com.example.EasyTravel.vo.MaintenanceRequest;
 import com.example.EasyTravel.vo.MaintenanceResponse;
 
+@CrossOrigin
 @RestController
 public class MaintenanceController {
 
@@ -30,13 +33,21 @@ public class MaintenanceController {
 		return maintenanceService.deleteAbnormal(request.getLicensePlate(), request.getStartTime());
 	}
 
-	@PostMapping(value = "searchBy_abnormal") 
+	@GetMapping(value = "searchBy_abnormal") 
 	public MaintenanceResponse searchByAbnormal(@RequestBody MaintenanceRequest request) {
 		return maintenanceService.searchByAbnormal(request.getLicensePlate());
 	}
 
-	@PostMapping(value = "search_by_start_time_and_end_time") 
+	@GetMapping(value = "search_by_start_time_and_end_time") 
 	public MaintenanceResponse searchByStartTimeAndEndTime(@RequestBody MaintenanceRequest request) {
 		return maintenanceService.searchByStartTimeAndEndTime(request.getStartTime(), request.getEndTime());
+	}
+	@GetMapping(value = "find_latest_ten_unfinished_abnormal") 
+	public MaintenanceResponse findLatestTenUnfinishedAbnormal() {
+		return maintenanceService.findLatestTenUnfinishedAbnormal();
+	}
+	@GetMapping(value = "find_all_finished_abnormal") 
+	public MaintenanceResponse findAllFinishedAbnormal() {
+		return maintenanceService.findAllFinishedAbnormal();
 	}
 }
