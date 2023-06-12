@@ -186,4 +186,10 @@ public class VehicleServiceImpl implements VehicleService {
 		return new VehicleResponse(carList, RtnCode.SUCCESS.getMessage());
 	}
 
+	@Override
+	public VehicleResponse findAllCar() {
+		List<Vehicle> carInfo = new ArrayList<Vehicle>(vehicleDao.findAll());
+		return new VehicleResponse(carInfo, RtnCode.SUCCESS.getMessage());
+	}
+
 }

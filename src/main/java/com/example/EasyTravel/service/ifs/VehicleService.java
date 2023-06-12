@@ -16,4 +16,7 @@ public interface VehicleService {
 //	車種找車輛
 	public VehicleResponse findCarByCategory(String category);
 	
+//	找所有資訊
+	public VehicleResponse findAllCar();
+	
 }
