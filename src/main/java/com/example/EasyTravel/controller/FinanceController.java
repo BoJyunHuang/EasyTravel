@@ -23,24 +23,29 @@ public class FinanceController {
 		return financeService.addReport(request.getTitle(), request.getDetail(), request.getPrice());
 	}
 
-	@GetMapping(value = "find_title")
+	@PostMapping(value = "find_title")
 	public FinanceResponse findTitle(@RequestBody FinanceRequest request) {
 		return financeService.findTitle(request.getTitle(), request.getMonth());
 	}
 
-	@GetMapping(value = "find_detail")
+	@PostMapping(value = "find_detail")
 	public FinanceResponse findDetail(@RequestBody FinanceRequest request) {
 		return financeService.findDetail(request.getDetail(), request.getMonth());
 	}
 
-	@GetMapping(value = "monthly_report")
+	@PostMapping(value = "monthly_report")
 	public FinanceResponse monthlyReport(@RequestBody FinanceRequest request) {
 		return financeService.monthlyReport(request.getMonth());
 	}
 
-	@GetMapping(value = "monthly_ratio")
+	@PostMapping(value = "monthly_ratio")
 	public FinanceResponse monthlyRatio(@RequestBody FinanceRequest request) {
 		return financeService.monthlyRatio(request.getMonth());
+	}
+	
+	@GetMapping(value = "show_all_report")
+	public FinanceResponse showAllReport() {
+		return financeService.showAllReport();
 	}
 
 }

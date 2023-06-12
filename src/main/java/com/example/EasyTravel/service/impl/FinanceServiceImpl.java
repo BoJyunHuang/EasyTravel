@@ -142,6 +142,19 @@ public class FinanceServiceImpl implements FinanceService {
 		return resList.size() == 0 ? new FinanceResponse(RtnCode.NOT_FOUND.getMessage())
 				: new FinanceResponse(organizeRatio(resList), RtnCode.SUCCESS.getMessage());
 	}
+	
+	/*
+	 * 顯示所有財務明細 
+	 * 輸入參數: 無
+	 */
+	@Override
+	public FinanceResponse showAllReport() {
+		/*
+		 * 回傳資料 
+		 * ->回傳"成功"並呼叫方法'findAll()'找尋所有資料
+		 */
+		return new FinanceResponse(financeDao.findAll(), RtnCode.SUCCESS.getMessage());
+	}
 
 	/*
 	 * 私有方法，資料整理 

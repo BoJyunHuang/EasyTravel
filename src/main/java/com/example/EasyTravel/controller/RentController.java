@@ -2,7 +2,6 @@ package com.example.EasyTravel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,12 +28,12 @@ public class RentController {
 				request.getLocation(), request.getOdo());
 	}
 
-	@GetMapping(value = "show_details")
+	@PostMapping(value = "show_details")
 	public RentResponse showDetails(@RequestBody RentRequest request) {
 		return rentService.showDetails(request.getAccount());
 	}
 
-	@GetMapping(value = "monly_rental_count")
+	@PostMapping(value = "monly_rental_count")
 	public RentResponse monlyRentalCount(@RequestBody RentRequest request) {
 		return rentService.monlyRentalCount(request.getMonth());
 	}

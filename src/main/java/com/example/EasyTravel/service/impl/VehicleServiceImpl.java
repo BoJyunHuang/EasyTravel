@@ -186,4 +186,14 @@ public class VehicleServiceImpl implements VehicleService {
 		return new VehicleResponse(carList, RtnCode.SUCCESS.getMessage());
 	}
 
+	@Override
+	public VehicleResponse findCarNearScrap() {
+		return new VehicleResponse(vehicleDao.searchVehicleNearScrap(), RtnCode.SUCCESS.getMessage());
+	}
+
+	@Override
+	public VehicleResponse findCarNeedCheck() {
+		return new VehicleResponse(vehicleDao.searchVehicleNeedCheck(), RtnCode.SUCCESS.getMessage());
+	}
+
 }

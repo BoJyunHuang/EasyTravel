@@ -16,4 +16,10 @@ public interface VehicleService {
 //	車種找車輛
 	public VehicleResponse findCarByCategory(String category);
 	
+	//接近報廢車輛搜尋
+	public VehicleResponse findCarNearScrap();
+	
+	//年度未檢修車輛搜尋
+	public VehicleResponse findCarNeedCheck();
+	
 }
