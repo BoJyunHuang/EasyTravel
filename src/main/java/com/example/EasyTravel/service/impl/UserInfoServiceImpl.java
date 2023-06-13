@@ -173,6 +173,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 //			VIP轉成TRUE
 		userInfo.setVip(false);
 		userInfo.setVipStartDate(null);
+		userInfoDao.save(userInfo);
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
