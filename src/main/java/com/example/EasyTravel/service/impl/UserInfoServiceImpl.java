@@ -55,8 +55,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 		}
 
 //		UserInfo userInfo = new UserInfo();
-		userInfoDao.addBySql(request.getAccount(), request.getPassword(), request.getName(),
-				request.getBirthday(),  LocalDateTime.now());
+		userInfoDao.addBySql(request.getAccount(), request.getPassword(), request.getName(), request.getBirthday(),
+				LocalDateTime.now());
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
@@ -89,8 +89,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (userInfo == null) {
 			return new UserInfoResponse(RtnCode.CANNOT_EMPTY.getMessage());
 		}
-
-		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
+//userinfo加上去20230611
+		return new UserInfoResponse(userInfo, RtnCode.SUCCESSFUL.getMessage());
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public UserInfoResponse userInfoUpgradeVIP(UserInfoRequest request) {
-		
+
 //		確認是否一次繳200元,財務的表需要連結嗎
 
 //		確認為一般會員
@@ -157,14 +157,15 @@ public class UserInfoServiceImpl implements UserInfoService {
 		vip.setVip(true);
 //		紀錄時間
 		vip.setVipStartDate(LocalDate.now());
-
+//		修改過0611
+		userInfoDao.save(vip);
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
 	@Override
 	public UserInfoResponse userInfoQuitVIP(UserInfoRequest request) {
 //		確認為VIP會員
-		UserInfo userInfo = userInfoDao.findByAccountAndVip(request.getAccount(),true);
+		UserInfo userInfo = userInfoDao.findByAccountAndVip(request.getAccount(), true);
 //		找不到會員
 		if (userInfo == null) {
 			return new UserInfoResponse(RtnCode.NOT_FOUND.getMessage());
@@ -174,6 +175,5 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfo.setVipStartDate(null);
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
-
 
 }

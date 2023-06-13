@@ -250,4 +250,5 @@ public class UserInfoTest {
 //		System.out.println(sqlAdd);
 		Assert.isTrue(sqlAdd == 1, RtnCode.TEST1_ERROR.getMessage());
 	}
+	
 }
