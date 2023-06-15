@@ -29,7 +29,7 @@ public interface MaintenanceDao extends JpaRepository<Maintenance, Integer> {
 	@Modifying
 	@Query(value = "update Maintenance set price = :price, end_time = :endTime, note = :note "
 			+ "where license_plate = :licensePlate", nativeQuery = true)
-	public int updateInfo(@Param("licensePlate") String licensePlate, @Param("price") int price,
+	public int updateInfo(@Param("licensePlate") String licensePlate, @Param("price") Integer price,
 			@Param("endTime") LocalDateTime endTime, @Param("note") String note);
 
 // 註銷單號
@@ -53,11 +53,12 @@ public interface MaintenanceDao extends JpaRepository<Maintenance, Integer> {
 	public List<Maintenance> findRecentMaintenanceByLicensePlate(@Param("licensePlate") String licensePlate);
 
 //藉由未完成資訊找10筆為完成的表單
-	@Query(value = "SELECT * FROM maintenance WHERE note = '処理中です' ORDER BY start_time DESC LIMIT 10", nativeQuery = true)
+	@Query(value = "SELECT * FROM maintenance WHERE note = 'E' ORDER BY start_time DESC LIMIT 10", nativeQuery = true)
 	public List<Maintenance> findLatestTenByNote();
 
-//藉由price找所有已完成的表單   
-	@Query(value = "SELECT * FROM maintenance WHERE price IS NOT NULL ORDER BY start_time DESC", nativeQuery = true)
-	public List<Maintenance> findAllFinishedCasesByPrice();
+//藉由end_time不為空找到所有已完成的表單
+	@Query(value = "SELECT * FROM maintenance WHERE end_time IS NOT NULL ORDER BY start_time DESC", nativeQuery = true)
+	public List<Maintenance> findAllFinishedCasesByEndTime();
+
 
 }

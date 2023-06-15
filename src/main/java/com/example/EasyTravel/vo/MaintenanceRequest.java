@@ -2,6 +2,8 @@ package com.example.EasyTravel.vo;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 
 public class MaintenanceRequest {
@@ -10,7 +12,8 @@ public class MaintenanceRequest {
 	//屬性
 	
 	private String licensePlate;
-	private int price;
+	private Integer price;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private String note;
@@ -25,11 +28,11 @@ public class MaintenanceRequest {
 		this.licensePlate = licensePlate;
 	}
 
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

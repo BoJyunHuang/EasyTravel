@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import com.example.EasyTravel.constants.Abnormal;
 import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.entity.Maintenance;
+import com.example.EasyTravel.entity.Vehicle;
 import com.example.EasyTravel.repository.MaintenanceDao;
 import com.example.EasyTravel.repository.VehicleDao;
 import com.example.EasyTravel.service.ifs.MaintenanceService;
@@ -26,24 +27,42 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	/*
 	 * 1.防呆:避免車牌輸入空產生空指針 2.要維修的車輛先在vehicle表內設定為false使其不能租借
 	 * 3.note內容值間選取enum內代碼做選擇產生訊息 4.將車牌/開始維修時間/note插入到maintenance表內
-	 * 5.若新增成功回傳成功message/反之
+	 * 5.若新增成功回傳成功message/反之6.藉由dao找Vehicle表格有沒有符合資格的車輛在改變狀態可以改變的話才能新增一張新的維修表單
 	 */
 	@Override
 	public MaintenanceResponse AddAbnormal(String licensePlate) {
 		if (!StringUtils.hasText(licensePlate)) {
 			return new MaintenanceResponse(RtnCode.INCORRECT.getMessage());
 		}
+
+		// 将车牌号转换为大写
+		licensePlate = licensePlate.toUpperCase();
+
 		LocalDateTime startTime = LocalDateTime.now();
 		boolean available = false;
 		LocalDateTime latestCheckDate = null;
-		int updatedVehicleRows = vehicleDao.UpdateAvailable(licensePlate, latestCheckDate, available);
 
-		String note = Abnormal.E.getMessage(); // 使用枚举常量 E 的消息作为注释内容
+		// 根据车牌号查询车辆信息
+		Vehicle vehicle = vehicleDao.getVehicleByLicensePlate(licensePlate);
+		if (vehicle == null) {
+			// 车辆不存在，返回错误响应
+			return new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
+		}
+
+		if (vehicle.isAvailable()) {
+			// 如果车辆状态为可用，将其更新为不可用
+			vehicleDao.UpdateAvailable(licensePlate, latestCheckDate, available);
+		} else {
+			// 车辆状态已经为不可用，返回失败响应
+			return new MaintenanceResponse(RtnCode.ALREADY_EXISTED.getMessage());
+		}
+
+		String note = Abnormal.E.getCode(); // 使用枚举常量 E 的消息作为注释内容
 
 		int rowsAffected = maintenanceDao.insertInfo(licensePlate, startTime, note);
 
-		return (rowsAffected > 0 && updatedVehicleRows > 0) ? new MaintenanceResponse(RtnCode.SUCCESS.getMessage())
-				: new MaintenanceResponse(RtnCode.ALREADY_EXISTED.getMessage());
+		return (rowsAffected > 0) ? new MaintenanceResponse(RtnCode.SUCCESS.getMessage())
+				: new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
 	}
 
 	/*
@@ -53,8 +72,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	 */
 
 	@Override
-	public MaintenanceResponse finishAbnormal(String licensePlate, int price, String note) {
-		if (!StringUtils.hasText(licensePlate) || price <= 0) {
+	public MaintenanceResponse finishAbnormal(String licensePlate, Integer price, String note) {
+		if (!StringUtils.hasText(licensePlate) || price == null || price < 0) {
 			MaintenanceResponse response = new MaintenanceResponse();
 			response.setMessage(RtnCode.INCORRECT.getMessage());
 			return response;
@@ -62,8 +81,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
 		LocalDateTime endTime = LocalDateTime.now();
 
-		String noteMessage = Abnormal.valueOf(note).getMessage();
-
+		String noteMessage = Abnormal.valueOf(note).getCode();
 		List<Maintenance> recentMaintenanceList = maintenanceDao.findRecentMaintenanceByLicensePlate(licensePlate);
 
 		for (Maintenance maintenance : recentMaintenanceList) {
@@ -128,6 +146,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
 		return response;
 	}
+	/*
+	 * 1.依照note:E下尋找10筆車輛的未完成維修紀錄並且回傳List 2.若查詢成功回傳成功message/反之
+	 */
 
 	@Override
 	public MaintenanceResponse findLatestTenUnfinishedAbnormal() {
@@ -140,15 +161,19 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		return response;
 	}
 
+	/*
+	 * 1.依照end_time不為空尋找所有已完成維修車輛的表單並且回傳List 2.若查詢成功回傳成功message/反之
+	 */
+
 	@Override
 	public MaintenanceResponse findAllFinishedAbnormal() {
-	    List<Maintenance> maintenanceList = maintenanceDao.findAllFinishedCasesByPrice();
-	    MaintenanceResponse response = new MaintenanceResponse();
-	    response.setMaintenanceList(maintenanceList);
-	    response.setMessage((maintenanceList != null && !maintenanceList.isEmpty()) ? RtnCode.SUCCESS.getMessage()
-	            : RtnCode.NOT_FOUND.getMessage());
+		List<Maintenance> maintenanceList = maintenanceDao.findAllFinishedCasesByEndTime();
+		MaintenanceResponse response = new MaintenanceResponse();
+		response.setMaintenanceList(maintenanceList);
+		response.setMessage((maintenanceList != null && !maintenanceList.isEmpty()) ? RtnCode.SUCCESS.getMessage()
+				: RtnCode.NOT_FOUND.getMessage());
 
-	    return response;
+		return response;
 	}
 
 }
