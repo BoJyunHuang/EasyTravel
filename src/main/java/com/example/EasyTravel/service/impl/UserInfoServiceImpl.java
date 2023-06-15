@@ -139,6 +139,8 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfo.setBirthday(request.getBirthday() != null ? request.getBirthday() : userInfo.getBirthday());
 		userInfo.setDrivingLicense(request.isDrivingLicense());
 		userInfo.setMotorcycleLicense(request.isMotorcycleLicense());
+		
+		userInfoDao.save(userInfo);
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
@@ -153,6 +155,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 			return new UserInfoResponse(RtnCode.NOT_FOUND.getMessage());
 		}
 		UserInfo vip = userInfo.get();
+		
+//		2023-06-15修改
+//		防呆:已經是vip卻重複成為vip
+		if(vip.isVip()== true) {
+			return new UserInfoResponse(RtnCode.INCORRECT.getMessage());
+		}
+		
 //			VIP轉成TRUE
 		vip.setVip(true);
 //		紀錄時間
@@ -173,6 +182,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 //			VIP轉成TRUE
 		userInfo.setVip(false);
 		userInfo.setVipStartDate(null);
+		userInfoDao.save(userInfo);
 		return new UserInfoResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
 
