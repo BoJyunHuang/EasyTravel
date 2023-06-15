@@ -269,7 +269,7 @@ public class FinanceServiceImpl implements FinanceService {
 		                .collect(Collectors.toMap(Entry::getKey, entry -> toPercent(entry.getValue(), VehicleExpense)
 		                ));
 		        // key值為'maintenance_cost'
-		        case "maintenance":
+		        case "maintenance_cost":
 		            return ((Map<String, Double>) value).entrySet().stream()
 		                .collect(Collectors.toMap(Entry::getKey, entry -> toPercent(entry.getValue(), MaintenanceExpense)
 		                ));
@@ -279,16 +279,17 @@ public class FinanceServiceImpl implements FinanceService {
 		                .collect(Collectors.toMap(Entry::getKey, entry -> toPercent(entry.getValue(), RentIncome)
 		                ));
 		        // key值為'vip_income'
-		        default:
+		        case "vip_income":
 		            return toPercent((double) value, TotalIncome);
 		    }
+			return key;
 		});
 		/*
 		 * 另儲存分項百分比資訊及總收入支出資訊
 		 * 最後回傳結果
 		 */
 		financeMap.put("vehicle_cost_ratio", toPercent(VehicleExpense, TotalExpense));
-		financeMap.put("maintenance_income_ratio", toPercent(MaintenanceExpense, TotalExpense));
+		financeMap.put("maintenance_cost_ratio", toPercent(MaintenanceExpense, TotalExpense));
 		financeMap.put("rent_income_ratio", toPercent(RentIncome, TotalIncome));
 		financeMap.put("total_income", TotalIncome);
 		financeMap.put("total_expense", TotalExpense);

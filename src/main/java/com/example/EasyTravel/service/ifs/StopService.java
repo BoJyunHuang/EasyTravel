@@ -19,7 +19,7 @@ public interface StopService {
 	public StopResponse findStopsVehicles(String city, String location);
 
 	// 新增站點可借車輛
-	public StopResponse renewLimit(String city, String location, int bikeAmount, int motorcycleAmount, int carAmount222);
+	public StopResponse renewAmount(String city, String location, int bikeAmount, int motorcycleAmount, int carAmount222);
 
 	// 站點變更
 	public StopResponse rentOrReturn(boolean isRent, String category, String city, String location);

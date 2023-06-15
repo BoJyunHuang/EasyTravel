@@ -66,7 +66,7 @@ public interface FeeDao extends JpaRepository<Fee, Integer> {
 	 *  尋找同種交通工具費率
 	 */
 	@Query(value = "select * from fee "
-			+ "where project like concat('%', :project, '%') "
+			+ "where project = :project "
 			+ "order by cc", nativeQuery = true)
 	public List<Fee> searchProjectsByCcUp(
 			@Param("project") String project);
@@ -75,7 +75,7 @@ public interface FeeDao extends JpaRepository<Fee, Integer> {
 	 *  尋找單一車種費率
 	 */
 	@Query(value = "select * from fee "
-			+ "where project like concat('%', :project, '%') and cc = :cc "
+			+ "where project = :project and cc = :cc "
 			+ "order by threshold", nativeQuery = true)
 	public List<Fee> searchProjectsByThresholdUp(
 			@Param("project") String project, 
