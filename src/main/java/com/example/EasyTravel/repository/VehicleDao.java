@@ -83,7 +83,8 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
 			+ "(category regexp 'scooter|motorcycle|heavy motorcycle' and "
 			+ "(start_serving_date <= DATE_SUB(CURRENT_DATE, INTERVAL 9 YEAR) or odo >= 119800)) or "
 			+ "(category regexp 'sedan|ven|suv' and "
-			+ "(start_serving_date <= DATE_SUB(CURRENT_DATE, INTERVAL 14 YEAR) OR odo >= 599000))", nativeQuery = true)
+			+ "(start_serving_date <= DATE_SUB(CURRENT_DATE, INTERVAL 14 YEAR) OR odo >= 599000))"
+			+ "order by available ASC", nativeQuery = true)
 	public List<Vehicle> searchVehicleNearScrap();
 	
 	/*
