@@ -22,7 +22,7 @@ public class Maintenance {
 	private String licensePlate;
 	// 價格
 	@Column(name = "price")
-	private int price;
+	private Integer price;
 	// 維修的開始時間
 	@Column(name = "start_time")
 	private LocalDateTime startTime;
@@ -56,11 +56,11 @@ public class Maintenance {
 		this.licensePlate = licensePlate;
 	}
 
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

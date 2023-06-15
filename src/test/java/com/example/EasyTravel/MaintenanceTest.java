@@ -100,7 +100,7 @@ class MaintenanceTest {
 	@Test
 	// Dao方法直接找出所有已完成的單號
 	void findAllFinishedCasesByPrice() {
-		List<Maintenance> result = mDao.findAllFinishedCasesByPrice();
+		List<Maintenance> result = mDao.findAllFinishedCasesByEndTime();
 
 		Assert.isTrue(result.size() == 2, RtnCode.TEST1_ERROR.getMessage());
 

@@ -94,5 +94,11 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
 			+ "where latest_check_date <= DATE_SUB(CURRENT_DATE, INTERVAL 1 YEAR))", nativeQuery = true)
 	public List<Vehicle> searchVehicleNeedCheck();
 	
+	/*
+	 * 尋找在表上確實有該車牌的車輛
+	 */
+	@Query(value = "select * from vehicle where license_plate = :licensePlate", nativeQuery = true)
+    public Vehicle getVehicleByLicensePlate(@Param("licensePlate") String licensePlate);
+	
 	
 }

@@ -10,7 +10,7 @@ public interface MaintenanceService {
 	public MaintenanceResponse AddAbnormal(String licensePlate);
 
 	// 完成單號
-	public MaintenanceResponse finishAbnormal(String licensePlate,int price, String note);
+	public MaintenanceResponse finishAbnormal(String licensePlate,Integer price, String note);
 
 	// 註銷單號
 	public MaintenanceResponse deleteAbnormal(String licensePlate, LocalDateTime startTime);
