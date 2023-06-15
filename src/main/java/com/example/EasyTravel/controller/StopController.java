@@ -39,9 +39,9 @@ public class StopController {
 		return stopService.findStopsVehicles(request.getCity(), request.getLocation());
 	}
 
-	@PostMapping(value = "renew_limit")
-	public StopResponse renewLimit(@RequestBody StopRequest request) {
-		return stopService.renewLimit(request.getCity(), request.getLocation(), request.getBikeAmount(),
+	@PostMapping(value = "renew_amount")
+	public StopResponse renewAmount(@RequestBody StopRequest request) {
+		return stopService.renewAmount(request.getCity(), request.getLocation(), request.getBikeAmount(),
 				request.getMotorcycleAmount(), request.getCarAmount());
 	}
 

@@ -172,14 +172,14 @@ public class StopTest {
 	@Test
 	void renewLimitTest() {
 		// 更新失敗
-		Assert.isTrue(sSer.renewLimit(null, null, 0, 0, 0).getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
+		Assert.isTrue(sSer.renewAmount(null, null, 0, 0, 0).getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
 				RtnCode.TEST1_ERROR.getMessage());
-		Assert.isTrue(sSer.renewLimit("city3", "First", 20, 30, 5).getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
+		Assert.isTrue(sSer.renewAmount("city3", "First", 20, 30, 5).getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
 				RtnCode.TEST2_ERROR.getMessage());
 		// 更新成功
-		Assert.isTrue(sSer.renewLimit("city2", "Second", -5, -7, -9).getMessage().equals(RtnCode.SUCCESS.getMessage()),
+		Assert.isTrue(sSer.renewAmount("city2", "Second", -5, -7, -9).getMessage().equals(RtnCode.SUCCESS.getMessage()),
 				RtnCode.TEST3_ERROR.getMessage());
-		Assert.isTrue(sSer.renewLimit("city1", "First", 20, 30, 5).getMessage().equals(RtnCode.SUCCESS.getMessage()),
+		Assert.isTrue(sSer.renewAmount("city1", "First", 20, 30, 5).getMessage().equals(RtnCode.SUCCESS.getMessage()),
 				RtnCode.TEST4_ERROR.getMessage());
 	}
 

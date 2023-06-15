@@ -126,7 +126,7 @@ public class StopServiceImpl implements StopService {
 	 * -汽車存量(int):carAmount
 	 */
 	@Override
-	public StopResponse renewLimit(String city, String location, int bikeAmount, int motorcycleAmount, int carAmount) {
+	public StopResponse renewAmount(String city, String location, int bikeAmount, int motorcycleAmount, int carAmount) {
 		/*
 		 * 查詢資料 
 		 * 呼叫搜尋方法 "findById(new StopId(city, location))" 查詢城市為'city'及'location'的資料
@@ -141,32 +141,32 @@ public class StopServiceImpl implements StopService {
 			boolean flag = false;
 			/*
 			 * 更新腳踏車數量，對於數量的判斷:
-			 * 	如果'bikeAmount'是負數 且 'stop'的腳踏車數量>'bikeAmount'的絕對值
+			 * 	如果'bikeAmount'是負數 且 'stop'的腳踏車數量>='bikeAmount'的絕對值
 			 * 	或者'bikeAmount'是正數，
 			 * 則更新'stop'的腳踏車數量，並將'flag'設為true。
 			 */
-			if ((bikeAmount < 0 & stop.getBikeAmount() > Math.abs(bikeAmount)) || bikeAmount > 0) {
+			if ((bikeAmount < 0 & stop.getBikeAmount() >= Math.abs(bikeAmount)) || bikeAmount > 0) {
 				stop.setBikeAmount(stop.getBikeAmount() + bikeAmount);
 				flag = true;
 			}
 			/*
 			 * 更新機車數量，對於數量的判斷:
-			 * 	如果'motorcycleAmount'是負數 且 'stop'的機車數量>'motorcycleAmount'的絕對值
+			 * 	如果'motorcycleAmount'是負數 且 'stop'的機車數量>='motorcycleAmount'的絕對值
 			 * 	或者'motorcycleAmount'是正數，
 			 * 則更新'stop'的機車數量，並將'flag'設為true。
 			 */
-			if ((motorcycleAmount < 0 & stop.getMotorcycleAmount() > Math.abs(motorcycleAmount))
+			if ((motorcycleAmount < 0 & stop.getMotorcycleAmount() >= Math.abs(motorcycleAmount))
 					|| motorcycleAmount > 0) {
 				stop.setMotorcycleAmount(stop.getMotorcycleAmount() + motorcycleAmount);
 				flag = true;
 			}
 			/*
 			 * 更新汽車數量，對於數量的判斷:
-			 * 	如果'carAmount'是負數 且 'stop'的汽車數量>'carAmount'的絕對值
+			 * 	如果'carAmount'是負數 且 'stop'的汽車數量>='carAmount'的絕對值
 			 * 	或者'carAmount'是正數，
 			 * 則更新'stop'的汽車數量，並將'flag'設為true。
 			 */
-			if ((carAmount < 0 & stop.getCarAmount() > Math.abs(carAmount)) || carAmount > 0) {
+			if ((carAmount < 0 & stop.getCarAmount() >= Math.abs(carAmount)) || carAmount > 0) {
 				stop.setCarAmount(stop.getCarAmount() + carAmount);
 				flag = true;
 			}
@@ -306,7 +306,7 @@ public class StopServiceImpl implements StopService {
 			motorcycleCount += s.getCategory().matches("scooter|motorcycle|heavy motorcycle") ? (int) s.getCount() : 0;
 			carCount += s.getCategory().matches("sedan|ven|suv") ? (int) s.getCount() : 0;
 		}
-		renewLimit(city, location, bikeCount, motorcycleCount, carCount);
+		renewAmount(city, location, bikeCount, motorcycleCount, carCount);
 		/*
 		 * 更新車輛調度新站點
 		 * 若站點更新完成數量與車牌陣列數目不一致
