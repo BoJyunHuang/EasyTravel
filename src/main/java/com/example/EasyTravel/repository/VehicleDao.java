@@ -16,7 +16,7 @@ import com.example.EasyTravel.vo.VehicleCount;
 @Repository
 public interface VehicleDao extends JpaRepository<Vehicle, String> {
 
-	public List<Vehicle> findAllByCategoryOrderByAvailableDesc(String category);
+	public List<Vehicle> findAllByCategory(String category);
 	
 	/*
 	 * 維修中更改車輛可租借狀態

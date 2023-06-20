@@ -191,7 +191,7 @@ public class VehicleServiceImpl implements VehicleService {
 		if (!categoryList.contains(category)) {
 			return new VehicleResponse(RtnCode.NOT_FOUND.getMessage());
 		}
-		carList.addAll(vehicleDao.findAllByCategoryOrderByAvailableDesc(category));
+		carList.addAll(vehicleDao.findAllByCategory(category));
 		return new VehicleResponse(carList, RtnCode.SUCCESS.getMessage());
 	}
 
