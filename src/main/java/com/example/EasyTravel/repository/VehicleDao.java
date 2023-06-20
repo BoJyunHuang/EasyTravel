@@ -18,11 +18,14 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
 
 	public List<Vehicle> findAllByCategoryOrderByAvailableDesc(String category);
 	
+	/*
+	 * 維修中更改車輛可租借狀態
+	 */
 	@Transactional
 	@Modifying 
-	@Query(value = "update vehicle set available = :available, latest_check_date = :latestCheckDate "			
+	@Query(value = "update vehicle set status = :status, latest_check_date = :latestCheckDate "			
 			+ "where license_plate = :licensePlate", nativeQuery = true)
-	public int UpdateAvailable(@Param("licensePlate") String licensePlate, @Param("latestCheckDate") LocalDateTime latestCheckDate,@Param("available") boolean available);
+	public int UpdateStatus(@Param("licensePlate") String licensePlate, @Param("latestCheckDate") LocalDateTime latestCheckDate,@Param("status") String status);
 
 	/*
 	 * 依資料車種分類

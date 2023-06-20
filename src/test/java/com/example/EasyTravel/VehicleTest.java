@@ -88,12 +88,12 @@ public class VehicleTest {
 	}
 
 	@Test
-	public void availableTest() {
+	public void UpdateStatusTest() {
 		String licensePlate = "AZ-1234";
 		LocalDateTime latestCheckDate = LocalDateTime.of(2023, 6, 5, 15, 37, 3);
-		boolean available = true;
+		String available = "可租借";
 
-		int res = vehicleDao.UpdateAvailable(licensePlate, latestCheckDate, available);
+		int res = vehicleDao.UpdateStatus(licensePlate, latestCheckDate, available);
 		Assert.isTrue(res == 1, RtnCode.TEST1_ERROR.getMessage());
 	}
 	

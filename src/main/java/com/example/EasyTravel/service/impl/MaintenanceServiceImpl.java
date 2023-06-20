@@ -31,39 +31,40 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	 */
 	@Override
 	public MaintenanceResponse AddAbnormal(String licensePlate) {
-		if (!StringUtils.hasText(licensePlate)) {
-			return new MaintenanceResponse(RtnCode.INCORRECT.getMessage());
-		}
+	    if (!StringUtils.hasText(licensePlate)) {
+	        return new MaintenanceResponse(RtnCode.INCORRECT.getMessage());
+	    }
 
-		// 将车牌号转换为大写
-		licensePlate = licensePlate.toUpperCase();
+	    // 將車牌號轉換為大寫
+	    licensePlate = licensePlate.toUpperCase();
 
-		LocalDateTime startTime = LocalDateTime.now();
-		boolean available = false;
-		LocalDateTime latestCheckDate = null;
+	    LocalDateTime startTime = LocalDateTime.now();
+	    String status = "維護中"; // 將 "可租借" 改為 "維護中"
+	    LocalDateTime latestCheckDate = null;
 
-		// 根据车牌号查询车辆信息
-		Vehicle vehicle = vehicleDao.getVehicleByLicensePlate(licensePlate);
-		if (vehicle == null) {
-			// 车辆不存在，返回错误响应
-			return new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
-		}
+	    // 根據車牌號查詢車輛資訊
+	    Vehicle vehicle = vehicleDao.getVehicleByLicensePlate(licensePlate);
+	    if (vehicle == null) {
+	        // 車輛不存在，返回錯誤響應
+	        return new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
+	    }
 
-		if (vehicle.isAvailable()) {
-			// 如果车辆状态为可用，将其更新为不可用
-			vehicleDao.UpdateAvailable(licensePlate, latestCheckDate, available);
-		} else {
-			// 车辆状态已经为不可用，返回失败响应
-			return new MaintenanceResponse(RtnCode.ALREADY_EXISTED.getMessage());
-		}
+	    if (vehicle.getStatus().equals("可租借")) {
+	        // 如果車輛狀態為可租借，將其更新為維護中
+	        vehicleDao.UpdateStatus(licensePlate, latestCheckDate, status);
+	    } else {
+	        // 車輛狀態已經為維護中，返回失敗響應
+	        return new MaintenanceResponse(RtnCode.ALREADY_EXISTED.getMessage());
+	    }
 
-		String note = Abnormal.E.getCode(); // 使用枚举常量 E 的消息作为注释内容
+	    String note = Abnormal.E.getCode(); // 使用枚舉常量 E 的消息作為註釋內容
 
-		int rowsAffected = maintenanceDao.insertInfo(licensePlate, startTime, note);
+	    int rowsAffected = maintenanceDao.insertInfo(licensePlate, startTime, note);
 
-		return (rowsAffected > 0) ? new MaintenanceResponse(RtnCode.SUCCESS.getMessage())
-				: new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
+	    return (rowsAffected > 0) ? new MaintenanceResponse(RtnCode.SUCCESS.getMessage())
+	            : new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
 	}
+
 
 	/*
 	 * 1.防呆:避免車牌輸入空產生空指針,並且規定輸入價格要大於0符合邏輯 2.note內容值間選取enum內代碼做選擇產生訊息
@@ -73,35 +74,36 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
 	@Override
 	public MaintenanceResponse finishAbnormal(String licensePlate, Integer price, String note) {
-		if (!StringUtils.hasText(licensePlate) || price == null || price < 0) {
-			MaintenanceResponse response = new MaintenanceResponse();
-			response.setMessage(RtnCode.INCORRECT.getMessage());
-			return response;
-		}
+	    if (!StringUtils.hasText(licensePlate) || price == null || price < 0) {
+	        MaintenanceResponse response = new MaintenanceResponse();
+	        response.setMessage(RtnCode.INCORRECT.getMessage());
+	        return response;
+	    }
 
-		LocalDateTime endTime = LocalDateTime.now();
+	    LocalDateTime endTime = LocalDateTime.now();
 
-		String noteMessage = Abnormal.valueOf(note).getCode();
-		List<Maintenance> recentMaintenanceList = maintenanceDao.findRecentMaintenanceByLicensePlate(licensePlate);
+	    String noteMessage = Abnormal.valueOf(note).getCode();
+	    List<Maintenance> recentMaintenanceList = maintenanceDao.findRecentMaintenanceByLicensePlate(licensePlate);
 
-		for (Maintenance maintenance : recentMaintenanceList) {
-			if (maintenance.getEndTime() == null) {
-				int updatedRows = maintenanceDao.updateInfo(licensePlate, price, endTime, noteMessage);
+	    for (Maintenance maintenance : recentMaintenanceList) {
+	        if (maintenance.getEndTime() == null) {
+	            int updatedRows = maintenanceDao.updateInfo(licensePlate, price, endTime, noteMessage);
 
-				// 更新车辆信息
-				boolean available = true;
-				LocalDateTime latestCheckDate = endTime; // 假设修理完成时间即为最新检查日期
-				int updatedVehicleRows = vehicleDao.UpdateAvailable(licensePlate, latestCheckDate, available);
+	            // 更新車輛信息
+	            String status = "可租借"; // 將 "維護中" 改為 "可租借"
+	            LocalDateTime latestCheckDate = endTime; // 假設修理完成時間即為最新檢查日期
+	            int updatedVehicleRows = vehicleDao.UpdateStatus(licensePlate, latestCheckDate, status);
 
-				return (updatedRows == 0 || updatedVehicleRows == 0)
-						? new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage())
-						: new MaintenanceResponse(RtnCode.SUCCESS.getMessage());
-			}
-		}
+	            return (updatedRows == 0 || updatedVehicleRows == 0)
+	                    ? new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage())
+	                    : new MaintenanceResponse(RtnCode.SUCCESS.getMessage());
+	        }
+	    }
 
-		// 如果沒有找到需要更新的維修資料，則返回相應的響應
-		return new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
+	    // 如果沒有找到需要更新的維修資料，則返回相應的響應
+	    return new MaintenanceResponse(RtnCode.NOT_FOUND.getMessage());
 	}
+
 
 	/*
 	 * 1.依照車牌跟開始維修時間找到該維修紀錄並且刪除 2.若刪除成功回傳成功message/反之
