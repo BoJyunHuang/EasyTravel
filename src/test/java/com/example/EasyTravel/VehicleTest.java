@@ -39,21 +39,21 @@ public class VehicleTest {
 		// 建立假資料
 		// 汽車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "c1", "l1", 0, 50000),
-				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "c1", "l2", 0, 50000),
-				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), true, "c1", "l2", 0, 50000),
-				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), true, "c2", "l1", 0, 50000))));
+				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), "可租借", "c1", "l1", 0, 50000),
+				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), "可租借", "c1", "l2", 0, 50000),
+				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), "可租借", "c1", "l2", 0, 50000),
+				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), "可租借", "c2", "l1", 0, 50000))));
 		// 機車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), true, "c1", "l1", 0, 100),
-				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), true, "c2", "l1", 0, 300),
-				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), true, "c2", "l2", 0, 200),
-				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), true, "c3", "l1", 0,
+				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), "可租借", "c1", "l1", 0, 100),
+				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), "可租借", "c2", "l1", 0, 300),
+				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), "可租借", "c2", "l2", 0, 200),
+				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), "可租借", "c3", "l1", 0,
 						2000))));
 		// 腳踏車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), true, "c3", "l1", 0, 50),
-				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), true, "c3", "l1", 0, 50))));
+				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), "可租借", "c3", "l1", 0, 50),
+				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), "可租借", "c3", "l1", 0, 50))));
 	}
 
 	@AfterAll
@@ -71,7 +71,7 @@ public class VehicleTest {
 
 	@Test
 	public void updateCarInfoTest() {
-		VehicleResponse res1 = vehicleService.updateCarInfo("AC-1234", -9.7, false);
+		VehicleResponse res1 = vehicleService.updateCarInfo("AC-1234", -9.7, "已報廢");
 		System.out.println(res1.getMessage());
 	}
 
@@ -124,11 +124,11 @@ public class VehicleTest {
 	@Test
 	public void updateRentInfoTest() {
 		// 操作失敗
-		Assert.isTrue(vDao.updateRentInfo(null, false, null, null, 0) == 0, RtnCode.TEST1_ERROR.getMessage());
-		Assert.isTrue(vDao.updateRentInfo("", true, "city1", "first", 20) == 0, RtnCode.TEST2_ERROR.getMessage());
+		Assert.isTrue(vDao.updateRentInfo(null, "租借中", null, null, 0) == 0, RtnCode.TEST1_ERROR.getMessage());
+		Assert.isTrue(vDao.updateRentInfo("", "可租借", "city1", "first", 20) == 0, RtnCode.TEST2_ERROR.getMessage());
 		// 操作成功
-		Assert.isTrue(vDao.updateRentInfo("AA-001", false, null, null, 0) == 1, RtnCode.TEST3_ERROR.getMessage());
-		Assert.isTrue(vDao.updateRentInfo("AA-001", true, "c1", "first", 250) == 1, RtnCode.TEST4_ERROR.getMessage());
+		Assert.isTrue(vDao.updateRentInfo("AA-001", "租借中", null, null, 0) == 1, RtnCode.TEST3_ERROR.getMessage());
+		Assert.isTrue(vDao.updateRentInfo("AA-001", "可租借", "c1", "first", 250) == 1, RtnCode.TEST4_ERROR.getMessage());
 	}
 
 	@Test

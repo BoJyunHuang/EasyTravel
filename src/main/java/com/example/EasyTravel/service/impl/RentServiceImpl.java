@@ -76,7 +76,7 @@ public class RentServiceImpl implements RentService {
 		 */
 		if ((vehicle.get().getCategory().matches("scooter|motorcycle|heavy motorcycle") && !user.isMotorcycleLicense())
 				|| (vehicle.get().getCategory().matches("sedan|ven|suv") && !user.isDrivingLicense())
-				|| !vehicle.get().isAvailable()) {
+				|| !vehicle.get().getStatus().equals("可租借")) {
 			return new RentResponse(RtnCode.INCORRECT.getMessage());
 		}
 		/*
@@ -97,7 +97,7 @@ public class RentServiceImpl implements RentService {
 		 * 	儲存一新建檔案，包含當前時間的明細及其他資訊
 		 * ->最後回傳"成功"
 		 */
-		vehicleDao.updateRentInfo(licensePlate, false, null, null, 0);
+		vehicleDao.updateRentInfo(licensePlate, "租借中", null, null, 0);
 		rentDao.save(new Rent(account, licensePlate, vehicle.get().getCity(), vehicle.get().getLocation()));
 		return new RentResponse(RtnCode.SUCCESSFUL.getMessage());
 	}
@@ -160,7 +160,7 @@ public class RentServiceImpl implements RentService {
 		 *  建立一以"rent_income"為'title'的明細，並附上'detail'、'price'等，其中包含附上當前時間的資訊
 		 * ->最後回傳"成功"
 		 */
-		vehicleDao.updateRentInfo(licensePlate, true, city, location, odo > 0 ? odo : 0);
+		vehicleDao.updateRentInfo(licensePlate, "可租借", city, location, odo > 0 ? odo : 0);
 		rentDao.save(new Rent(account, licensePlate, city, location, false, calRes.getTotal()));
 		financeService.addReport("rent_income", vehicle.get().getCategory(), calRes.getTotal());
 		return new RentResponse(RtnCode.SUCCESSFUL.getMessage());

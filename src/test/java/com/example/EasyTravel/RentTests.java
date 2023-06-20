@@ -69,25 +69,25 @@ public class RentTests {
 		// 3.交通工具
 		// 汽車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0,
+				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0,
 						50000),
-				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0,
+				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0,
 						50000),
-				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000),
-				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0,
+				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 50000),
+				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0,
 						50000))));
 		// 機車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 100),
-				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0,
+				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 100),
+				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0,
 						300),
-				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 200),
-				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), true, "city2", "Second",
+				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 200),
+				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second",
 						0, 2000))));
 		// 腳踏車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), true, "city1", "first", 0, 50),
-				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), true, "city1", "first", 0, 50))));
+				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), "可租借", "city1", "first", 0, 50),
+				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), "可租借", "city1", "first", 0, 50))));
 		// 4.費率
 		fDao.saveAll(new ArrayList<>(Arrays.asList(new Fee("bike", 0, 0.0, 30), new Fee("bike", 0, 0.33, 240),
 				new Fee("bike", 0, 0.66, 480), new Fee("bike", 0, 1, 1440), new Fee("bike", 0, 2, 9999))));

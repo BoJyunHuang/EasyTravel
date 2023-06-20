@@ -52,11 +52,11 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
 	 */
 	@Transactional
 	@Modifying
-	@Query(value = "update vehicle set available = :available, city = :city, location = :location, odo = odo + :odo "
+	@Query(value = "update vehicle set status = :status, city = :city, location = :location, odo = odo + :odo "
 			+ "where license_plate = :licensePlate", nativeQuery = true)
 	public int updateRentInfo(
 			@Param("licensePlate") String licensePlate, 
-			@Param("available") boolean available,
+			@Param("status") String status,
 			@Param("city") String city, 
 			@Param("location") String location, 
 			@Param("odo") double odo);

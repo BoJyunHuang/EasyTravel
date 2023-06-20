@@ -43,20 +43,20 @@ public class StopTest {
 				new Stop("city2", "Second", 10, 10, 10))));
 		// 汽車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000), 
-				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000),
-				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000), 
-				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 50000))));
+				new Vehicle("AA-001", "sedan", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 50000), 
+				new Vehicle("AA-002", "sedan", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 50000),
+				new Vehicle("AA-003", "suv", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 50000), 
+				new Vehicle("AA-004", "ven", 2000, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 50000))));
 		// 機車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 100),
-				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 300), 
-				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 200),
-				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), true, "city2", "Second", 0, 2000))));
+				new Vehicle("MX-01", "scooter", 50, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 100),
+				new Vehicle("MX-02", "motorcycle", 150, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 300), 
+				new Vehicle("MX-03", "scooter", 100, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 200),
+				new Vehicle("MX-04", "heavy motorcycle", 550, LocalDate.now(), LocalDate.now(), "可租借", "city2", "Second", 0, 2000))));
 		// 腳踏車
 		vDao.saveAll(new ArrayList<>(Arrays.asList(
-				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), true, "city1", "first", 0, 50), 
-				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), true, "city1", "first", 0, 50))));
+				new Vehicle("CB0001", "bike", 0, LocalDate.now(), LocalDate.now(), "可租借", "city1", "first", 0, 50), 
+				new Vehicle("CB0002", "bike", 0, LocalDate.now(), LocalDate.now(), "可租借", "city1", "first", 0, 50))));
 	}
 
 	@AfterAll
