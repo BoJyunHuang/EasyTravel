@@ -83,4 +83,8 @@ public class Fee {
 		this.threshold = threshold;
 	}
 
+	public Integer getSerialNumber() {
+		return serialNumber;
+	}
+
 }

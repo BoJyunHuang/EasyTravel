@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `easy_travel`.`user_info` (
   `cc` INT NOT NULL DEFAULT 0,
   `start_serving_date` DATE NOT NULL,
   `latest_check_date` DATE NULL,
-  `available` TINYINT NOT NULL DEFAULT 0,
+  `status` VARCHAR(20) NOT NULL DEFAULT NULL,
   `city` VARCHAR(20) NULL,
   `location` VARCHAR(20) NULL,
   `odo` DOUBLE NOT NULL DEFAULT 0,

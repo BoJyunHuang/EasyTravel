@@ -33,8 +33,8 @@ public class Vehicle {
 	private LocalDate latestCheckDate = LocalDate.now();
 	
 //	可租借狀態, 初始為false
-	@Column(name = "available")
-	private boolean available = false;
+	@Column(name = "status")
+	private String status = "未啟用";
 	
 //	所在城市
 	@Column(name = "city")
@@ -60,14 +60,14 @@ public class Vehicle {
 	}
 
 	public Vehicle(String licensePlate, String category, int cc, LocalDate startServingDate,
-			LocalDate latestCheckDate, boolean available, String city, String location, double odo, int price) {
+			LocalDate latestCheckDate, String status, String city, String location, double odo, int price) {
 		super();
 		this.licensePlate = licensePlate;
 		this.category = category;
 		this.cc = cc;
 		this.startServingDate = startServingDate;
 		this.latestCheckDate = latestCheckDate;
-		this.available = available;
+		this.status = status;
 		this.city = city;
 		this.location = location;
 		this.odo = odo;
@@ -83,8 +83,8 @@ public class Vehicle {
 		this.price = price;
 	}
 	
-	public void updateVehicleEntity(boolean available, double odo) {
-		this.available = available;
+	public void updateVehicleEntity(String status, double odo) {
+		this.status = status;
 		this.odo = odo;
 	}
 	
@@ -137,12 +137,12 @@ public class Vehicle {
 		this.latestCheckDate = latestCheckDate;
 	}
 
-	public boolean isAvailable() {
-		return available;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setAvailable(boolean available) {
-		this.available = available;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getCity() {

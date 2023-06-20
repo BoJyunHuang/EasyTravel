@@ -101,4 +101,5 @@ public interface VehicleDao extends JpaRepository<Vehicle, String> {
     public Vehicle getVehicleByLicensePlate(@Param("licensePlate") String licensePlate);
 	
 	
+	
 }

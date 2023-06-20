@@ -20,7 +20,7 @@ public class VehicleRequest {
 	private LocalDate latestCheckDate;
 
 //	可租借狀態
-	private boolean available;
+	private String status;
 
 //	所在城市
 	private String city;
@@ -41,14 +41,14 @@ public class VehicleRequest {
 	}
 
 	public VehicleRequest(String licensePlate, String category, int cc, LocalDate startServingDate,
-			LocalDate latestCheckDate, boolean available, String city, String location, double odo, int price) {
+			LocalDate latestCheckDate, String status, String city, String location, double odo, int price) {
 		super();
 		this.licensePlate = licensePlate;
 		this.category = category;
 		this.cc = cc;
 		this.startServingDate = startServingDate;
 		this.latestCheckDate = latestCheckDate;
-		this.available = available;
+		this.status = status;
 		this.city = city;
 		this.location = location;
 		this.odo = odo;
@@ -65,10 +65,10 @@ public class VehicleRequest {
 	}
 
 //  updateCarInfo用
-	public VehicleRequest(String licensePlate, boolean available, double odo) {
+	public VehicleRequest(String licensePlate, String status, double odo) {
 		super();
 		this.licensePlate = licensePlate;
-		this.available = available;
+		this.status = status;
 		this.odo = odo;
 	}
 
@@ -124,12 +124,12 @@ public class VehicleRequest {
 		this.latestCheckDate = latestCheckDate;
 	}
 
-	public boolean isAvailable() {
-		return available;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setAvailable(boolean available) {
-		this.available = available;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getCity() {

@@ -27,7 +27,7 @@ public class VehicleController {
 	@PostMapping(value = "update_car_info")
 	public VehicleResponse updateCarInfo(@RequestBody VehicleRequest vehicleReq) {
 		return vehicleService.updateCarInfo(vehicleReq.getLicensePlate(), vehicleReq.getOdo(),
-				vehicleReq.isAvailable());
+				vehicleReq.getStatus());
 	}
 
 	@PostMapping(value = "scrap_car")

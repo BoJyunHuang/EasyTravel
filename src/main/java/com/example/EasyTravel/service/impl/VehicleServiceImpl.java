@@ -87,7 +87,7 @@ public class VehicleServiceImpl implements VehicleService {
 
 //	修改資訊方法
 	@Override
-	public VehicleResponse updateCarInfo(String licensePlate, double odo, boolean available) {
+	public VehicleResponse updateCarInfo(String licensePlate, double odo, String status) {
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 		if (!StringUtils.hasText(licensePlate)) {
@@ -106,10 +106,17 @@ public class VehicleServiceImpl implements VehicleService {
 		double oldOdo = op.get().getOdo();
 		double newOdo = 0.0;
 		newOdo = oldOdo + odo;
+		
+		List<String> statusList = Arrays.asList("可租借", "租借中", "維護中", "調度中", "已報廢");
+		if(!StringUtils.hasText(status)) {
+			return new VehicleResponse(RtnCode.CANNOT_EMPTY.getMessage());
+		}else if(!statusList.contains(status)) {
+			return new VehicleResponse(RtnCode.INCORRECT.getMessage());
+		}
 
 //		設定新vehicle接op內的東西 > 新可使用狀態&新總里程數蓋過舊資料 > 存進資料庫
 		Vehicle updateVehicle = op.get();
-		updateVehicle.updateVehicleEntity(available, newOdo);
+		updateVehicle.updateVehicleEntity(status, newOdo);
 		vehicleDao.save(updateVehicle);
 		return new VehicleResponse(updateVehicle, RtnCode.SUCCESS.getMessage());
 	}
@@ -118,6 +125,8 @@ public class VehicleServiceImpl implements VehicleService {
 //	腳踏車7年、機車10年或12W公里、汽車15年或60W公里
 	@Override
 	public VehicleResponse scrapCar(String licensePlate) {
+//		報廢車輛 狀態皆為 > 已報廢
+		String status = "已報廢";
 //		判斷 > 車牌號碼
 //		是否輸入車牌號碼
 		if (!StringUtils.hasText(licensePlate)) {
@@ -137,7 +146,8 @@ public class VehicleServiceImpl implements VehicleService {
 		case "bike":
 			if (today.getYear() - startServingDate.getYear() >= 7) {
 //				可租用狀態改false
-				op.get().setAvailable(false);
+//				TODO
+				op.get().setStatus(status);
 			} else {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
@@ -146,7 +156,7 @@ public class VehicleServiceImpl implements VehicleService {
 		case "motorcycle":
 		case "heavy motorcycle":
 			if (today.getYear() - startServingDate.getYear() >= 10 || op.get().getOdo() >= 120_000) {
-				op.get().setAvailable(false);
+				op.get().setStatus(status);
 			} else {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}
@@ -155,7 +165,7 @@ public class VehicleServiceImpl implements VehicleService {
 		case "ven":
 		case "suv":
 			if (today.getYear() - startServingDate.getYear() >= 15 || op.get().getOdo() >= 600_000) {
-				op.get().setAvailable(false);
+				op.get().setStatus(status);
 			} else {
 				return new VehicleResponse(RtnCode.INCORRECT.getMessage());
 			}

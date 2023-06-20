@@ -8,7 +8,7 @@ public interface VehicleService {
 	public VehicleResponse addCar(String licensePlate, String category, int cc, int price);
 	
 //	修改資訊
-	public VehicleResponse updateCarInfo(String licensePlate, double odo, boolean available);
+	public VehicleResponse updateCarInfo(String licensePlate, double odo, String status);
 	
 //	報廢車輛
 	public VehicleResponse scrapCar(String licensePlate);

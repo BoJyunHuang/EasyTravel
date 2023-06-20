@@ -3,6 +3,7 @@ package com.example.EasyTravel;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -149,5 +150,13 @@ public class FeeTests {
 				.getTotal() == 1178, RtnCode.TEST5_ERROR.getMessage());
 		Assert.isTrue(fSer.calculate(new Vehicle("AA-001", "sedan", 2000, 50000), false, Duration.ofDays(41))
 				.getTotal() == 131200, RtnCode.TEST6_ERROR.getMessage());
+	}
+	
+	@Test
+	public void findAllTest() {
+		List<Fee> res = fDao.findAll();
+		for (Fee item : res) {
+			System.out.println(item.getSerialNumber());
+		}
 	}
 }
