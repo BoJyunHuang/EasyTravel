@@ -152,7 +152,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
 	@Override
 	public MaintenanceResponse findLatestTenUnfinishedAbnormal() {
-		List<Maintenance> maintenanceList = maintenanceDao.findLatestTenByNote();
+		List<Maintenance> maintenanceList = maintenanceDao.findAllByNote();
 		MaintenanceResponse response = new MaintenanceResponse();
 		response.setMaintenanceList(maintenanceList);
 		response.setMessage((maintenanceList != null && !maintenanceList.isEmpty()) ? RtnCode.SUCCESS.getMessage()

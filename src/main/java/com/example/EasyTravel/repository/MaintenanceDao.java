@@ -53,11 +53,11 @@ public interface MaintenanceDao extends JpaRepository<Maintenance, Integer> {
 	public List<Maintenance> findRecentMaintenanceByLicensePlate(@Param("licensePlate") String licensePlate);
 
 //藉由未完成資訊找10筆為完成的表單
-	@Query(value = "SELECT * FROM maintenance WHERE note = 'E' ORDER BY start_time DESC LIMIT 10", nativeQuery = true)
-	public List<Maintenance> findLatestTenByNote();
+	@Query(value = "SELECT * FROM maintenance WHERE note = 'E' ORDER BY start_time", nativeQuery = true)
+	public List<Maintenance> findAllByNote();
 
 //藉由end_time不為空找到所有已完成的表單
-	@Query(value = "SELECT * FROM maintenance WHERE end_time IS NOT NULL ORDER BY start_time DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM maintenance WHERE end_time IS NOT NULL ORDER BY start_time ", nativeQuery = true)
 	public List<Maintenance> findAllFinishedCasesByEndTime();
 
 
