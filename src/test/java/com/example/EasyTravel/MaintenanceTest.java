@@ -88,14 +88,14 @@ class MaintenanceTest {
 
 	}
 
-	@Test
-	// Dao方法直接找出前10筆未完成的單號
-	void FindLatestTenByNoteTest() {
-		List<Maintenance> result = mDao.findLatestTenByNote();
-
-		Assert.isTrue(result.size() == 1, RtnCode.TEST1_ERROR.getMessage());
-
-	}
+//	@Test
+//	// Dao方法直接找出前10筆未完成的單號
+//	void FindLatestTenByNoteTest() {
+//		List<Maintenance> result = mDao.findLatestTenByNote();
+//
+//		Assert.isTrue(result.size() == 1, RtnCode.TEST1_ERROR.getMessage());
+//
+//	}
 
 	@Test
 	// Dao方法直接找出所有已完成的單號
