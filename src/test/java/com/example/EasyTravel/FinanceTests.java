@@ -16,6 +16,7 @@ import com.example.EasyTravel.constants.RtnCode;
 import com.example.EasyTravel.entity.Finance;
 import com.example.EasyTravel.repository.FinanceDao;
 import com.example.EasyTravel.service.ifs.FinanceService;
+import com.example.EasyTravel.vo.FinanceResponse;
 
 @SpringBootTest(classes = EasyTravelApplication.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -138,6 +139,7 @@ public class FinanceTests {
 		Assert.isTrue(fSer.monthlyReport(0).getMessage().equals(RtnCode.NOT_FOUND.getMessage()),
 				RtnCode.TEST1_ERROR.getMessage());
 		// 尋找成功
+		FinanceResponse res = fSer.monthlyReport(5);
 		Assert.isTrue(fSer.monthlyReport(5).getMessage().equals(RtnCode.SUCCESS.getMessage()),
 				RtnCode.TEST2_ERROR.getMessage());
 	}
