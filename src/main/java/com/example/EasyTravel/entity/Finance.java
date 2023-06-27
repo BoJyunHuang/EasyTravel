@@ -53,6 +53,14 @@ public class Finance {
 	}
 
 	// getters & setters
+	public Integer getSerialNumber() {
+		return serialNumber;
+	}
+	
+	public void setSerialNumber(Integer serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+	
 	public String getTitle() {
 		return title;
 	}
